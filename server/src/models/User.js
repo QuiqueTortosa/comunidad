@@ -24,6 +24,14 @@ const userSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Vote"
     }],
+    messages:[{
+      type: Schema.Types.ObjectId,
+      ref: "PostMessage"
+    }],
+    posts:[{
+      type: Schema.Types.ObjectId,
+      ref: "Post"
+    }],
     roles: [
       {
         type: Schema.Types.ObjectId,

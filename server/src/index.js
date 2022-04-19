@@ -7,6 +7,8 @@ import productRoutes from './routes/products.routes'
 import authRoutes from './routes/auth.routes'
 import userRoutes from './routes/user.route'
 import voteRoutes from './routes/vote.routes'
+import postRoutes from './routes/post.routes' 
+
 const cookieParser = require("cookie-parser")
 
 
@@ -29,10 +31,11 @@ app.get('/', (req, res) => {
     })
 })
 
-app.use('/api/products', productRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/posts/', postRoutes)
 app.use('/api/vote', voteRoutes)
+app.use('/api/products', productRoutes)
 
 const server = app.listen(4000, () => {
     console.log(`Server running on port 4000`)

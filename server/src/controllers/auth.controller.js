@@ -49,6 +49,7 @@ export const signIn = async (req, res) => {
     const infoToken = {
         id: userFound._id,
         username: userFound.username,
+        email: userFound.email,
         roles: userFound.roles,
     }
 
