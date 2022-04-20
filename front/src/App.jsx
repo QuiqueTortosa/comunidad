@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Prueba from "./components/voting/Prueba";
 import { useSelector, useDispatch } from 'react-redux'
 import Login from "./pages/AuthPage"
-import { setCurrentUser, addError, getPolls, getUsers  } from "./store/actions";
+import { setCurrentUser, addError, getPolls, getUsers, getPosts  } from "./store/actions";
 import decode from 'jwt-decode';
 import Leftbar from "./components/Leftbar/Leftbar";
 import PollDetails from './components/voting/PollDetails';
@@ -13,16 +13,27 @@ import PollPage from './pages/PollPage';
 import CreatePoll from './components/voting/CreatePoll';
 import Users from './components/UserGestion/Users';
 import userService from './services/users'
+import Posts from './components/Posts/Posts';
+import CreatePost from './components/Posts/CreatePost';
+import Post from './components/Posts/Post';
 
 export default function App() {
   const dispatch = useDispatch()
   const isAuth = useSelector(state=>state.auth.isAuthenticated)
+  console.log("token")
+  console.log(decode(cookie.get("token")))
+  const isAdmin = decode(cookie.get("token")).roles.some(r => r.name == "admin" || r.name == "moderator")
+  console.log(isAdmin)
   useEffect(() => {
     dispatch(getPolls())
   }, [dispatch])
 
   useEffect(() => {
     dispatch(getUsers())
+  }, [dispatch])
+
+  useEffect(() => {
+    dispatch(getPosts())
   }, [dispatch])
 
   
@@ -58,49 +69,15 @@ export default function App() {
           <Route exact path="/votaciones" element={!isAuth ? <Navigate to="/login"/> : <PollPage/>} />
           <Route exact path="/prueba" element={!isAuth ? <Navigate to="/login"/> : <Prueba />} />
           <Route exact path="/votaciones/:noteId" element={!isAuth ? <Navigate to="/login"/> : <PollDetails/>} />
-          <Route exact path="/votaciones/crearVotacion" element={!isAuth ? <Navigate to="/login"/> : <CreatePoll/>} />
-          <Route exact path="/users/" element={!isAuth ? <Navigate to="/login"/> : <Users/>} />
+          <Route exact path="/noticias"  element={!isAuth ? <Navigate to="/login"/> : <Posts/>}/>
+          <Route exact path="/noticias/:postId"  element={!isAuth ? <Navigate to="/login"/> : <Post/>}/>
+          <Route exact path="/votaciones/crearVotacion" element={!isAuth ? <Navigate to="/login"/> : isAdmin ? <CreatePoll/> : <Navigate to="/prueba"/>} />
+          <Route exact path="/users/" element={!isAuth ? <Navigate to="/login"/> : isAdmin ? <Users/> : <Navigate to="/prueba"/>} />
+          <Route exact path="/noticiasGestion"  element={!isAuth ? <Navigate to="/login"/> : isAdmin ? <CreatePost/> : <Navigate to="/prueba"/>}/>
           <Route exact path="/login" element={isAuth ? <Navigate to="/prueba"/> : <Login/>} />
         </Routes>
       </div>
       </BrowserRouter>
     </div>
   );
-
-  /*
-      <BrowserRouter>
-        <Routes>
-          <Route exact path="/welcome" element={!isAuth ? <Navigate to="/login"/> : <Welcome />} />
-          <Route exact path="/votaciones" element={!isAuth ? <Navigate to="/login"/> : <PollPage/>} />
-          <Route exact path="/prueba" element={!isAuth ? <Navigate to="/login"/> : <Prueba />} />
-          <Route exact path="/votaciones/:noteId" element={!isAuth ? <Navigate to="/login"/> : <PollDetails/>} />
-          <Route exact path="/votaciones/crearVotacion" element={!isAuth ? <Navigate to="/login"/> : <CreatePoll/>} />
-          <Route exact path="/users/" element={!isAuth ? <Navigate to="/login"/> : <Users/>} />
-          <Route exact path="/login" element={isAuth ? <Navigate to="/prueba"/> : <Login/>} />
-        </Routes>
-      </BrowserRouter>
-  */
-  /*return (
-    <>
-    <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-    />
-    <BrowserRouter>
-    {isAuth && <Topbar></Topbar>}
-    <div className="mainFlex">
-      {isAuth && <Leftbar/>}
-      <Routes>
-        <Route exact path="/welcome" element={!isAuth ? <Navigate to="/login"/> : <Welcome />} />
-        <Route exact path="/votaciones" element={!isAuth ? <Navigate to="/login"/> : <PollPage/>} />
-        <Route exact path="/prueba" element={!isAuth ? <Navigate to="/login"/> : <Prueba />} />
-        <Route exact path="/votaciones/:noteId" element={!isAuth ? <Navigate to="/login"/> : <PollDetails/>} />
-        <Route exact path="/votaciones/crearVotacion" element={!isAuth ? <Navigate to="/login"/> : <CreatePoll/>} />
-        <Route exact path="/users/" element={!isAuth ? <Navigate to="/login"/> : <Users/>} />
-        <Route exact path="/login" element={isAuth ? <Navigate to="/prueba"/> : <Login/>} />
-      </Routes>
-      </div>
-    </BrowserRouter>
-    </>
-  );*/
 }

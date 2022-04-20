@@ -62,7 +62,7 @@ export const getPostBySearch = async (req,res,next) => {
 
 export const addMessage = async (req, res,next) => {
     //const userId = req.userId
-    const postId = req.params.id
+    const postId = req.params.postId
     const { message, response, email } = req.body
 
     console.log(postId)

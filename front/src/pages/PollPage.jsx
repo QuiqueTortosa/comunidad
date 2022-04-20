@@ -10,17 +10,6 @@ export default function PollPage() {
   const dispatch = useDispatch()
   let ongoingPolls = useSelector((state) => state.VOTACIONES.filter(p => p.status == 0));
   let finishedPolls = useSelector((state) => state.VOTACIONES.filter(p => p.status == 1));
-  console.log("jeje22233")
-  const polls2 = useSelector((state) => state.polls.polls)
-  /*const polls = useSelector((state) =>
-    state.polls.polls.map((p) => {
-      if (p.status == 1) {
-        finishedPolls.push(p);
-      } else {
-        ongoingPolls.push(p);
-      }
-    })
-  );*/
   
   console.log(ongoingPolls);
   console.log(finishedPolls);

@@ -51,7 +51,7 @@ export default function () {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/nada" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
+                    <Link to="/noticias" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
                         <IoIcons.IoIosAdd/>
                         <span className={`${!open && "hidden"} origin-left duration-200`}>Noticias</span>
                     </Link>
@@ -67,7 +67,7 @@ export default function () {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/nada" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
+                    <Link to="/noticiasGestion" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
                         <IoIcons.IoIosAdd/>
                         <span className={`${!open && "hidden"} origin-left duration-200`}>Noticias Gestion</span>
                     </Link>

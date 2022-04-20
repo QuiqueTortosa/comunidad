@@ -1,24 +1,5 @@
 import { SET_CURRENT_POLL, SET_POLLS, CREATE_POLL, UPDATE_POLL, DELETE_POLL, GET_ALL_POLLS, GET_POLL} from "../actionTypes";
 
-export const polls = (state = [], action) => {
-    switch (action.type) {
-        case SET_POLLS:
-            return state = action.payload
-        default:
-            return state;
-    }
-}
-
-export const currentPoll = (state = {}, action) => {
-    switch (action.type) {
-        case SET_CURRENT_POLL:
-            return state = action.payload
-        default:
-            return state;
-    }
-}
-
-
 export const VOTACIONES =  (pollss = [], action) => {
     switch (action.type) {
       case GET_ALL_POLLS:

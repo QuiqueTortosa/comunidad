@@ -28,11 +28,11 @@ export default function Auth() {
 
   return (
     <div>
-      <h1 class="text-3xl font-bold underline">Hello world!</h1>
+      <h1 className="text-3xl font-bold underline">Hello world!</h1>
       <form onSubmit={handleLogin}>
         <div>
           <input 
-            class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm  focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+            className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm  focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
             type="text"
             value={username}
             name="username"
@@ -42,7 +42,7 @@ export default function Auth() {
         </div>
         <div>
           <input
-            class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm  focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+            className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm  focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
             type="password"
             value={password}
             name="username"
@@ -50,7 +50,7 @@ export default function Auth() {
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
-        <button class="bg-blue-900 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
+        <button className="bg-blue-900 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
           Login
         </button>
       </form>

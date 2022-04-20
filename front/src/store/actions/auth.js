@@ -3,6 +3,7 @@ import { SET_CURRENT_USER, AUTH_USER } from '../actionTypes'
 import auth from '../../services/auth'
 import voteService from '../../services/votes'
 import userService from '../../services/users'
+import postService from '../../services/posts'
 import cookie from "js-cookie";
 import decode from "jwt-decode";
 
@@ -31,6 +32,7 @@ export const authUser = (credentials) => {
             auth.setToken(token)
             voteService.setToken(token)
             userService.setToken(token)
+            postService.setToken(token)
             console.log("ESTE SI")
             console.log(token)
             const user = await userService.getUserById(decode(token).id)

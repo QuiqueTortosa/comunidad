@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux'
 import error from './error'
 import auth from './auth'
-import {polls, VOTACIONES, currentPoll, ongoingPolls, finishedPolls} from './polls'
+import { VOTACIONES,} from './polls'
 import { USERS } from './users'
+import { POSTS } from './posts'
 
 export default combineReducers({
     auth,
     error,
-    polls,
-    currentPoll,
     USERS,
-    VOTACIONES
+    VOTACIONES,
+    POSTS
 })

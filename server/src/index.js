@@ -3,7 +3,6 @@ import express from "express";
 import morgan from 'morgan'
 import cors from 'cors'
 import { createRoles } from "./libs/initialSetup";
-import productRoutes from './routes/products.routes'
 import authRoutes from './routes/auth.routes'
 import userRoutes from './routes/user.route'
 import voteRoutes from './routes/vote.routes'
@@ -33,9 +32,8 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
-app.use('/api/posts/', postRoutes)
+app.use('/api/posts', postRoutes)
 app.use('/api/vote', voteRoutes)
-app.use('/api/products', productRoutes)
 
 const server = app.listen(4000, () => {
     console.log(`Server running on port 4000`)

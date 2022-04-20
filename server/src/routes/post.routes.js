@@ -7,10 +7,10 @@ const router = Router()
 router.post('/', postCtrl.createPost)
 router.put('/:id',postCtrl.updatePost)
 router.delete('/:id',postCtrl.deletePost)
-router.get('',postCtrl.getPosts)
+router.get('/',postCtrl.getPosts)
 router.get("/search", postCtrl.getPostBySearch)
 
-router.post('/message/:id', postCtrl.addMessage)
+router.post('/message/:postId', postCtrl.addMessage)
 router.delete('/:postId/message/:id', postCtrl.deleteMessage)
 router.put('/message/:id', postCtrl.updateMessage)
 

@@ -18,3 +18,15 @@ export const DELETE_POLL = 'DELETE_POLL';
 export const GET_ALL_POLLS = 'GET_ALL_POLLS';
 export const GET_POLL = 'GET_POLL';
 
+export const CREATE_POST = 'CREATE_POST';
+export const UPDATE_POST = 'UPDATE_POST';
+export const DELETE_POST = 'DELETE_POST';
+export const GET_ALL_POSTS = 'GET_ALL_POSTS';
+export const GET_POST = 'GET_POST';
+
+export const CREATE_MESSAGE = 'CREATE_MESSAGE';
+export const UPDATE_MESSAGE = 'UPDATE_MESSAGE';
+export const DELETE_MESSAGE = 'DELETE_MESSAGE';
+
+
+
