@@ -5,7 +5,10 @@ const messageSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Post'
     },
-    user: String,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User' 
+    },
     message: String,
     response: {
         type: String,

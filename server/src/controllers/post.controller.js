@@ -59,28 +59,41 @@ export const getPostBySearch = async (req,res,next) => {
     res.status(200).json(posts)
 }
 
+export const getPostById = async (req,res,next) => {
+    const { id } = req.params;
+    //const post = await Post.findById(id).populate('messages')
+    const post = await Post.findById(id).populate({path: 'messages', model: "PostMessage", populate: {path:"user", model: "User"}})
+
+      console.log(post)
+    /*if (!post) {
+        res.json({message: "No post found"})
+        throw new Error("Post not found")
+    }*/
+
+    res.status(200).json(post);
+}
+
 
 export const addMessage = async (req, res,next) => {
     //const userId = req.userId
     const postId = req.params.postId
-    const { message, response, email } = req.body
+    const { message, response, user } = req.body
 
     console.log(postId)
     const newMessage = PostMessage({
-        email,
+        user,
         message, 
         response: response == undefined ? "" : response
     })
 
     console.log(newMessage)
-    await newMessage.save()
+    const nMessage = await newMessage.save()
     
-    const nPost = await Post.findByIdAndUpdate(postId, { $push: {messages: newMessage} }).populate('messages')
+    await Post.findByIdAndUpdate(postId, { $push: {messages: newMessage} }).populate('messages')
 
     await User.findByIdAndUpdate("625ef3fb138cb8122057ab5e",{ $push: { messages: newMessage._id}})
-    console.log(nPost)
-
-    res.status(200).json(nPost)
+    console.log(nMessage)
+    res.status(200).json(nMessage)
 
 }
 

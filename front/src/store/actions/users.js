@@ -6,7 +6,6 @@ export const getUsers = () => {
     return async dispatch => {
         try {
             const data = await userService.getUsers()
-            console.log(data)
             dispatch({
                 type: GET_ALL_USERS,
                 payload: data
@@ -21,10 +20,7 @@ export const getUsers = () => {
 export const getUsersBySearch = (query) =>{
     return async dispatch => {
         try {
-            console.log("queyr: " +query)
             const data = await userService.getUsersBySearch(query)
-            console.log("dATOS: ")
-            console.log(data)
             dispatch({
                 type: GET_ALL_USERS,
                 payload: data
@@ -70,8 +66,6 @@ export const createUser = user => {
 export const updateUser = (id, user) => {
     return async dispatch => {
         try {
-            console.log("jeje")
-            console.log(user.roles)
             const data = await userService.updateUser(id, user)
             dispatch({
                 type: UPDATE_USER,

@@ -7,6 +7,7 @@ const router = Router()
 router.post('/', postCtrl.createPost)
 router.put('/:id',postCtrl.updatePost)
 router.delete('/:id',postCtrl.deletePost)
+router.get('/find/:id',postCtrl.getPostById)
 router.get('/',postCtrl.getPosts)
 router.get("/search", postCtrl.getPostBySearch)
 

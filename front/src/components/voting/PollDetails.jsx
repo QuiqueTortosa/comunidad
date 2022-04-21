@@ -17,7 +17,7 @@ export default function PollDetails() {
   console.log("poll unica: ")
   console.log(poll[0])
   const [getPoll, setPrueba] = useState(poll.entries == undefined ? pollById : poll[0])
-
+  console.log(noteId)
   const dispatch = useDispatch();
   const color = () => {
     return (
@@ -69,7 +69,7 @@ export default function PollDetails() {
                   className="bg-blue-900 text-white px-4  py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1"    
                   key={option._id}
                   onClick={() => {
-                    dispatch(vote(getPoll._id, { answer: option.name}))
+                    dispatch(vote(noteId, { answer: option.name}))
                     setPrueba(poll)
                   }}
                 >

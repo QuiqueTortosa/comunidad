@@ -1,6 +1,6 @@
 import { Schema, model} from "mongoose"
 
-const messageSchema = new Schema({
+/*const messageSchema = new Schema({
     user: String,
     message: String,
     response: {
@@ -11,7 +11,7 @@ const messageSchema = new Schema({
 {
     timestamps: true,
     versionKey: false,
-})
+})*/
 
 const postSchema = new Schema({
     user: {

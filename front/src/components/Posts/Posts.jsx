@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getPosts, deletePost, getPostsBySearch } from "../../store/actions";
+import { useNavigate } from "react-router-dom";
+import { getPosts, deletePost, getPostsBySearch, getMessages } from "../../store/actions";
 import { FaSearch } from 'react-icons/fa';
 import CreatePost from "./CreatePost";
 import Post from "./Post";
@@ -9,6 +10,7 @@ import Post from "./Post";
 
 export default function Posts() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const posts = useSelector((state) => state.POSTS);
   const [search, setSearch] = useState('')
 
@@ -27,6 +29,11 @@ export default function Posts() {
         dispatch(getPosts())
       }
   }
+
+  const handleSelect = (id) => {
+    dispatch(getMessages(id));
+    navigate(`/noticias/${id}`);
+  };  
   return (
     <div>
         <div className="flex flex-row">
@@ -47,9 +54,9 @@ export default function Posts() {
           <button onClick={() => { handleRemove(p._id) }}>
              Remove
           </button>
-          <Link to={`/noticias/${p._id}`} className={`flex rounded-md p-2 cursor-pointer text-sm items-center gap-x-4 `}>
+          <button onClick={() => handleSelect(p._id)}>
             Ir
-          </Link>
+          </button>
           </div>
         ))}
       </div>

@@ -3,7 +3,6 @@ import { CREATE_USER, UPDATE_USER, GET_ALL_USERS, GET_USER, DELETE_USER } from "
 export const USERS =  (users = [], action) => {
     switch (action.type) {
       case GET_ALL_USERS:
-        console.log(typeof users)
         return action.payload;
       case  GET_USER:
         return users.map((user) => (user._id === action.payload._id ? action.payload : user));

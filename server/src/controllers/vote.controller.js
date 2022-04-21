@@ -67,7 +67,7 @@ export const vote = async (req, res, next) => {
     try {
         const { voteId } = req.params;
         const userId = req.userId
-
+        console.log(voteId)
         const { answer } = req.body;
         if(answer) {
             const votation = await Vote.findById(voteId)

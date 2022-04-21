@@ -20,10 +20,9 @@ import Post from './components/Posts/Post';
 export default function App() {
   const dispatch = useDispatch()
   const isAuth = useSelector(state=>state.auth.isAuthenticated)
+  let isAdmin = null
   console.log("token")
-  console.log(decode(cookie.get("token")))
-  const isAdmin = decode(cookie.get("token")).roles.some(r => r.name == "admin" || r.name == "moderator")
-  console.log(isAdmin)
+  //console.log(decode(cookie.get("token")))
   useEffect(() => {
     dispatch(getPolls())
   }, [dispatch])
@@ -42,6 +41,8 @@ export default function App() {
   const user = async () => {
     console.log("cookie: ")
     console.log(decode(cookie.get("token")).id)
+    isAdmin = decode(cookie.get("token")).roles.some(r => r.name == "admin" || r.name == "moderator")
+    console.log(isAdmin)
     const cUser = await userService.getUserById(decode(cookie.get("token")).id)
     cookie.set("token", cookie.get("token"));
     const u = {
