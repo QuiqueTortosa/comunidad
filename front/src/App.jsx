@@ -1,5 +1,5 @@
 import './index.css'
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import cookie from "js-cookie";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Prueba from "./components/voting/Prueba";

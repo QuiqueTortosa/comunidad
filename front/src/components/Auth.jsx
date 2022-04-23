@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { authUser, logout, setCurrentUser, setToken } from "../store/actions";
-import { useSelector, useDispatch } from "react-redux";
-import { store } from "../store";
-import ErrorMessage from "./ErrorMessage";
+import { authUser } from "../store/actions";
+import { useDispatch } from "react-redux";
+
 
 export default function Auth() {
   const dispatch = useDispatch()

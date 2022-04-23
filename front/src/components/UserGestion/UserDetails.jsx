@@ -170,7 +170,7 @@ export default function UserDetails({ open, user }) {
             </div>
           </div>
           <div className="flex flex-row space-x-1.5">
-            <button class="bg-blue-900 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
+            <button className="bg-blue-900 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
               Update
             </button>
             <button

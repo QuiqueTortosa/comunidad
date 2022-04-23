@@ -4,6 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { createMessage, getMessages, getPosts, removeReplyMessage } from "../../store/actions";
 import decode from 'jwt-decode';
 import cookie from "js-cookie";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+const editorConfiguration = {
+  toolbar: [ 'heading','bold', 'italic', 'blockQuote', 'undo', 'redo' ]
+};
+
 
 export default function PostMessage({reply, setReply}) {
   const { postId } = useParams();
@@ -15,8 +22,9 @@ export default function PostMessage({reply, setReply}) {
   })
   useEffect(() => {
     setMessageData({...messageData, response: reply.message})
-  },[reply])
+  },[reply.response])
 
+  console.log(messageData)
   console.log(reply)
   console.log(decode(cookie.get("token")))
   const handleSubmit = (e) => {
@@ -25,31 +33,54 @@ export default function PostMessage({reply, setReply}) {
     setMessageData({...messageData, response: reply.message})
     dispatch(createMessage(postId,messageData))
     dispatch(getMessages(postId))
-}
+    refresh()
+  }
 
-  const removeReply = () => {
-    dispatch(removeReplyMessage())
+  const refresh = () => {
+    setMessageData({
+      user: decode(cookie.get("token")).id,
+      message:"",
+      response: reply.message,
+    })
   }
 
   return (
-    <div className="mt-20">
+    <div className="mt-5">
     <form autoComplete="off" onSubmit={handleSubmit}> 
       { reply.response != undefined &&
-       <div>
-          <p>{reply.id}</p>
-          <p>{reply.message}</p>
+       <div className="mb-3">
+          <p><strong>Respuesta a: </strong></p>
+          <div dangerouslySetInnerHTML={{__html: reply.message}}></div>
         </div>
       }
       <div className="relative z-0 mb-6 w-full group">
-         <input type="text" onChange={(e) => setMessageData({ ...messageData, message: e.target.value })} name="floating_message" id="floating_message" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required /> 
-         <label className="absolute left-0 text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Mensaje</label>
+      <CKEditor
+                        editor={ ClassicEditor }
+                        config={ editorConfiguration }
+                        data={ messageData.message }
+                        onReady={ editor => {
+                            // You can store the "editor" and use when it is needed.
+                            console.log( 'Editor is ready to use!', editor );
+                        } }
+                        onChange={ ( e, editor ) => {
+                            const data = editor.getData();
+                            console.log( { e, editor, data } );
+                            setMessageData({ ...messageData, message: data})
+                        } }
+                        onBlur={ ( event, editor ) => {
+                            console.log( 'Blur.', editor );
+                        } }
+                        onFocus={ ( event, editor ) => {
+                            console.log( 'Focus.', editor );
+                        } }
+                    />
       </div>
       <div className="flex flex-row gap-5">
         <button className="bg-blue-900 text-white px-4  py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
-          Submit
+          Publicar
         </button>
         <button  type="button" className="bg-blue-900 text-white px-4  py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1" onClick={() => {setReply({})}}>
-          Remove reply
+          Eliminar cita
         </button>
       </div>
       </form>
