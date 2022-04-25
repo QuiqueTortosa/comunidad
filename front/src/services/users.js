@@ -15,32 +15,60 @@ const config = {
   }
 }
 
-  const getUsers = async () => {
-    const { data } = await axios.get(baseUrl + "/", config)
+  const getUsers = async () => { 
+  console.log(token)
+    const { data } = await axios.get(baseUrl + "/",{
+      headers: {
+        Authorization: token
+      }
+    })
     return data
   }
   const getUserById = async id => {
     console.log(token)
-    const { data } = await axios.get(`${baseUrl}/find/${id}`, config,)
+    const { data } = await axios.get(`${baseUrl}/find/${id}`,{
+      headers: {
+        Authorization: token
+      }
+    })
     return data
   }
 
   const getUsersBySearch = async query => {
     console.log("query: "+query)
-    const { data } = await await axios.get(`${baseUrl}/search/?searchQuery=${query || 'none'}`, config)
+    const { data } = await await axios.get(`${baseUrl}/search/?searchQuery=${query || 'none'}`, {
+      headers: {
+        Authorization: token
+      }
+    })
     return data
   }
 
   const deleteUser = async id => {
-    const { data } = await axios.delete(`${baseUrl}/${id}`, config)
+    const { data } = await axios.delete(`${baseUrl}/${id}`, {
+      headers: {
+        Authorization: token
+      }
+    })
     return data
   }
   const updateUser = async (id, user) => {
-    const { data } = await axios.put(`${baseUrl}/${id}`, user, config)
+    setToken(cookie.get("token"))
+    console.log(cookie.get("token"))
+    console.log(token)
+    const { data } = await axios.put(`${baseUrl}/${id}`, user, {
+      headers: {
+        Authorization: token
+      }
+    })
     return data
   }
   const createUser = async (user) => {
-    const { data } = await axios.post(baseUrl + "/", user, config)
+    const { data } = await axios.post(baseUrl + "/", user, {
+      headers: {
+        Authorization: token
+      }
+    })
     return data
   }
 

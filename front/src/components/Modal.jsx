@@ -6,7 +6,8 @@ import FileBase from 'react-file-base64'
 const Modal = ({ setModalOn }) => {
 
     const dispatch = useDispatch();
-    const user = useSelector(state => state.USERS.find(u => u._id == state.auth.user.id))
+    const user2 = useSelector(state => state.USERS.find(u => u._id == state.auth.user.id))
+    const user = useSelector(state => state.auth.user)
     const [userData, setUserData] = useState({
         email: user.email,
         username: user.username,
@@ -24,10 +25,10 @@ const Modal = ({ setModalOn }) => {
             console.log(userData);      
             dispatch(updateUser(user._id, userData));
             dispatch(setCurrentUser({
-                        id: user._id,
+                        ...user,
+                        email: userData.email,
                         username: userData.username,
-                        selectedFile: user.selectedFile,
-                        roles: user.roles
+                        selectedFile: userData.selectedFile,
             }))
             dispatch(getUsers());
           } catch (err) {
@@ -49,7 +50,7 @@ const Modal = ({ setModalOn }) => {
 
         <div className="bg-opacity-70 bg-gray-800 fixed inset-0 z-50">
             <div className="flex h-screen justify-center items-center ">
-                <div className="flex-col justify-center  bg-white py-12 px-24 border-4 border-sky-500 rounded-xl items-center">
+                <div className="flex-col justify-center  bg-white py-12 px-24 border-4 border-sky-900 rounded-xl items-center">
                     <form autoComplete="off" noValidate onSubmit={handleSubmit}>
                         <div className="flex justify-center mb-3">
                             <img className="w-32 h-32 mr-2 rounded-full" src={user.selectedFile != "" ? user.selectedFile : "/images/avatar.png"} alt={"Image not found"}></img>

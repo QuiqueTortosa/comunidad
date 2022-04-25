@@ -22,7 +22,7 @@ export default function Users() {
   }
 
   return (
-    <div class="flex flex-col shadow-3xl p-16 rounded-xl bg-white">
+    <div className="flex flex-col shadow-3xl p-16 rounded-xl bg-white">
       <div className="flex flex-row gap-[410px] mb-5 justify-center items-center">
          <div>
           <button 

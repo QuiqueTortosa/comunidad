@@ -16,34 +16,68 @@ const config = {
 }
 
 const getPolls = async () => {
-  const { data } = await axios.get(baseUrl + "/", config)
+  const { data } = await axios.get(baseUrl + "/", {
+    headers: {
+      Authorization: token
+    }
+  })
   return data
 }
 const getPollById = async id => {
   console.log(token)
-  const { data } = await axios.get(`${baseUrl}/${id}`, config,)
+  const { data } = await axios.get(`${baseUrl}/find/${id}`,{
+    headers: {
+      Authorization: token
+    }
+  })
   return data
 }
 const deletePoll = async id => {
-  const { data } = await axios.delete(`${baseUrl}/${id}`, config)
+  const { data } = await axios.delete(`${baseUrl}/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  })
   return data
 }
 const updatePoll = async (id, poll) => {
   console.log(id)
   console.log(poll)
-  const { data } = await axios.put(`${baseUrl}/${id}`, poll, config)
+  const { data } = await axios.put(`${baseUrl}/${id}`, poll, {
+    headers: {
+      Authorization: token
+    }
+  })
   return data
 }
 const createPoll = async (poll) => {
-  const { data } = await axios.post(baseUrl + "/", poll, config)
+  const { data } = await axios.post(baseUrl + "/", poll, {
+    headers: {
+      Authorization: token
+    }
+  })
   return data
 }
 
 const changePollStatus = async (id, status) => {
   console.log("Estado" + status)
-  const {data} = await axios.put(`${baseUrl}/changeStatus/${id}`, status, config)
+  const {data} = await axios.put(`${baseUrl}/changeStatus/${id}`, status, {
+    headers: {
+      Authorization: token
+    }
+  })
+  return data
+}
+
+const getPollsBySearch = async query => {
+  console.log("query: "+query)
+  const { data } = await axios.get(`${baseUrl}/search/?searchQuery=${query || 'none'}`, {
+    headers: {
+      Authorization: token
+    }
+  })
   return data
 }
 
 //, { withCredentials: true }
-export default { getPolls, getPollById, deletePoll, updatePoll, createPoll, changePollStatus, setToken }
+export default { getPollsBySearch, getPolls, getPollById, deletePoll, updatePoll, createPoll, changePollStatus, setToken }

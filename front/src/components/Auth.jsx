@@ -11,11 +11,12 @@ export default function Auth() {
 
   const handleLogin = async (e) => {
     try {
-      //e.preventDefault()
+      e.preventDefault()
       const credentials = {
         email: username,
         password: password,
       };
+      console.log(credentials)
       dispatch(authUser(credentials));
       setUser(user);
       setUsername("");

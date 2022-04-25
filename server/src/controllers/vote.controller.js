@@ -139,6 +139,16 @@ export const changeStatus = async (req,res,next) => {
     }
 }
 
+export const getVoteBySearch = async (req,res,next) => {
+    const { searchQuery } = req.query
+    console.log(searchQuery)
+    const query = new RegExp(searchQuery, 'i')
+    console.log("query"+query)
+    const votes = await Vote.find({question: query})
+    console.log(votes)
+    res.status(200).json(votes)
+}
+
 
 
 

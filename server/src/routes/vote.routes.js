@@ -6,10 +6,11 @@ const router = Router()
 
 router.get('/', voteCtrl.getVotes);
 router.post('/', authJwt.verifyToken2 ,voteCtrl.createVote)
-router.get('/:voteId', authJwt.verifyToken2, voteCtrl.getVoteById)
+router.get('/find/:voteId', authJwt.verifyToken2, voteCtrl.getVoteById)
 router.delete('/:voteId', authJwt.verifyToken2, voteCtrl.deleteVote)
 router.put('/:voteId',authJwt.verifyToken2, voteCtrl.vote)
 router.put('/changeStatus/:voteId', [authJwt.verifyToken2, authJwt.isAdmin], voteCtrl.changeStatus)
+router.get("/search/", authJwt.verifyToken2, voteCtrl.getVoteBySearch)
 
 
 

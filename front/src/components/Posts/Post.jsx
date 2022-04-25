@@ -45,13 +45,20 @@ export default function Post() {
         </div>
         { 
           messages.map(m => (
-            <div className="flex my-2 justify-between space-x-14 border-2 rounded-xl p-5">
-              <div className={`flex flex-col items-center justify-between`}>
-                <p className="relative text-xs text-gray-700">{m.createdAt.substring(0,10)+"," +m.createdAt.substring(11,16)}</p>
+            <div className="flex justify-between my-2 space-x-14 border-2 rounded-xl p-5">
+              <div className={`flex flex-col items-center justify-between w-24 `}>
+                <div className=" flex justify-center justify-items-center w-[93px]">
+                 <p className="relative text-xs text-gray-700">{m.createdAt.substring(0,10)+"," +m.createdAt.substring(11,16)}</p>
+                </div>
                 { user.email == m.user.email ?
+                   <div>
                      <img className={`rounded-full w-16 h-16 my-2`} src={user.selectedFile != "" ? user.selectedFile : "/images/avatar.png"} alt={"Image not found"}></img>
-                      :
+                    </div>
+                     :
+                     <div>
                     <img className={`rounded-full w-16 h-16 my-2`} src={m.user.selectedFile != "" ? m.user.selectedFile : "/images/avatar.png"} alt={"Image not found"}></img>
+                    </div>
+
                 }
                 <p>{m.user.username}</p>
               </div> 

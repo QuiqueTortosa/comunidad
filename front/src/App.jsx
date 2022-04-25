@@ -1,5 +1,5 @@
 import './index.css'
-import React, { useEffect } from "react";
+import React, { useDebugValue, useEffect } from "react";
 import cookie from "js-cookie";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Prueba from "./components/voting/Prueba";
@@ -12,10 +12,13 @@ import PollDetails from './components/voting/PollDetails';
 import PollPage from './pages/PollPage';
 import CreatePoll from './components/voting/CreatePoll';
 import Users from './components/UserGestion/Users';
-import userService from './services/users'
 import Posts from './components/Posts/Posts';
 import CreatePost from './components/Posts/CreatePost';
 import Post from './components/Posts/Post';
+import auth from './services/auth'
+import voteService from './services/votes'
+import userService from './services/users'
+import postService from './services/posts'
 
 export default function App() {
   const dispatch = useDispatch()
@@ -35,7 +38,6 @@ export default function App() {
     dispatch(getPosts())
   }, [dispatch])
 
-  
   console.log(isAuth)
 
   const user = async () => {
@@ -45,10 +47,7 @@ export default function App() {
     console.log(isAdmin)
     const cUser = await userService.getUserById(decode(cookie.get("token")).id)
     cookie.set("token", cookie.get("token"));
-    const u = {
-      ...decode(cookie.get("token")),
-      selectedFile: cUser.selectedFile
-    }
+    const u = cUser
     try {
       dispatch(setCurrentUser(u));
     } catch (err) {

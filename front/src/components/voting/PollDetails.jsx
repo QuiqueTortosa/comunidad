@@ -58,7 +58,7 @@ export default function PollDetails() {
 
   return (
     <div>
-      {getPoll ? (
+      {poll ? (
         <div>
           <ErrorMessage/>
           <h3 className="poll-title">{poll[0].question}</h3>
@@ -70,7 +70,7 @@ export default function PollDetails() {
                   key={option._id}
                   onClick={() => {
                     dispatch(vote(noteId, { answer: option.name}))
-                    setPrueba(poll)
+                    setPrueba(poll[0])
                   }}
                 >
                   {option.name}

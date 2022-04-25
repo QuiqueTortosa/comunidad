@@ -63,13 +63,14 @@ export default function CreatePost() {
       if(update) {
         dispatch(updatePost(id, postData))
       }else {
+        console.log("???")
         dispatch(createPost(postData))
       }
     }
 
   return (
-    <div className="flex flex-row justify-between pl-5">
-      <div className="">
+    <div className="flex flex-row pl-5 justify-evenly xl:flex-col">
+      <div className="pr-10">
         <form autoComplete="off" onSubmit={handleSubmit}> 
           { postData.selectedFile.length > 2 ?
           <div className="">
@@ -99,7 +100,7 @@ export default function CreatePost() {
             />
           </div>
           </div>
-          <div className="max-h-[270px] w-[600px] overflow-y-auto">
+          <div className="max-h-[40vh] w-[600px] overflow-y-auto xl:w-full">
           <CKEditor
                         editor={ ClassicEditor }
                         config={ editorConfiguration }
@@ -128,8 +129,7 @@ export default function CreatePost() {
           </div>
         </form>
       </div>
-      <div className="h-[600px] overflow-auto">
-        <div className="flex justify-end pr-1 w-[300px] pb-2">
+      <div className="hidden flex-row justify-end pr-1 w-[300px] pb-2 xl:w-auto xl:right-2 xl:flex">
             <div className="">
               <input 
                 onChange={(e) => setSearch(e.target.value)}
@@ -144,21 +144,39 @@ export default function CreatePost() {
               </button>
             </div>
           </div>
-          <div className="pr-4">
+      <div className="h-[90vh] overflow-auto xl:mt-3 xl:h-auto">
+        <div className="flex flex-row justify-end pr-1 w-[300px] pb-2 xl:hidden">
+            <div className="">
+              <input 
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Buscar..."
+                className="rounded p-1"
+              >
+              </input>
+              <button 
+                className="bg-blue-900 text-white px-4 py-[8px] rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1"
+                onClick={searchPosts}>
+                <FaSearch></FaSearch>
+              </button>
+            </div>
+          </div>
+          <div className="pr-4 xl:flex xl:flex-row xl:gap-7">
             {posts.map((p) => (
-            <div key={p._id} className="rounded-lg w-[300px] h-96 overflow-hidden border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 mb-8">
-            <img className="w-full" src={p.selectedFile} alt="Mountain"/>
+            <div key={p._id} className="rounded-lg w-[300px] h-auto overflow-hidden shadow-md bg-gray-800 border-gray-700 mb-8 xl:overflow-visible xl:min-w-[300px] xl:max-w-[300px] xl:flex xl:flex-col xl:justify-between">
+              <div className="w-full h-2/5">
+               <img className="w-full h-full max-h-48 xl:rounded-t-lg" src={p.selectedFile} alt="Mountain"/>
+              </div>
               <div className="p-5">
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{p.title}</h5>
                 <div className="mb-3 font-normal text-gray-700 dark:text-gray-400 break-words" dangerouslySetInnerHTML={{__html:`${p.post.substring(0,100)}...`}} />  
-                <div className="flex justify-between">
+              </div>
+              <div className="flex justify-between px-5 pb-5">
                 <button onClick={() => handleUpdate(p)} className="bg-blue-900 text-white px-4  py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
                     Editar
-                  </button>
-                  <button onClick={() => { handleRemove(p._id) }} className="bg-red-600 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-red-500 transition-all  active:transform active:translate-y-1">
-                    Remove
-                  </button>
-              </div>
+                </button>
+                <button onClick={() => { handleRemove(p._id) }} className="bg-red-600 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-red-500 transition-all  active:transform active:translate-y-1">
+                  Remove
+                </button>
               </div>
             </div>
             ))}

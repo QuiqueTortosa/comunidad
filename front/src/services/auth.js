@@ -11,7 +11,7 @@ const setToken = token => {
 }
 
 const login = async credentials => {
-    const { data } = await axios.post(baseUrl, credentials, { withCredentials: true })
+    const { data } = await axios.post(baseUrl, credentials)
     return data
 }
 

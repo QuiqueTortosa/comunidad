@@ -16,48 +16,74 @@ const config = {
 }
 
 const getPosts = async () => {
-  const { data } = await axios.get(baseUrl + "/", config)
+  const { data } = await axios.get(baseUrl + "/", {
+    headers: {
+      Authorization: token
+    }
+  })
   return data
 }
 const getPostsBySearch = async query => {
     console.log("query: "+query)
-    const { data } = await await axios.get(`${baseUrl}/search/?searchQuery=${query || 'none'}`, config)
+    const { data } = await axios.get(`${baseUrl}/search/?searchQuery=${query || 'none'}`, {
+      headers: {
+        Authorization: token
+      }
+    })
     return data
   }
 
 const getPostById = async id => {
-  const { data } = await axios.get(`${baseUrl}/find/${id}`, config,)
+  const { data } = await axios.get(`${baseUrl}/find/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  })
   return data
 }
 
 const deletePost = async id => {
-  const { data } = await axios.delete(`${baseUrl}/${id}`, config)
+  const { data } = await axios.delete(`${baseUrl}/${id}`, {
+    headers: {
+      Authorization: token
+    }
+  })
   return data
 }
 const updatePost = async (id, post) => {
   console.log(id)
   console.log(post)
-  const { data } = await axios.put(`${baseUrl}/${id}`, post, config)
+  const { data } = await axios.put(`${baseUrl}/${id}`, post, {
+    headers: {
+      Authorization: token
+    }
+  })
   return data
 }
 const createPost = async (post) => {
-  const { data } = await axios.post(baseUrl + "/", post, config)
+  const { data } = await axios.post(baseUrl + "/", post, {
+    headers: {
+      Authorization: token
+    }
+  })
   return data
 }
 
 const createMessage = async (postId, message) => {
-  const { data } = await axios.post(`${baseUrl}/message/${postId}`, message, config)
+  const { data } = await axios.post(`${baseUrl}/message/${postId}`, message, {
+    headers: {
+      Authorization: token
+    }
+  })
   return data
 }
 
 const deleteMessage = async (postId,messageId) => {
-  const { data } = await axios.delete(`${baseUrl}/${postId}/message/${messageId}`, config)
-  return data
-}
-
-const changePollStatus = async (id, status) => {
-  console.log("Estado" + status)
-  const {data} = await axios.put(`${baseUrl}/changeStatus/${id}`, status, config)
+  const { data } = await axios.delete(`${baseUrl}/${postId}/message/${messageId}`, {
+    headers: {
+      Authorization: token
+    }
+  })
   return data
 }
 

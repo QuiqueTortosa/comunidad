@@ -58,7 +58,7 @@ export const signIn = async (req, res) => {
     })
     console.log(token)
     
-    await res.cookie("token", token, { httpOnly: false, maxAge: maxAge * 1000 });
+    //await res.cookie("token", token, { httpOnly: false, maxAge: maxAge * 1000 });
     
     res.json({token: token})
 }

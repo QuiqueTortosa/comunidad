@@ -35,6 +35,24 @@ export const getCurrentPoll = (id) => {
     }
 }
 
+export const getPollBySearch = (query) =>{
+    return async dispatch => {
+        try {
+            console.log("queyr: " +query)
+            const data = await votes.getPollsBySearch(query)
+            console.log("dATOS: ")
+            console.log(data)
+            dispatch({
+                type: GET_ALL_POLLS,
+                payload: data
+            })
+            dispatch(removeError())
+        } catch (err) {
+            console.log(err)
+        }
+    }
+}
+
 export const createPoll = (poll) => {
     return async dispatch => {
         try {

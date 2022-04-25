@@ -28,25 +28,29 @@ export const setCurrentUser = user => {
 export const authUser = (credentials) => {
     return async dispatch => {
         try {  
+            console.log("hola?")
             const { token } = await auth.login(credentials)
+            console.log(token)
             auth.setToken(token)
             voteService.setToken(token)
-            userService.setToken(token)
             postService.setToken(token)
+            userService.setToken(token)
+
             console.log("ESTE SI")
-            console.log(token)
-            const user = await userService.getUserById(decode(token).id)
-            console.log("usuario: ")
-            console.log(user)
+           // console.log(token)
+           // const user = await userService.getUserById(decode(token).id)
+            //console.log("usuario: ")
+            //console.log(user)
             cookie.set("token", token)
             dispatch({
                 type: AUTH_USER, payload: {
                     isAuthenticated: true,
-                    user: {...decode(token), selectedFile: user.selectedFile}
+                    user: {...decode(token)}
                 }
             })
             dispatch(removeError())
         } catch (err) {
+            console.log("hola2?")
             const error = err.response.data
             console.log(error.message)
             dispatch(addError(error.message)) //dispatch viene de redux-thunk, addError viene de nuestro fichero error
