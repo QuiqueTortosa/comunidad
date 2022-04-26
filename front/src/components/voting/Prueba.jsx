@@ -48,7 +48,7 @@ export default function Prueba() {
 
   console.log(post)
   return (
-    <div className='flex flex-row justify-center justify-items-center h-full lg:flex-col lg:h-auto'>
+    <div className='flex flex-row justify-center justify-items-center h-full xl:flex-col xl:h-auto'>
         <div className='flex flex-col items-center w-full h-full'>
            <div className='flex flex-col shadow-3xl p-16 w-auto h-5/6 m-9 rounded-xl bg-white lg:h-auto lg:w-4/6 lg:p-5'>
               <div className="flex justify-center mb-3">
@@ -65,7 +65,7 @@ export default function Prueba() {
         </div>
         <div className='flex flex-col items-center w-full h-full'>
           { post &&
-          <div className='flex flex-row items-center shadow-3xl w-auto h-2/6 m-9 rounded-xl bg-white lg:flex-col lg:w-4/6'>
+          <div className='flex flex-row items-center shadow-3xl w-auto h-2/6 m-9 rounded-xl bg-white lg:flex-col lg:w-4/6 xl:my-1'>
               <div className='w-3/6 h-full rounded-xl lg:w-full'>
                 <img className='h-full rounded-l-xl lg:w-full lg:rounded-t-xl lg:rounded-none' src={post.selectedFile} alt="Loading" />
               </div>

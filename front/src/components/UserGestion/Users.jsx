@@ -22,9 +22,9 @@ export default function Users() {
   }
 
   return (
-    <div className="flex flex-col shadow-3xl p-16 rounded-xl bg-white">
-      <div className="flex flex-row gap-[410px] mb-5 justify-center items-center">
-         <div>
+    <div className="shadow-3xl p-16 rounded-xl bg-white">
+      <div className="flex flex-row mb-5 justify-between sm:flex-col">
+         <div className="sm:text-right sm:mb-3">
           <button 
             className="bg-blue-900 text-white px-4  py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1"
             onClick={() => setOpenModal(!openModal)}
@@ -32,7 +32,7 @@ export default function Users() {
             Añadir usuario
           </button>
         </div>
-        <div className="flex flex-row">
+        <div className="flex flex-row sm:justify-end">
           <input 
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Buscar..."
@@ -45,13 +45,9 @@ export default function Users() {
           </button>
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center">
       {users.map((user) => (
-        <div>
-          <User key={user._id} user={user} />
-        </div>
+        <User key={user._id} user={user} />
       ))}
-      </div>
       {openModal && <AddUser setModalOn={setOpenModal}/>}
     </div>
   );

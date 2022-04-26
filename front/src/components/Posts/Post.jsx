@@ -27,16 +27,16 @@ export default function Post() {
 
   return (
     <div className="flex flex-col w-auto">
-      <div className="mx-16 mt-4">
+      <div className="mx-32 mt-4 lg:mx-1 lg:px-1">
         <div>
           <h1 className="text-3xl font-bold italic font-extrabold">{post.title}</h1>
         </div>
         <div className="my-5">
-          <img className="w-4/6 h-2/6 rounded-lg" src={post.selectedFile} alt="Mountain"/>
+          <img className="w-4/6 h-2/6 rounded-lg lg:w-full" src={post.selectedFile} alt="Mountain"/>
         </div>
-        <div dangerouslySetInnerHTML={{__html:`${post.post}`}} />  
+        <div className="w-full lg:w-full" dangerouslySetInnerHTML={{__html:`${post.post}`}} />  
       </div>
-      <div className="flex flex-col w-auto shadow-3xl mx-16 mt-8 p-16 rounded-xl bg-white">
+      <div className="flex flex-col w-auto shadow-3xl mx-16 mt-8 p-16 rounded-xl bg-white lg:mx-1 lg:px-1 lg:shadow-none">
         <div className="flex justify-between">
           <h1 className="text-3xl font-bold italic">Mensajes</h1>
           <button className="bg-green-800 text-white px-4 py-1 mr-6 rounded shadow-md focus:ring hover:bg-green-600 transition-all  active:transform active:translate-y-1" onClick={() => {dispatch(getMessages(postId))}}>
@@ -45,8 +45,8 @@ export default function Post() {
         </div>
         { 
           messages.map(m => (
-            <div className="flex justify-between my-2 space-x-14 border-2 rounded-xl p-5">
-              <div className={`flex flex-col items-center justify-between w-24 `}>
+            <div className="flex justify-between my-2 space-x-14 border-2 rounded-xl p-5 lg:space-x-2 sm:flex-col sm:items-center">
+              <div className={`flex flex-col justify-between w-24 sm:items-center sm:mb-2`}>
                 <div className=" flex justify-center justify-items-center w-[93px]">
                  <p className="relative text-xs text-gray-700">{m.createdAt.substring(0,10)+"," +m.createdAt.substring(11,16)}</p>
                 </div>
@@ -69,7 +69,7 @@ export default function Post() {
                 <div className="break-all text-center" dangerouslySetInnerHTML={{ __html: m.message}}/>
              </div>
              { decode(cookie.get("token")).id == m.user._id ?
-                <div className="flex flex-col justify-between">
+                <div className="flex flex-col justify-between sm:flex-row sm:gap-4 sm:mt-3">
                  <button className="bg-red-600 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-red-500 transition-all  active:transform active:translate-y-1" onClick={() => {handleRemove(m._id)}}>Eliminar</button>
                  <button className="bg-blue-900 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1" onClick={() => {setReply(m)}}>Citar</button>
                 </div>   

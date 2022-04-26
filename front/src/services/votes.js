@@ -51,6 +51,7 @@ const updatePoll = async (id, poll) => {
   return data
 }
 const createPoll = async (poll) => {
+  console.log(poll)
   const { data } = await axios.post(baseUrl + "/", poll, {
     headers: {
       Authorization: token

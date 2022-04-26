@@ -10,9 +10,9 @@ export default function User({ user }) {
   };
 
   return (
-    <div className="text-center items-center">
-      <div className="flex flex-row space-x-64 ">
-        <div className="flex flex-row mr-96 items-center text-center justify-center">
+    <div className="flex flex-col">
+      <div className="flex flex-row justify-between">
+        <div className="flex flex-row items-center text-center justify-center">
         <div className={`flex gap-x-4 items-center`}>
               <img className={`rounded-full w-10 h-10`} src={user.selectedFile != "" ? user.selectedFile : "/images/avatar.png"} alt={"Image not found"}></img>
           </div>    

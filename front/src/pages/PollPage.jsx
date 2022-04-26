@@ -31,11 +31,11 @@ export default function PollPage() {
   console.log(finishedPolls);
 
   return (
-    <div className="mx-7 my-4">
+    <div className="mx-7 my-4 sm:mx-2">
       <div className="mb-4">
         <h1 className="text-3xl font-bold italic font-extrabold">Votaciones</h1>
       </div>
-      <div className="flex flex-row justify-between mb-4">
+      <div className="flex flex-row justify-between mb-4 lg:flex-col">
         <div className="flex flex-row gap-4">
           <button
             className="bg-blue-900 text-white px-4  py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1"
@@ -54,7 +54,7 @@ export default function PollPage() {
           Finalizadas
         </button>
        </div>
-       <div className="mr-2">
+       <div className="mr-2 lg:mt-3">
           <input 
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Buscar..."
@@ -75,7 +75,7 @@ export default function PollPage() {
               <th scope="col" class="py-3 text-center">
                 Nombre
               </th>
-              <th scope="col" class="py-3 text-center">
+              <th scope="col" class="py-3 text-center sm:hidden">
                 Opciones
               </th>
               <th scope="col" class="py-3 text-center">

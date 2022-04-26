@@ -43,11 +43,17 @@ export default function Poll({ poll, remove }) {
           <tr className="bg-gray-800 border-gray-700 hover:bg-gray-600 border-b">
             <th
               scope="row"
-              className="py-4 text-center font-medium text-white whitespace-nowrap"
+              className="py-4 text-center font-medium text-white whitespace-nowrap  sm:hidden"
             >
-              {poll.question}
+              {poll.question.length > 15 ? poll.question.substring(0,15)+"..." : poll.question}
             </th>
-            <td className="py-4 text-center">{poll.options.length}</td>
+            <th
+              scope="row"
+              className="py-4 text-center font-medium text-white whitespace-nowrap hidden sm:flex sm:justify-center"
+            >
+              {poll.question.substring(0,7)}...
+            </th>
+            <td className="py-4 text-center sm:hidden">{poll.options.length}</td>
             <td className="py-4 text-center">{poll.voted.length}</td>
             <td className="py-4 ">
               <div className="flex flex-col text-center justify-items-center justify-center">

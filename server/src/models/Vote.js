@@ -17,6 +17,11 @@ const voteSchema = new Schema(
         question: {
             type: String,
             unique: true,
+            required: true,
+        },
+        description: {
+            type: String,
+            required: true,
         },
         options: [optionSchema],
         voted: [

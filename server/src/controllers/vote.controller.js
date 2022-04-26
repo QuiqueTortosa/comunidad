@@ -14,12 +14,13 @@ export const getVotes = async (req, res, next) => {
 export const createVote = async (req, res, next) => {
     try {
         const userId = req.userId
-        const { question, options } = req.body
-        console.log(options)
+        const { question, options, description } = req.body
+        console.log(description)
         const user = await User.findById(userId)
         const newVote = new Vote({
             user,
             question,
+            description,
             options: options.map(option => ({ name: option, votes: 0 }))
         })
 

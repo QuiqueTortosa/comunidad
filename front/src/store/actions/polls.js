@@ -55,23 +55,24 @@ export const getPollBySearch = (query) =>{
 
 export const createPoll = (poll) => {
     return async dispatch => {
-        try {
+       // try {
             const polls = await votes.createPoll(poll);
             dispatch({
                 type: CREATE_POLL, 
                 payload: polls
             })
             dispatch(removeError())
-        } catch (err) {
+    /*    } catch (err) {
             const error = err.response.data;
             dispatch(addError(error.message))
-        }
+        }*/
     }
 }
 
 export const deletePoll = id => {
     return async dispatch => {
         try {
+            await votes.deletePoll(id)
             dispatch({
                 type: DELETE_POLL, 
                 payload: id

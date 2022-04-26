@@ -91,7 +91,7 @@ export default function UserDetails({ open, user }) {
     <div className="my-5">
       <Collapse in={open} timeout="auto" unmountOnExit>
         <form onSubmit={handleUpdate}>
-          <div className="flex flex-row gap-16">
+          <div className="flex flex-row gap-16 sm:flex-col">
             <div className="flex flex-col">
               <div class="relative z-0 mb-6 w-full group">
                 <input
@@ -127,7 +127,7 @@ export default function UserDetails({ open, user }) {
                 </label>
               </div>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col sm:items-start">
               <FormControlLabel
                 value="Moderador"
                 control={
@@ -159,7 +159,7 @@ export default function UserDetails({ open, user }) {
               <div className="flex justify-center mb-3">
                 <img className={`w-24 h-24 mr-2 rounded-full ${user.selectedFile != "" ? "border-2 border-black" : ""}`} src={user.selectedFile != "" ? user.selectedFile : "/images/avatar.png"} alt={"Image not found"}></img>
               </div>
-              <div className="text-left ">
+              <div className="text-left sm:text-center sm:mb-3">
                 <button 
                   className="bg-blue-900  text-white mt-3 px-4 py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1"
                   onClick={() =>  setUserData({...userData, selectedFile: ""})}
@@ -169,7 +169,7 @@ export default function UserDetails({ open, user }) {
               </div>
             </div>
           </div>
-          <div className="flex flex-row space-x-1.5">
+          <div className="flex flex-row space-x-1.5 sm:justify-center">
             <button className="bg-blue-900 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
               Update
             </button>
