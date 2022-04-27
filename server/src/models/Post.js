@@ -1,18 +1,5 @@
 import { Schema, model} from "mongoose"
 
-/*const messageSchema = new Schema({
-    user: String,
-    message: String,
-    response: {
-        type: String,
-        default: ""
-    }
-},
-{
-    timestamps: true,
-    versionKey: false,
-})*/
-
 const postSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,

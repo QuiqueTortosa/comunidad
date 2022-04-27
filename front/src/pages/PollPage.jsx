@@ -91,13 +91,13 @@ export default function PollPage() {
           </thead>
           {showOngoing == 0 ? (
           <>
-            {ongoingPolls.map((poll) => (
+            {ongoingPolls.reverse().map((poll) => (
               <Poll key={poll._id} poll={poll} />
             ))}
           </>
         ) : (
           <>
-            {finishedPolls.map((poll) => (
+            {finishedPolls.reverse().map((poll) => (
               <Poll key={poll._id} poll={poll} />
             ))}
           </>

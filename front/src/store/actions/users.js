@@ -1,4 +1,4 @@
-import { CREATE_USER, UPDATE_USER, GET_ALL_USERS, GET_USER, DELETE_USER } from "../actionTypes";
+import { CREATE_USER, UPDATE_USER, GET_ALL_USERS, GET_USER, DELETE_USER, ADD_ERROR } from "../actionTypes";
 import { addError, removeError } from './error'
 import userService from "../../services/users"
 
@@ -10,9 +10,8 @@ export const getUsers = () => {
                 type: GET_ALL_USERS,
                 payload: data
             })
-            dispatch(removeError())
         } catch (err) {
-            console.log(err)
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -27,7 +26,7 @@ export const getUsersBySearch = (query) =>{
             })
             dispatch(removeError())
         } catch (err) {
-            console.log(err)
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -42,8 +41,7 @@ export const getUserById = id => {
             })
             dispatch(removeError())
         } catch (err) {
-            const error = err.response.data
-            dispatch(addError(error.message))
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -52,14 +50,23 @@ export const createUser = user => {
     return async dispatch => {
         try {
             const data = await userService.createUser(user)
-            dispatch({
-                type: CREATE_USER,
-                payload: data
-            })
-            dispatch(removeError())
+            if(data.message){
+                dispatch({
+                    type: ADD_ERROR,
+                    payload: {
+                        type: 1,
+                        message: data.message
+                    }
+                })
+            }else{
+                dispatch({
+                    type: CREATE_USER,
+                    payload: data
+                })
+                dispatch(addError(0,"Usuario añadido con exito"))
+            }
         } catch (err) {
-            const error = err.response.data
-            dispatch(addError(error.message))
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -71,10 +78,9 @@ export const updateUser = (id, user) => {
                 type: UPDATE_USER,
                 payload: data
             })
-            dispatch(removeError())
+            dispatch(addError(0,"Usuario actualizado con exito"))
         } catch (err) {
-            const error = err.response.data
-            dispatch(addError(error.message))
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -87,10 +93,9 @@ export const deleteUser = id => {
                 type: DELETE_USER,
                 payload: id
             })
-            dispatch(removeError())
+            dispatch(addError(0,"Usuario borrado con exito"))
         } catch (err) {
-            const error = err.response.data
-            dispatch(addError(error.message))
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }

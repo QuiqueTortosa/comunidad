@@ -17,7 +17,7 @@ export const setCurrentUser = user => {
                     user: user
                 }
             })
-            dispatch(removeError())
+            //dispatch(removeError())
         } catch (err) {
             const error = err.response.data
             dispatch(addError(error.message)) //dispatch viene de redux-thunk, addError viene de nuestro fichero error

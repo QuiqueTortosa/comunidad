@@ -19,12 +19,13 @@ import auth from './services/auth'
 import voteService from './services/votes'
 import userService from './services/users'
 import postService from './services/posts'
+import ErrorMessage from './components/ErrorMessage';
 
 export default function App() {
   const dispatch = useDispatch()
   const isAuth = useSelector(state=>state.auth.isAuthenticated)
+  const error = useSelector(state => state.error.message)
   let isAdmin = null
-  console.log("token")
   //console.log(decode(cookie.get("token")))
   useEffect(() => {
     dispatch(getPolls())
@@ -38,13 +39,9 @@ export default function App() {
     dispatch(getPosts())
   }, [dispatch])
 
-  console.log(isAuth)
 
   const user = async () => {
-    console.log("cookie: ")
-    console.log(decode(cookie.get("token")).id)
     isAdmin = decode(cookie.get("token")).roles.some(r => r.name == "admin" || r.name == "moderator")
-    console.log(isAdmin)
     const cUser = await userService.getUserById(decode(cookie.get("token")).id)
     cookie.set("token", cookie.get("token"));
     const u = cUser
@@ -64,6 +61,7 @@ export default function App() {
     <div className="flex">
       <BrowserRouter>
       {isAuth && <Leftbar/>}
+      {error && <ErrorMessage/>}
       <div className="h-screen flex-1 p-7 overflow-auto">
         <Routes>
           <Route exact path="/votaciones" element={!isAuth ? <Navigate to="/login"/> : <PollPage/>} />

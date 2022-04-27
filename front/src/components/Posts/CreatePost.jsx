@@ -62,10 +62,19 @@ export default function CreatePost() {
       console.log(id)
       if(update) {
         dispatch(updatePost(id, postData))
+        clear()
       }else {
-        console.log("???")
         dispatch(createPost(postData))
+        clear()
       }
+    }
+
+    const clear = () => {
+      setPostData({
+        title: "",
+        post: "",
+        selectedFile: "",
+    })
     }
 
   return (
@@ -89,7 +98,7 @@ export default function CreatePost() {
           }
           <div className="flex flex-row">
             <div className="relative z-0 mt-3 mb-3 w-full group pr-5">
-              <input type="text" value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} name="floating_title" id="floating_title" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required /> 
+              <input type="text" value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} name="floating_title" id="floating_title" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " /> 
               <label className="absolute left-0 text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Título</label>
             </div>
             <div className="flex py-3 justify-items-center justify-center">

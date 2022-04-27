@@ -13,8 +13,7 @@ export const getPolls = () => {
             })
             dispatch(removeError())
         } catch (err) {
-            console.log(err)
-             //dispatch viene de redux-thunk, addError viene de nuestro fichero error
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -29,8 +28,7 @@ export const getCurrentPoll = (id) => {
             })
             dispatch(removeError())
         } catch (err) {
-            const error = err.response.data;
-            dispatch(addError(error.message))
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -48,24 +46,27 @@ export const getPollBySearch = (query) =>{
             })
             dispatch(removeError())
         } catch (err) {
-            console.log(err)
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
 
 export const createPoll = (poll) => {
     return async dispatch => {
-       // try {
+        try {
             const polls = await votes.createPoll(poll);
-            dispatch({
-                type: CREATE_POLL, 
-                payload: polls
-            })
-            dispatch(removeError())
-    /*    } catch (err) {
-            const error = err.response.data;
-            dispatch(addError(error.message))
-        }*/
+            if(polls.message){
+                dispatch(addError(1,polls.message))
+            }else{
+                dispatch({
+                    type: CREATE_POLL, 
+                    payload: polls
+                })
+                dispatch(addError(0,"Votacion creada con exito"))
+            }
+        } catch (err) {
+            dispatch(addError(1,err.response.data.message))
+        }
     }
 }
 
@@ -77,10 +78,9 @@ export const deletePoll = id => {
                 type: DELETE_POLL, 
                 payload: id
             })
-            dispatch(removeError())
+            dispatch(addError(0,"Votacion borrada con exito"))
         } catch (err) {
-            const error = err.response.data;
-            dispatch(addError(error.message))
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -90,16 +90,18 @@ export const vote = (id, data) => {
         try {
             const poll = await votes.updatePoll(id, data); //En data va el answer
             if (poll.message) {
-                dispatch(addError(poll.message))
+                console.log(poll.message)
+                dispatch(addError(1,poll.message))
             } else {
                 dispatch({
                     type: UPDATE_POLL,
                     payload: poll
                 })
-                dispatch(removeError())
+                console.log(data)
+                dispatch(addError(0,`Has votado la opcion: `+data.answer))
             }
         } catch (err) {
-            return err
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -111,6 +113,6 @@ export const changeVoteStatus = (id,data) => {
                 type: UPDATE_POLL,
                 payload: polls
             })
-            dispatch(removeError())
-    }
+            dispatch(addError(0,"Has cambiado el estado de la votación"))
+        }
 }

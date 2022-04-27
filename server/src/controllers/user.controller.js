@@ -1,13 +1,13 @@
 import User from "../models/User";
 import Role from "../models/Role";
 
-export const createUser = async (req, res) => {
-
+export const createUser = async (req, res, next) => {
+    try{
         const { username, email, password, roles } = req.body;
         console.log("body:")
         console.log(req.body)
         if (!username || !email || !password || !roles) {
-            res.status(500).json({ message: "Rellena todos los campos" });
+            res.json({ message: "Rellena todos los campos" });
             throw new Error('Rellena todos los campos');
         }
         const newUser = new User({
@@ -30,6 +30,10 @@ export const createUser = async (req, res) => {
         const savedUser = await newUser.save()
 
         res.status(201).json(savedUser)
+    }catch(e){
+        e.status = 400;
+        next(e)
+    }
 
 }
 

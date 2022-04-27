@@ -6,19 +6,19 @@ const router = Router()
 
 router.post(
   "/",
-  [authJwt.verifyToken2, authJwt.isAdmin, verifySignup.checkRolesExisted, verifySignup.checkDuplicateUsernameOrEmail],
+  [authJwt.verifyToken2, authJwt.isModerator, verifySignup.checkRolesExisted, verifySignup.checkDuplicateUsernameOrEmail],
   usersCtrl.createUser
 );
 
-router.delete("/:id", [authJwt.verifyToken2, authJwt.isAdmin], usersCtrl.deleteUser)
+router.delete("/:id", [authJwt.verifyToken2, authJwt.isModerator], usersCtrl.deleteUser)
 
 router.put("/:id", [authJwt.isSuperiorRole], usersCtrl.updateUser)
 
-router.get("/", usersCtrl.getUsers)
+router.get("/",usersCtrl.getUsers)
 
-router.get("/find/:id", usersCtrl.getUserById)
+router.get("/find/:id", authJwt.verifyToken2,usersCtrl.getUserById)
 
-router.get("/search", usersCtrl.getUsersBySearch)
+router.get("/search",authJwt.verifyToken2, usersCtrl.getUsersBySearch)
 
 
 export default router;

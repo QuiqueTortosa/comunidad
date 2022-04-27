@@ -15,6 +15,10 @@ export const createVote = async (req, res, next) => {
     try {
         const userId = req.userId
         const { question, options, description } = req.body
+        if (!question || !options || !description ) {
+            res.json({ message: "Rellena todos los campos" });
+            throw new Error('Rellena todos los campos');
+        } 
         console.log(description)
         const user = await User.findById(userId)
         const newVote = new Vote({

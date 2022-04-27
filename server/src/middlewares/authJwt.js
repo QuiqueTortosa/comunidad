@@ -34,13 +34,13 @@ export const isModerator = async (req, res, next) => {
     const roles = await Role.find({ _id: { $in: user.roles } })
 
     for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "moderator") {
+        if (roles[i].name === "moderator" || roles[i].name === "admin") {
             next() //Sin esto no acaba la ejecucion de la peticion http
             return;
         }
     }
     console.log(roles)
-    return res.status(403).json({ message: "Requer moderator Role" })
+    return res.status(403).json({ message: "Requieres rol de Moderador" })
 }
 
 export const isAdmin = async (req, res, next) => {
@@ -55,7 +55,7 @@ export const isAdmin = async (req, res, next) => {
         }
     }
     console.log(roles)
-    return res.status(403).json({ message: "Requer admin Role" })
+    return res.status(403).json({ message: "Requieres rol de Administrador" })
 }
 
 export const isSuperiorRole = async (req, res, next) => {
@@ -92,9 +92,9 @@ export const isSuperiorRole = async (req, res, next) => {
     if(maxPrioCurrentUser => maxPrioModifyUser){
         next()
     }else if(maxPrioCurrentUser == 0 && currentUser.email != modifyUser.email){
-        return res.status(403).json({ message: "Can't update others users" })
+        return res.status(403).json({ message: "No puedes actualizar otros usuarios" })
     }
     else {
-        return res.status(403).json({ message: "Requer higher Role" })
+        return res.status(403).json({ message: "Necesitas un rol mayor" })
     }
 }

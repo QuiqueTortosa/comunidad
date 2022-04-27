@@ -5,7 +5,7 @@ import { deleteMessage, getMessages } from "../../store/actions";
 import PostMessage from "./PostMessage";
 import decode from 'jwt-decode';
 import cookie from "js-cookie";
-
+import * as FaIcons from "react-icons/fa";
 
 export default function Post() {
   const dispatch = useDispatch()
@@ -69,9 +69,10 @@ export default function Post() {
                 <div className="break-all text-center" dangerouslySetInnerHTML={{ __html: m.message}}/>
              </div>
              { decode(cookie.get("token")).id == m.user._id ?
-                <div className="flex flex-col justify-between sm:flex-row sm:gap-4 sm:mt-3">
-                 <button className="bg-red-600 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-red-500 transition-all  active:transform active:translate-y-1" onClick={() => {handleRemove(m._id)}}>Eliminar</button>
-                 <button className="bg-blue-900 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1" onClick={() => {setReply(m)}}>Citar</button>
+                <div className="flex flex-col justify-between text-center items-center sm:flex-row sm:gap-4 sm:mt-3">
+                  <button className="flex bg-blue-900 text-white w-10 h-10 text-center justify-center  items-center  px-4  py-2 rounded-full shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1" onClick={() => {setReply(m)}}><div><FaIcons.FaReply/></div></button>
+                  <button className="bg-red-600 text-white px-4 my-2 w-[88px] py-2 rounded shadow-md focus:ring hover:bg-red-500 transition-all  active:transform active:translate-y-1" onClick={() => {handleRemove(m._id)}}>Eliminar</button>
+                  <button className="bg-blue-900 text-white px-4 w-[88px] py-2 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1" onClick={() => {setReply(m)}}>Editar</button>
                 </div>   
                 :
                 <div className="flex flex-col justify-end">

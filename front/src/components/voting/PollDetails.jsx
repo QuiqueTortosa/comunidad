@@ -9,19 +9,14 @@ import autocolors from "chartjs-plugin-autocolors";
 
 export default function PollDetails() {
   const polls = useSelector((state) => state.VOTACIONES);
-  console.log("AQUI");
-  console.log(polls);
   const { noteId } = useParams();
   let pollById = polls.find((p) => p._id == noteId);
   const poll = useSelector((state) =>
     state.VOTACIONES.filter((p) => p._id == noteId)
   );
-  console.log("poll unica: ");
-  console.log(poll[0]);
   const [getPoll, setPrueba] = useState(
     poll.entries == undefined ? pollById : poll[0]
   );
-  console.log(noteId);
   const dispatch = useDispatch();
   const color = () => {
     return "#" + Math.random().toString(16).slice(2, 8);

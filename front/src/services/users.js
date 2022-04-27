@@ -25,7 +25,6 @@ const config = {
     return data
   }
   const getUserById = async id => {
-    console.log(token)
     const { data } = await axios.get(`${baseUrl}/find/${id}`,{
       headers: {
         Authorization: token

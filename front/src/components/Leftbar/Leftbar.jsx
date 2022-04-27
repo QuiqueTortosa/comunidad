@@ -9,11 +9,9 @@ import Modal from "../Modal";
 export default function () {
     const [open, setOpen] = useState(true);
     const [modalOn, setModalOn] = useState(false);
-    console.log("que es"+typeof useSelector(state => state.USERS))
     const user = useSelector(state => state.USERS.find(u => u._id == state.auth.user.id)) ? useSelector(state => state.USERS.find(u => u._id == state.auth.user.id)) : useSelector(state => state.auth.user)
     //const user = useSelector(state => state.auth.user)
     const isAdmin = useSelector(state=>state.auth.user.roles.find(r => r.name == "admin") ? true : false)
-    console.log(user)
     
     return (
         <>

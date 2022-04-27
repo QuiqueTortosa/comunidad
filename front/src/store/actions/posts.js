@@ -6,14 +6,13 @@ export const getPosts = () => {
     return async dispatch => {
         try {
             const data = await postService.getPosts()
-            console.log(data)
             dispatch({
                 type: GET_ALL_POSTS,
                 payload: data
             })
             dispatch(removeError())
         } catch (err) {
-            console.log(err)
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -31,7 +30,7 @@ export const getPostsBySearch = (query) =>{
             })
             dispatch(removeError())
         } catch (err) {
-            console.log(err)
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -41,14 +40,17 @@ export const createPost = post => {
     return async dispatch => {
         try {
             const data = await postService.createPost(post)
-            dispatch({
-                type: CREATE_POST,
-                payload: data
-            })
-            dispatch(removeError())
+            if(data.message){
+                dispatch(addError(1,data.message))
+            }else {
+                dispatch({
+                    type: CREATE_POST,
+                    payload: data
+                })
+                dispatch(addError(0,"Noticia creada con exito"))
+            }
         } catch (err) {
-            const error = err.response.data
-            dispatch(addError(error.message))
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -62,10 +64,9 @@ export const updatePost = (id, post) => {
                 type: UPDATE_POST,
                 payload: data
             })
-            dispatch(removeError())
+            dispatch(addError(0,"Noticia actualizada con exito"))
         } catch (err) {
-            const error = err.response.data
-            dispatch(addError(error.message))
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -78,10 +79,9 @@ export const deletePost = id => {
                 type: DELETE_POST,
                 payload: id
             })
-            dispatch(removeError())
+            dispatch(addError(0,"Noticia borrada con exito"))
         } catch (err) {
-            const error = err.response.data
-            dispatch(addError(error.message))
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -97,7 +97,7 @@ export const getMessages = (postId) => {
             })
             dispatch(removeError())
         } catch (err) {
-            console.log(err)
+            dispatch(addError(1,err.response.data.message))
         }
     }
 } 
@@ -111,10 +111,9 @@ export const createMessage = (postId, message) => {
                 type: CREATE_MESSAGE,
                 payload: data
             })
-            dispatch(removeError())
+            dispatch(addError(0,"Mensaje creado con exito"))
         } catch (err) {
-            const error = err.response.data
-            dispatch(addError(error.message))
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -128,10 +127,9 @@ export const deleteMessage = (postId, messageId) => {
                 type: DELETE_MESSAGE,
                 payload: messageId
             })
-            dispatch(removeError())
+            dispatch(addError(0,"Mensaje borrado con exito"))
         } catch (err) {
-            const error = err.response.data
-            dispatch(addError(error.message))
+            dispatch(addError(1,err.response.data.message))
         }
     }
 }
@@ -145,8 +143,7 @@ export const setReplyMessage = replyMessage => {
             })
             dispatch(removeError())
         } catch (err) {
-            const error = err.response.data
-            dispatch(addError(error.message)) 
+            dispatch(addError(1,err.response.data.message))
         }
     }
 } 
@@ -161,7 +158,7 @@ export const removeReplyMessage = () => {
             dispatch(removeError())
         } catch (err) {
             const error = err.response.data
-            dispatch(addError(error.message))
+            dispatch(addError(1,error.message))
         }
     }
 }

@@ -11,7 +11,7 @@ const editorConfiguration = {
 export default function CreatePoll() {
   const [question, setQuestion] = useState("");
   const [options, setOptions] = useState(["", ""]);
-  const [description, setDesc] = useState("");
+  const [description, setDesc] = useState("Escribe la descripción");
 
   const dispatch = useDispatch();
   const handleChange = (e) => {
@@ -43,18 +43,18 @@ export default function CreatePoll() {
         options,
         description
     }));
-    //clear()
+    clear()
     
   };
 
   const clear = () => {
       setQuestion("")
       setOptions(["", ""])
-      setDesc("")
+      setDesc("Escribe la descripción")
   }
 
   return (
-    <form className="form" autocomplete="off" onSubmit={handleSubmit}> 
+    <form className="form" autoComplete="off" onSubmit={handleSubmit}> 
       <div className="relative z-0 mb-6 w-full group">
          <input type="text" value={question} onChange={handleChange} name="question" className="block py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
          <label className="absolute left-0 text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Pregunta</label>
@@ -71,7 +71,7 @@ export default function CreatePoll() {
           <CKEditor
                         editor={ ClassicEditor }
                         config={ editorConfiguration }
-                        data={"Descripción de la votación..."}
+                        data={description}
                         onReady={ editor => {
                             // You can store the "editor" and use when it is needed.
                             console.log( 'Editor is ready to use!', editor );
