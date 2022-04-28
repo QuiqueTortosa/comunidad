@@ -87,4 +87,13 @@ const deleteMessage = async (postId,messageId) => {
   return data
 }
 
-export default {  getPostById, getPosts, getPostsBySearch, deletePost, updatePost, createPost, createMessage,deleteMessage, setToken }
+const updateMessage = async (id, message) => {
+  const { data } = await axios.put(`${baseUrl}/message/${id}`, {message}, {
+    headers: {
+      Authorization: token
+    }
+  })
+  return data
+}
+
+export default {  getPostById, getPosts, getPostsBySearch, deletePost, updatePost, createPost, createMessage,deleteMessage, updateMessage, setToken }

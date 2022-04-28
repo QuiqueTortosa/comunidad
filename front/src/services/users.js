@@ -55,7 +55,7 @@ const config = {
     setToken(cookie.get("token"))
     console.log(cookie.get("token"))
     console.log(token)
-    const { data } = await axios.put(`${baseUrl}/${id}`, user, {
+    const { data } = await axios.put(`${baseUrl}/user/${id}`, user, {
       headers: {
         Authorization: token
       }
@@ -71,4 +71,14 @@ const config = {
     return data
   }
 
-  export default { getUsers, getUserById, deleteUser, updateUser, createUser, getUsersBySearch, setToken }
+  const changePassword = async (id,password) => {
+    console.log(password)
+    const { data } = await axios.put(`${baseUrl}/changePassword/${id}`, password , {
+      headers: {
+        Authorization: token
+      }
+    })
+    return data
+  }
+
+  export default { getUsers, getUserById, deleteUser, updateUser, changePassword, createUser, getUsersBySearch, setToken }

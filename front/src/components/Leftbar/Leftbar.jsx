@@ -12,6 +12,8 @@ export default function () {
     const user = useSelector(state => state.USERS.find(u => u._id == state.auth.user.id)) ? useSelector(state => state.USERS.find(u => u._id == state.auth.user.id)) : useSelector(state => state.auth.user)
     //const user = useSelector(state => state.auth.user)
     const isAdmin = useSelector(state=>state.auth.user.roles.find(r => r.name == "admin") ? true : false)
+    const isMod = useSelector(state=>state.auth.user.roles.find(r => r.name == "moderator") ? true : false)
+
     
     return (
         <>
@@ -51,7 +53,7 @@ export default function () {
                 </li>
             </ul>
 
-            {  isAdmin &&      
+            {  (isAdmin || isMod) &&      
             <ul className='mt-5'> 
                 <li> 
                     <Link to="/votaciones/crearVotacion" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>

@@ -82,6 +82,28 @@ export const updateUser = async (req, res, next) => {
 
 }
 
+export const changePassword = async (req, res ,next) => {
+    try {
+        const userFound = await User.findById(req.params.id)
+        //console.log(userFound)
+        console.log(req.body.newPassword)
+        //Si ha encontrado usuario compara las contraseñas si no devuelve false
+        const passwordCorrect = userFound === null ? false : await User.comparePassword(req.body.password, userFound.password)
+        if(passwordCorrect){
+            const updatePassword = await User.encryptPassword(req.body.newPassword)
+            console.log(updatePassword)
+            const updatedUser = await User.findByIdAndUpdate(req.params.id, { $set: {password: updatePassword}})
+            res.status(200).json(updatedUser)
+        }else {
+            res.json({message: "Las contraseñas no coinciden"})
+            throw new Error("Las contraseñas no coinciden")
+        }
+    }catch(e) {
+        e.status = 400;
+        next(e)
+    }
+}
+
 export const getUsers = async (req, res, next) => {
     try {
         const users = await User.find().populate('roles')

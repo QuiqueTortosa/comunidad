@@ -12,7 +12,9 @@ router.post(
 
 router.delete("/:id", [authJwt.verifyToken2, authJwt.isModerator], usersCtrl.deleteUser)
 
-router.put("/:id", [authJwt.isSuperiorRole], usersCtrl.updateUser)
+router.put("/user/:id", [authJwt.isSuperiorRoleOrSameUser], usersCtrl.updateUser)
+
+router.put("/changePassword/:id", [authJwt.isSuperiorRoleOrSameUser], usersCtrl.changePassword)
 
 router.get("/",usersCtrl.getUsers)
 

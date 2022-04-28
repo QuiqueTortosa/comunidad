@@ -1,6 +1,6 @@
 import React from 'react'
 import votes from '../../services/votes'
-import {  getMessages } from "../../store/actions";
+import {  getMessages, getCurrentPoll } from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Doughnut } from "react-chartjs-2";
@@ -19,7 +19,7 @@ export default function Prueba() {
 
   const color = () => {
     return (
-      '#' +
+      '#' + 
       Math.random()
         .toString(16)
         .slice(2, 8)
@@ -41,12 +41,15 @@ export default function Prueba() {
     };
   }
 
-  const handleSelect = (id) => {
+  const handleSelectPost = (id) => {
     dispatch(getMessages(id));
     navigate(`/noticias/${id}`);
   }; 
 
-  console.log(post)
+  const handleSelectPoll = (id) => {
+    dispatch(getCurrentPoll(id));
+    navigate(`/votaciones/${poll._id}`);
+  };
   return (
     <div className='flex flex-row justify-center justify-items-center h-full xl:flex-col xl:h-auto'>
         <div className='flex flex-col items-center w-full h-full'>
@@ -59,7 +62,7 @@ export default function Prueba() {
                 <p><strong>Usuario: </strong>{user.username}</p>
                 <p><strong>Email: </strong>{user.email}</p>
                 <p><strong>Número de mensajes: </strong>{user1.messages ? user1.messages.length : "Hola"}</p>
-                <p><strong>Rol: </strong>{user.roles[0].name}</p>
+                <p><strong>Rol: </strong>{user.roles[user.roles.length-1].name}</p>
               </div>
           </div>
         </div>
@@ -74,7 +77,7 @@ export default function Prueba() {
                   <div className="mb-3 font-normal text-gray-700 break-words lg:hidden" dangerouslySetInnerHTML={{__html:`${post.post.substring(0,55)}...`}} />
                   <div className="hidden mb-3 font-normal text-gray-700 break-words lg:flex" dangerouslySetInnerHTML={{__html:`${post.post.substring(0,155)}...`}} />
                   <div className="flex justify-center">
-                    <button onClick={() => handleSelect(post._id)} className="bg-blue-900 text-white w-32 px-4 py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
+                    <button onClick={() => handleSelectPost(post._id)} className="bg-blue-900 text-white w-32 px-4 py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
                     Leer mas...
                   </button>
                  </div>
@@ -99,7 +102,7 @@ export default function Prueba() {
               </div>
             </div>
             <div className='flex flex-col justify-end mr-4 mb-4 lg:mt-4'>
-              <button className="bg-blue-900 text-white h-8 w-16 px-4 py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">Ir</button>
+              <button onClick={() => handleSelectPoll(poll._id)} className="bg-blue-900 text-white h-8 w-16 px-4 py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">Ir</button>
             </div>
            </div>
           }

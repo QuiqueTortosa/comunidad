@@ -15,7 +15,7 @@ export default function Poll({ poll, remove }) {
     state.auth.user.roles.find((r) => r.name == "admin") ? true : false
   );
   const isMod = useSelector((state) =>
-    state.auth.user.roles.find((r) => r.name == "mod") ? true : false
+    state.auth.user.roles.find((r) => r.name == "moderator") ? true : false
   );
   const restart = {
     status: 0,

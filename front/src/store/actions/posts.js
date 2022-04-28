@@ -10,7 +10,6 @@ export const getPosts = () => {
                 type: GET_ALL_POSTS,
                 payload: data
             })
-            dispatch(removeError())
         } catch (err) {
             dispatch(addError(1,err.response.data.message))
         }
@@ -28,7 +27,6 @@ export const getPostsBySearch = (query) =>{
                 type: GET_ALL_POSTS,
                 payload: data
             })
-            dispatch(removeError())
         } catch (err) {
             dispatch(addError(1,err.response.data.message))
         }
@@ -95,7 +93,6 @@ export const getMessages = (postId) => {
                 type: GET_ALL_MESSAGES,
                 payload: data.messages
             })
-            dispatch(removeError())
         } catch (err) {
             dispatch(addError(1,err.response.data.message))
         }
@@ -112,6 +109,22 @@ export const createMessage = (postId, message) => {
                 payload: data
             })
             dispatch(addError(0,"Mensaje creado con exito"))
+        } catch (err) {
+            dispatch(addError(1,err.response.data.message))
+        }
+    }
+}
+
+export const updateMessage = (id, message) => {
+    return async dispatch => {
+        try {
+            console.log(message)
+            const data = await postService.updateMessage(id, message)
+            dispatch({
+                type: UPDATE_MESSAGE,
+                payload: data
+            })
+            dispatch(addError(0,"Mensaje actualizado con exito"))
         } catch (err) {
             dispatch(addError(1,err.response.data.message))
         }

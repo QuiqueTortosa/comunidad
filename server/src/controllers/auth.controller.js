@@ -37,10 +37,11 @@ export const signUp = async (req, res) => {
 export const signIn = async (req, res) => {
 
     const userFound = await User.findOne({ email: req.body.email }).populate("roles") //Roles hace que te de el objeto entero
-    console.log("e"+req.body.email)
 
+    console.log(req.body.password)
     //Si ha encontrado usuario compara las contraseñas si no devuelve false
     const passwordCorrect = userFound === null ? false : await User.comparePassword(req.body.password, userFound.password)
+    console.log(req.body.password)
 
     if (!(userFound && passwordCorrect)) {
         return res.status(400).json({ message: "Invalid user or password" });

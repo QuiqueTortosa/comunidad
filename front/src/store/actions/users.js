@@ -85,6 +85,31 @@ export const updateUser = (id, user) => {
     }
 }
 
+export const changePassword = (id, password) => {
+    return async dispatch => {
+        try {
+            const data = await userService.changePassword(id, password)
+            if(data.message) {
+                dispatch({
+                    type: ADD_ERROR,
+                    payload: {
+                        type: 1,
+                        message: data.message
+                    }
+                })
+            }else {
+                dispatch({
+                    type: UPDATE_USER,
+                    payload: data
+                })
+                dispatch(addError(0,"Contraseña cambiada con exito"))
+            }
+        } catch (err) {
+            dispatch(addError(1,err.response.data.message))
+        }
+    }
+}
+
 export const deleteUser = id => {
     return async dispatch => {
         try {

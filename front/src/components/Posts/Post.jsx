@@ -11,18 +11,22 @@ export default function Post() {
   const dispatch = useDispatch()
   const messages = useSelector((state) => state.MESSAGES);
   const user = useSelector(state => state.auth.user)
+  const [updateMessage, setUpdateMessage] = useState({
+    body: "",
+    id: null
+  })
   const [reply, setReply] = useState({})
-  console.log(messages)
+  const [editar, setEditar] = useState(false)
+  console.log(updateMessage)
   const { postId } = useParams();
   const post = useSelector((state) => state.POSTS.filter(p => p._id == postId))[0];
   useEffect(() => {
     dispatch(getMessages(postId))
-  },[messages.length])
-  console.log(post)
+  },[messages.length,updateMessage.id, updateMessage.id != null ? messages.find(m => m._id==updateMessage.id).user.selectedFile : updateMessage])
   const handleRemove = (id) => {
+    setUpdateMessage({...updateMessage, id: null})
     dispatch(deleteMessage(postId, id))
   }
-  console.log(reply)
 
 
   return (
@@ -46,17 +50,27 @@ export default function Post() {
         { 
           messages.map(m => (
             <div className="flex justify-between my-2 space-x-14 border-2 rounded-xl p-5 lg:space-x-2 sm:flex-col sm:items-center">
-              <div className={`flex flex-col justify-between w-24 sm:items-center sm:mb-2`}>
+              <div className={`flex flex-col justify-between items-center w-24 sm:mb-2`}>
                 <div className=" flex justify-center justify-items-center w-[93px]">
                  <p className="relative text-xs text-gray-700">{m.createdAt.substring(0,10)+"," +m.createdAt.substring(11,16)}</p>
                 </div>
                 { user.email == m.user.email ?
                    <div>
-                     <img className={`rounded-full w-16 h-16 my-2`} src={user.selectedFile != "" ? user.selectedFile : "/images/avatar.png"} alt={"Image not found"}></img>
+                     {  m.user.selectedFile ? 
+                       <img className={`rounded-full w-16 h-16 my-2`} src={user.selectedFile != "" ? user.selectedFile : "/images/avatar.png"} alt={"Image not found"}></img>
+                       :
+                       "Hola"
+                       }
                     </div>
                      :
                      <div>
+                       { m.user.selectedFile ? 
                     <img className={`rounded-full w-16 h-16 my-2`} src={m.user.selectedFile != "" ? m.user.selectedFile : "/images/avatar.png"} alt={"Image not found"}></img>
+                        :
+                        <div>
+                          Hola
+                        </div>
+                  }
                     </div>
 
                 }
@@ -69,20 +83,20 @@ export default function Post() {
                 <div className="break-all text-center" dangerouslySetInnerHTML={{ __html: m.message}}/>
              </div>
              { decode(cookie.get("token")).id == m.user._id ?
-                <div className="flex flex-col justify-between text-center items-center sm:flex-row sm:gap-4 sm:mt-3">
+                <div className="flex flex-col gap-2 justify-between text-center items-center sm:flex-row sm:gap-4 sm:mt-3">
                   <button className="flex bg-blue-900 text-white w-10 h-10 text-center justify-center  items-center  px-4  py-2 rounded-full shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1" onClick={() => {setReply(m)}}><div><FaIcons.FaReply/></div></button>
-                  <button className="bg-red-600 text-white px-4 my-2 w-[88px] py-2 rounded shadow-md focus:ring hover:bg-red-500 transition-all  active:transform active:translate-y-1" onClick={() => {handleRemove(m._id)}}>Eliminar</button>
-                  <button className="bg-blue-900 text-white px-4 w-[88px] py-2 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1" onClick={() => {setReply(m)}}>Editar</button>
+                  <button className="flex bg-red-600 text-white w-10 h-10 text-center justify-center  items-center px-2 py-2 rounded-full shadow-md focus:ring hover:bg-red-500 transition-all  active:transform active:translate-y-1" onClick={() => {handleRemove(m._id)}}><FaIcons.FaTrash/></button>
+                  <button className="flex bg-blue-900 text-white w-10 h-10 text-center justify-center  items-center px-2 py-2 rounded-full shadow-md focus:ring hover:bg-blue-500 transit2on-all  active:transform active:translate-y-1" onClick={() => {setUpdateMessage({id: m._id, body: m.message}); setEditar(!editar)}}><FaIcons.FaEdit/></button>
                 </div>   
                 :
-                <div className="flex flex-col justify-end">
-                 <button className="bg-blue-900 text-white h-12 px-4 py-2 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1" onClick={() => {setReply(m)}}>Citar</button>
+                <div className="flex flex-col justify-end items-center">
+                  <button className="flex bg-blue-900 text-white w-10 h-10 text-center justify-center  items-center  px-4  py-2 rounded-full shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1" onClick={() => {setReply(m)}}><div><FaIcons.FaReply/></div></button>
                 </div>               
                 }
             </div>
           ))
         }
-        <PostMessage reply={reply} setReply={setReply}/>
+        <PostMessage reply={reply} setReply={setReply} messageUpdate={updateMessage} setUpdateMessage={setUpdateMessage} editar={editar} setEditar={setEditar}/>
       </div>
     </div>
   )

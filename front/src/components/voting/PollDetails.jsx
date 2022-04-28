@@ -69,7 +69,6 @@ export default function PollDetails() {
     <div>
       {poll ? (
         <div className="flex flex-col mx-8 my-4">
-          <ErrorMessage />
           <div className="flex flex-row lg:flex-col  place-items-center">
             <div className="w-full">
               <div className="mb-4">

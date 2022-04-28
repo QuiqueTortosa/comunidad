@@ -143,13 +143,10 @@ export const deleteMessage = async (req,res,next) => {
 export const updateMessage = async (req,res,next) => {
     try {
         const { message } = req.body
-
         const oldMessage = await PostMessage.findById(req.params.id)
         const uMessage = {}   
-    
         if (message == undefined) uMessage.message = oldMessage.message
-        else uMessage.title = message
-    
+        else uMessage.message = message
         const nMessage = await PostMessage.findByIdAndUpdate(req.params.id,
             { $set: { message: uMessage.message} },
             { new: true }) //Nos lo devuelve actulizado
