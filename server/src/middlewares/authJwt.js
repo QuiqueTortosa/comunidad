@@ -70,17 +70,21 @@ export const isSuperiorRoleOrSameUser = async (req, res, next) => {
     console.log("token: ")
     console.log(authorization)
     const decodedToken = jwt.verify(token, config.SECRET)
-    
     const { id: userId } = decodedToken //En el token tenemos guardado el id
     req.userId = userId //Asignamos al parametro req.userId a userId
 
     const currentUser = await User.findById(decodedToken.id, { password: 0 }).populate('roles') //Pssword 0 para no utilizar la contraseña
     const modifyUser = await User.findById(req.params.id).populate('roles')
+    const array = currentUser.roles.sort()
+    console.log(array)
+    console.log(modifyUser.roles.sort())
     if (!token || !decodedToken.id || !currentUser) {
         return response.status(401).json({ error: 'token missing or invalid' })
     }
 
-    if(currentUser.roles[currentUser.roles.length-1].prio >= modifyUser.roles[modifyUser.roles.length-1].prio || currentUser.email == modifyUser.email){
+    if(currentUser.roles.sort()[currentUser.roles.length-1] != 0 && (currentUser.roles.sort()[currentUser.roles.length-1].prio >= modifyUser.roles.sort()[modifyUser.roles.length-1].prio || currentUser.email == modifyUser.email)){
+        next()
+    }else if(currentUser.roles.sort()[currentUser.roles.length-1] == 0 && currentUser.email == modifyUser.email) {
         next()
     }else if(currentUser.roles[currentUser.roles.length-1].prio == 0 && currentUser.email != modifyUser.email){
         return res.status(403).json({ message: "No puedes actualizar otros usuarios" })

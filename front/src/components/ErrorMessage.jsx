@@ -15,7 +15,6 @@ export default function ErrorMessage(){
   const closeWarning = () => {
     dispatch(removeError())
   }
-  console.log(error)
   return (<>
     {error.message && 
       <div class={`fixed right-7 flex p-4 mt-4 ${error.type == 1 ? "bg-red-200" : "bg-green-100"} bg-red-200 rounded-lg z-40`}>

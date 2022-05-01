@@ -11,6 +11,12 @@ const userSchema = new Schema(
       type: String,
       unique: true,
     },
+    telefono: {
+      type: String,
+    },
+    direccion: {
+      type: String,
+    },
     password: {
       type: String,
     },
@@ -29,6 +35,14 @@ const userSchema = new Schema(
     posts:[{
       type: Schema.Types.ObjectId,
       ref: "Post"
+    }],
+    discussions:[{
+      type: Schema.Types.ObjectId,
+      ref: "Discussion"
+    }],
+    forumMessages:[{
+      type: Schema.Types.ObjectId,
+      ref: "DiscussionMessage"
     }],
     roles: [
       {

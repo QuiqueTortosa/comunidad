@@ -8,7 +8,7 @@ import { FaSearch } from 'react-icons/fa';
 
 
 const editorConfiguration = {
-    toolbar: [ 'heading','bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote', 'insertTable', 'undo', 'redo' ]
+    toolbar: [ 'heading','bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote', 'insertTable', 'uploadImage','undo', 'redo' ]
 };
 
 export default function CreatePost() {
@@ -43,8 +43,16 @@ export default function CreatePost() {
         }
     }
 
-    console.log(postData)
-
+    const txt = (p) => {
+      if(p.substring(0,150).includes("img")){
+        return p.substring(0,p.indexOf("<img")).concat(p.substring(p.indexOf('g">')+3, p.length))
+      }else if(p.substring(0,150).includes("figure")){
+        return p.substring(0,p.indexOf("<figure")).concat(p.substring(p.indexOf('re>')+3, p.length))
+      }
+      else {
+        return p
+      }
+    }
     const handleUpdate = (p) => {
       console.log("update")
       setId(p._id)
@@ -61,6 +69,7 @@ export default function CreatePost() {
       console.log(postData)
       console.log(id)
       if(update) {
+        console.log("hola")
         dispatch(updatePost(id, postData))
         clear()
       }else {
@@ -109,14 +118,19 @@ export default function CreatePost() {
             />
           </div>
           </div>
-          <div className="max-h-[40vh] w-[600px] overflow-y-auto xl:w-full">
-          <CKEditor
+          <div className="h-[40vh] max-h-[40vh] w-[600px] overflow-y-auto xl:w-full">
+          <CKEditor     
                         editor={ ClassicEditor }
-                        config={ editorConfiguration }
+                        config={ 
+                          {
+                            ckfinder: {
+                              uploadUrl: 'http://localhost:4000/uploads'
+                            }
+                          }
+                         }
                         data={postData.post}
                         onReady={ editor => {
                             // You can store the "editor" and use when it is needed.
-                            console.log( 'Editor is ready to use!', editor );
                         } }
                         onChange={ ( e, editor ) => {
                             const data = editor.getData();
@@ -124,10 +138,8 @@ export default function CreatePost() {
                             setPostData({ ...postData, post: data })
                         } }
                         onBlur={ ( event, editor ) => {
-                            console.log( 'Blur.', editor );
                         } }
                         onFocus={ ( event, editor ) => {
-                            console.log( 'Focus.', editor );
                         } }
                     />
           </div>
@@ -177,7 +189,7 @@ export default function CreatePost() {
               </div>
               <div className="p-5">
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{p.title}</h5>
-                <div className="mb-3 font-normal text-gray-700 dark:text-gray-400 break-words" dangerouslySetInnerHTML={{__html:`${p.post.substring(0,100)}...`}} />  
+                <div className="mb-3 font-normal text-gray-700 dark:text-gray-400 break-words" dangerouslySetInnerHTML={{__html:`${txt(p.post).substring(0,100)}...`}} />  
               </div>
               <div className="flex justify-between px-5 pb-5">
                 <button onClick={() => handleUpdate(p)} className="bg-blue-900 text-white px-4  py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">

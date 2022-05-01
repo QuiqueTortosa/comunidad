@@ -1,26 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { vote } from "../../store/actions";
-import ErrorMessage from "../ErrorMessage";
+import { addError, vote } from "../../store/actions";
 import { PolarArea, Bar, Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
-import autocolors from "chartjs-plugin-autocolors";
 
 export default function PollDetails() {
   const polls = useSelector((state) => state.VOTACIONES);
-  const { noteId } = useParams();
-  let pollById = polls.find((p) => p._id == noteId);
+  const { voteId } = useParams();
+  let pollById = polls.find((p) => p._id == voteId);
   const poll = useSelector((state) =>
-    state.VOTACIONES.filter((p) => p._id == noteId)
+    state.VOTACIONES.filter((p) => p._id == voteId)
   );
   const [getPoll, setPrueba] = useState(
     poll.entries == undefined ? pollById : poll[0]
   );
   const dispatch = useDispatch();
-  const color = () => {
-    return "#" + Math.random().toString(16).slice(2, 8);
-  };
 
   const random_rgba = () => {
     var o = Math.round,
@@ -39,7 +34,7 @@ export default function PollDetails() {
     );
   };
 
-  let data = {
+  let dataFinished = {
     labels: poll[0].options.map((option) =>
       option.name.length > 7 ? option.name.substring(0, 7) + "..." : option.name
     ),
@@ -52,8 +47,19 @@ export default function PollDetails() {
     ],
   };
 
+  let dataOnGoing = {
+    labels: ["Votación en curso"],
+    datasets: [
+      {
+        label: "Votación en curso",
+        data: [1000000000],
+        backgroundColor: "rgba(17,24,39,0.6)",
+      },
+    ],
+  };
+
   useEffect(() => {
-    data = {
+    dataFinished = {
       labels: poll[0].options.map((option) => option.name),
       datasets: [
         {
@@ -77,41 +83,25 @@ export default function PollDetails() {
                 </h3>
               </div>
               <div className="flex flex-col">
-                {poll[0].options && poll[0].status == 0
-                  ? poll[0].options.map((option, index) => (
-                      <div className="flex gap-2 align-bottom mb-3">
-                        <button
-                          className="bg-blue-900 rounded-full text-center text-white px-4 py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1"
-                          key={option._id}
-                          onClick={() => {
-                            dispatch(vote(noteId, { answer: option.name }));
-                            setPrueba(poll[0]);
-                          }}
-                        >
-                          {index + 1 + " )"}
-                        </button>
-                        <p className="align-bottom place-self-end mb-1">
-                          {option.name}
-                        </p>
-                      </div>
+                {
+                  poll[0].options.map((option, index) => (
+                    <div className="flex gap-2 align-bottom mb-3">
+                      <button
+                        className="bg-blue-900 rounded-full text-center text-white px-4 py-1 shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1"
+                        key={option._id}
+                        onClick={() => {
+                          poll[0].status == 0 ? dispatch(vote(voteId, { answer: option.name })) : dispatch(addError(1,"La votación ha finalizado"));
+                          setPrueba(poll[0]);
+                         }}
+                       >
+                        {index + 1 + " )"}
+                      </button>
+                      <p className="align-bottom place-self-end mb-1">
+                        {option.name}
+                      </p>
+                    </div>
                     ))
-                  : getPoll.options.map((option, index) => (
-                      <div className="flex gap-2 align-bottom mb-3">
-                        <button
-                          className="bg-blue-900 rounded-full text-center text-white px-4 py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1"
-                          key={option._id}
-                          onClick={() => {
-                            dispatch(vote(noteId, { answer: option.name }));
-                            setPrueba(poll[0]);
-                          }}
-                        >
-                          {index + 1 + " )"}
-                        </button>
-                        <p className="align-bottom place-self-end mb-1">
-                          {option.name}
-                        </p>
-                      </div>
-                    ))}
+                  }
               </div>
               <div className="mb-2" dangerouslySetInnerHTML={{ __html: poll[0].description }}/>
               <button className="bg-blue-900 text-white px-4  py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1" onClick={() => setPrueba(poll)}>
@@ -119,15 +109,15 @@ export default function PollDetails() {
               </button>
             </div>
             <div className="flex flex-col w-4/12 h-64 ml-6 justify-center lg:w-full">
-              <Bar data={data} />
+              <Bar data={poll[0].status == 1 ? dataFinished : dataOnGoing} />
             </div>
           </div>
           <div className="flex flex-row justify-evenly lg:flex-col items-center">
             <div className="w-72 h-64 mt-3 lg:my-5">
-              <PolarArea data={data} />
+              <PolarArea data={poll[0].status == 1 ? dataFinished : dataOnGoing} />
             </div>
             <div className="w-72 h-72 mt-3">
-              <Doughnut data={data} />
+              <Doughnut data={poll[0].status == 1 ? dataFinished : dataOnGoing} />
             </div>
           </div>
         </div>

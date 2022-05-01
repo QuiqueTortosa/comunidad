@@ -14,7 +14,7 @@ export default function Prueba() {
   const user1 = useSelector(state => state.auth.user)
   const user = user0 ? user0 : user1
   const poll = useSelector(state => state.VOTACIONES[state.VOTACIONES.length - 1])
-  const post = useSelector(state => state.POSTS[3])
+  const post = useSelector(state => state.POSTS[state.POSTS.length-1])
   let data = null;
 
   const color = () => {
@@ -41,6 +41,17 @@ export default function Prueba() {
     };
   }
 
+  const txt = (p) => {
+    if(p.substring(0,150).includes("img")){
+      return p.substring(0,p.indexOf("<img")).concat(p.substring(p.indexOf('g">')+3, p.length))
+    }else if(p.substring(0,150).includes("figure")){
+      return p.substring(0,p.indexOf("<figure")).concat(p.substring(p.indexOf('re>')+3, p.length))
+    }
+    else {
+      return p
+    }
+  }
+
   const handleSelectPost = (id) => {
     dispatch(getMessages(id));
     navigate(`/noticias/${id}`);
@@ -61,6 +72,8 @@ export default function Prueba() {
                 <h1 className='mb-2 italic'><strong>Bienvenido {user.username}</strong></h1>
                 <p><strong>Usuario: </strong>{user.username}</p>
                 <p><strong>Email: </strong>{user.email}</p>
+                <p><strong>Teléfono: </strong>{user.telefono}</p>
+                <p><strong>Dirección: </strong>{user.direccion}</p>
                 <p><strong>Número de mensajes: </strong>{user1.messages ? user1.messages.length : "Hola"}</p>
                 <p><strong>Rol: </strong>{user.roles[user.roles.length-1].name}</p>
               </div>
@@ -68,14 +81,14 @@ export default function Prueba() {
         </div>
         <div className='flex flex-col items-center w-full h-full'>
           { post &&
-          <div className='flex flex-row items-center shadow-3xl w-auto h-2/6 m-9 rounded-xl bg-white lg:flex-col lg:w-4/6 xl:my-1'>
+          <div className='flex flex-row items-center shadow-3xl w-auto h-2/6 m-9 rounded-xl bg-white lg:flex-col lg:w-4/6 lg:max-w-[400px] xl:my-1'>
               <div className='w-3/6 h-full rounded-xl lg:w-full'>
-                <img className='h-full rounded-l-xl lg:w-full lg:rounded-t-xl lg:rounded-none' src={post.selectedFile} alt="Loading" />
+                <img className='h-full rounded-l-xl lg:w-full lg:rounded-t-xl lg:rounded-none lg:max-h-[200px]' src={post.selectedFile} alt="Loading" />
               </div>
               <div className='flex flex-col w-3/6 p-2 text-center justify-evenly lg:w-5/6'>
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">{post.title}</h5>
-                  <div className="mb-3 font-normal text-gray-700 break-words lg:hidden" dangerouslySetInnerHTML={{__html:`${post.post.substring(0,55)}...`}} />
-                  <div className="hidden mb-3 font-normal text-gray-700 break-words lg:flex" dangerouslySetInnerHTML={{__html:`${post.post.substring(0,155)}...`}} />
+                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">{post.title.substring(0,10)+"..."}</h5>
+                  <div className="mb-3 font-normal text-gray-700 break-words lg:hidden" dangerouslySetInnerHTML={{__html:`${txt(post.post).substring(0,55)}...`}} />
+                  <div className="hidden mb-3 font-normal text-gray-700 break-words lg:flex" dangerouslySetInnerHTML={{__html:`${txt(post.post).substring(0,155)}...`}} />
                   <div className="flex justify-center">
                     <button onClick={() => handleSelectPost(post._id)} className="bg-blue-900 text-white w-32 px-4 py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
                     Leer mas...

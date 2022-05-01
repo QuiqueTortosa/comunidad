@@ -4,6 +4,7 @@ import auth from '../../services/auth'
 import voteService from '../../services/votes'
 import userService from '../../services/users'
 import postService from '../../services/posts'
+import forumService from "../../services/forum";
 import cookie from "js-cookie";
 import decode from "jwt-decode";
 
@@ -35,7 +36,7 @@ export const authUser = (credentials) => {
             voteService.setToken(token)
             postService.setToken(token)
             userService.setToken(token)
-
+            forumService.setToken(token)
             console.log("ESTE SI")
            // console.log(token)
            // const user = await userService.getUserById(decode(token).id)

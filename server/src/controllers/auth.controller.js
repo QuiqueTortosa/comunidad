@@ -6,11 +6,13 @@ import Role from "../models/Role";
 const maxAge = 24 * 60 * 60;
 
 export const signUp = async (req, res) => {
-    const { username, email, password, roles } = req.body;
+    const { username, email, password,direccion, telefono, roles } = req.body;
 
     const newUser = new User({
         username,
         email,
+        direccion, 
+        telefono,
         password: await User.encryptPassword(password),
     });
 

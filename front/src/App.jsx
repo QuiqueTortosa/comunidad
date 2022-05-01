@@ -1,11 +1,11 @@
 import './index.css'
-import React, { useDebugValue, useEffect } from "react";
+import React, {  useEffect } from "react";
 import cookie from "js-cookie";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Prueba from "./components/voting/Prueba";
 import { useSelector, useDispatch } from 'react-redux'
 import Login from "./pages/AuthPage"
-import { setCurrentUser, addError, getPolls, getUsers, getPosts  } from "./store/actions";
+import { setCurrentUser, addError, getPolls, getUsers, getPosts, getDiscussions, getCategories  } from "./store/actions";
 import decode from 'jwt-decode';
 import Leftbar from "./components/Leftbar/Leftbar";
 import PollDetails from './components/voting/PollDetails';
@@ -15,10 +15,9 @@ import Users from './components/UserGestion/Users';
 import Posts from './components/Posts/Posts';
 import CreatePost from './components/Posts/CreatePost';
 import Post from './components/Posts/Post';
-import auth from './services/auth'
-import voteService from './services/votes'
+import Discussions from './components/Forum/Discussions';
+import Discussion from './components/Forum/Discussion';
 import userService from './services/users'
-import postService from './services/posts'
 import ErrorMessage from './components/ErrorMessage';
 
 export default function App() {
@@ -37,8 +36,9 @@ export default function App() {
 
   useEffect(() => {
     dispatch(getPosts())
+    dispatch(getDiscussions())
+    dispatch(getCategories())
   }, [dispatch])
-
 
   const user = async () => {
     isAdmin = decode(cookie.get("token")).roles.some(r => r.name == "admin" || r.name == "moderator")
@@ -66,9 +66,13 @@ export default function App() {
         <Routes>
           <Route exact path="/votaciones" element={!isAuth ? <Navigate to="/login"/> : <PollPage/>} />
           <Route exact path="/prueba" element={!isAuth ? <Navigate to="/login"/> : <Prueba />} />
-          <Route exact path="/votaciones/:noteId" element={!isAuth ? <Navigate to="/login"/> : <PollDetails/>} />
+          <Route exact path="/votaciones/:voteId" element={!isAuth ? <Navigate to="/login"/> : <PollDetails/>} />
           <Route exact path="/noticias"  element={!isAuth ? <Navigate to="/login"/> : <Posts/>}/>
           <Route exact path="/noticias/:postId"  element={!isAuth ? <Navigate to="/login"/> : <Post/>}/>
+          
+          <Route exact path="/foro"  element={!isAuth ? <Navigate to="/login"/> : <Discussions/>}/>
+          <Route exact path="/foro/:discId"  element={!isAuth ? <Navigate to="/login"/> : <Discussion/>}/>
+
           <Route exact path="/votaciones/crearVotacion" element={!isAuth ? <Navigate to="/login"/> : isAdmin ? <CreatePoll/> : <Navigate to="/prueba"/>} />
           <Route exact path="/users/" element={!isAuth ? <Navigate to="/login"/> : isAdmin ? <Users/> : <Navigate to="/prueba"/>} />
           <Route exact path="/noticiasGestion"  element={!isAuth ? <Navigate to="/login"/> : isAdmin ? <CreatePost/> : <Navigate to="/prueba"/>}/>

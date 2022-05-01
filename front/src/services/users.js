@@ -16,7 +16,6 @@ const config = {
 }
 
   const getUsers = async () => { 
-  console.log(token)
     const { data } = await axios.get(baseUrl + "/",{
       headers: {
         Authorization: token
@@ -52,9 +51,6 @@ const config = {
     return data
   }
   const updateUser = async (id, user) => {
-    setToken(cookie.get("token"))
-    console.log(cookie.get("token"))
-    console.log(token)
     const { data } = await axios.put(`${baseUrl}/user/${id}`, user, {
       headers: {
         Authorization: token
@@ -72,7 +68,6 @@ const config = {
   }
 
   const changePassword = async (id,password) => {
-    console.log(password)
     const { data } = await axios.put(`${baseUrl}/changePassword/${id}`, password , {
       headers: {
         Authorization: token

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUser, getUsers, deleteUser, setCurrentUser, changePassword, addError } from "../store/actions";
+import { updateUser, getUsers, setCurrentUser, changePassword, addError } from "../store/actions";
 import FileBase from 'react-file-base64'
-import bcrypt from "bcryptjs";
 import * as FaIcons from "react-icons/fa";
 
 const Modal = ({ setModalOn }) => {
@@ -21,6 +20,8 @@ const Modal = ({ setModalOn }) => {
     const [userData, setUserData] = useState({
         email: user.email,
         username: user.username,
+        telefono: user.telefono,
+        direccion: user.direccion,
         selectedFile: user.selectedFile,
         roles: user.roles
       });
@@ -82,7 +83,15 @@ const Modal = ({ setModalOn }) => {
                         <div class="relative z-0 mb-6 w-full group">
                             <input type="text" defaultValue={resetPassword ? "" : user.username} onChange={(e) => setUserData({ ...userData, username: e.target.value })} className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                             <label for="floating_username" className="absolute left-0 text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre</label>
-                        </div>                    
+                        </div>    
+                        <div class="relative z-0 mb-6 w-full group">
+                            <input type="text" defaultValue={resetPassword ? "" : user.telefono} onChange={(e) => setUserData({ ...userData, telefono: e.target.value })} className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                            <label for="floating_username" className="absolute left-0 text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Teléfono</label>
+                        </div>   
+                        <div class="relative z-0 mb-6 w-full group">
+                            <input type="text" defaultValue={resetPassword ? "" : user.direccion} onChange={(e) => setUserData({ ...userData, direccion: e.target.value })} className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                            <label for="floating_username" className="absolute left-0 text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Dirección</label>
+                        </div>                   
                        <div>
                             <FileBase
                                 type="file"
@@ -114,6 +123,8 @@ const Modal = ({ setModalOn }) => {
                         <div className="flex justify-center mb-3">
                             <img className="w-32 h-32 mr-2 rounded-full" src={user.selectedFile != "" ? user.selectedFile : "/images/avatar.png"} alt={"Image not found"}></img>
                         </div>
+                        <input className="hidden"></input>
+                        <input className="hidden"></input>
                         <input className="hidden"></input>
                         <input className="hidden"></input>
                         <div className="flex relative z-0 mb-6 w-full group items-end">

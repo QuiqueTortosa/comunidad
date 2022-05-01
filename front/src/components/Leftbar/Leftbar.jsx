@@ -51,6 +51,12 @@ export default function () {
                         <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>Noticias</span>
                     </Link>
                 </li>
+                <li>
+                    <Link to="/foro" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
+                        <IoIcons.IoIosAdd/>
+                        <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>Foro</span>
+                    </Link>
+                </li>
             </ul>
 
             {  (isAdmin || isMod) &&      

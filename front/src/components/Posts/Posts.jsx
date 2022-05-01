@@ -32,6 +32,17 @@ export default function Posts() {
       }
   }
 
+  const txt = (p) => {
+    if(p.substring(0,150).includes("img")){
+      return p.substring(0,p.indexOf("<img")).concat(p.substring(p.indexOf('g">')+3, p.length))
+    }else if(p.substring(0,150).includes("figure")){
+      return p.substring(0,p.indexOf("<figure")).concat(p.substring(p.indexOf('re>')+3, p.length))
+    }
+    else {
+      return p
+    }
+  }
+
   const handleSelect = (id) => {
     dispatch(getMessages(id));
     navigate(`/noticias/${id}`);
@@ -44,7 +55,7 @@ export default function Posts() {
           <h1 className="text-3xl font-bold italic font-extrabold">Noticias</h1>
         </div>
         <div className="mr-2 sm:text-right sm:mt-3">
-          <input 
+          <input  
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Buscar..."
             className="rounded p-1 sm:w-36"
@@ -58,13 +69,13 @@ export default function Posts() {
         </div>
     </div>
     <div className="grid grid-cols-2 justify-items-center sm:grid-cols-1">
-      {posts.map((p) => (
+      {posts.reverse().map((p) => (
        <div className="lg:max-w-[250px] lg:h-[400px] xl:w-[350px] flex flex-col justify-between rounded-lg w-[450px] overflow-hidden shadow-md bg-gray-800 border-gray-700 mb-8">
          <img className="w-full h-3/6 max-h-[240px] lg:max-h-[170px]" src={p.selectedFile} alt="Mountain"/>
          <div className="flex flex-col h-3/6 justify-between p-5 lg:pt-0">
            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{p.title}</h5>
-           <div className="mb-3 font-normal text-gray-700 dark:text-gray-400 break-words lg:hidden" dangerouslySetInnerHTML={{__html:`${p.post.substring(0,150)}...`}} /> 
-           <div className="mb-3 font-normal text-gray-700 dark:text-gray-400 break-words hidden lg:flex" dangerouslySetInnerHTML={{__html:`${p.post.substring(0,75)}...`}} />   
+           <div className="mb-3 font-normal text-gray-700 dark:text-gray-400 break-words lg:hidden" dangerouslySetInnerHTML={{__html:`${txt(p.post).substring(0,200)}...`}} /> 
+           <div className="mb-3 font-normal text-gray-700 dark:text-gray-400 break-words hidden lg:flex" dangerouslySetInnerHTML={{__html:`${txt(p.post).substring(0,50)}...`}} />   
            <div className="flex justify-between">
            <button onClick={() => handleSelect(p._id)} className="bg-blue-900 text-white px-4  py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
                Leer mas...

@@ -3,19 +3,20 @@ import Role from "../models/Role";
 
 export const createUser = async (req, res, next) => {
     try{
-        const { username, email, password, roles } = req.body;
+        const { username, email, telefono, direccion, password, roles } = req.body;
         console.log("body:")
         console.log(req.body)
-        if (!username || !email || !password || !roles) {
+        if (!username || !email || !password || !roles || !direccion || !telefono) {
             res.json({ message: "Rellena todos los campos" });
             throw new Error('Rellena todos los campos');
         }
         const newUser = new User({
             username,
             email,
+            direccion,
+            telefono,
             password: await User.encryptPassword(password),
         });
-
         if (roles) {
             const foundRoles = await Role.find({ name: { $in: roles } })
             newUser.roles = foundRoles.map(role => role._id);
@@ -49,7 +50,7 @@ export const deleteUser = async (req, res, next) => {
 
 export const updateUser = async (req, res, next) => {
 
-    const { username, email, password, roles, selectedFile } = req.body;
+    const { username, email, direccion, telefono, password, roles, selectedFile } = req.body;
     const user = await User.findById(req.params.id)
     const newUpdateUser = {};
 
@@ -57,24 +58,29 @@ export const updateUser = async (req, res, next) => {
     else newUpdateUser.username = username
     if (email == undefined) newUpdateUser.email = user.email
     else newUpdateUser.email = email
+    if (direccion == undefined) newUpdateUser.direccion = user.direccion
+    else newUpdateUser.direccion = direccion
+    if (telefono == undefined) newUpdateUser.telefono = user.telefono
+    else newUpdateUser.telefono = telefono
     if (roles == undefined) newUpdateUser.roles = user.roles
     newUpdateUser.roles = roles
     if(selectedFile == undefined) newUpdateUser.selectedFile = user.selectedFile
     else newUpdateUser.selectedFile = selectedFile
-
     if (JSON.stringify(roles).includes("[[")) {
+        console.log("he entrado")
         newUpdateUser.roles = Object.values(roles)[0]
     } 
+    console.log(newUpdateUser)
     console.log(email)
-    if (password == undefined) {
+    if (password == "" || password == undefined) {
         const updatedUser = await User.findByIdAndUpdate(req.params.id,
-            { $set: { username: newUpdateUser.username, email: newUpdateUser.email, roles: newUpdateUser.roles, selectedFile: newUpdateUser.selectedFile } },
+            { $set: { username: newUpdateUser.username, email: newUpdateUser.email, telefono: newUpdateUser.telefono, direccion: newUpdateUser.direccion, roles: newUpdateUser.roles, selectedFile: newUpdateUser.selectedFile } },
             { new: true }) //Nos lo devuelve actulizado
         res.status(200).json(updatedUser)
     } else {
         newUpdateUser.password = await User.encryptPassword(password)
         const updatedUser = await User.findByIdAndUpdate(req.params.id,
-            { $set: { username: newUpdateUser.username, email: newUpdateUser.email, password: newUpdateUser.password, roles: newUpdateUser.roles, polls: user.polls, selectedFile: newUpdateUser.selectedFile } },
+            { $set: { username: newUpdateUser.username, email: newUpdateUser.email, telefono: newUpdateUser.telefono, direccion: newUpdateUser.direccion, password: newUpdateUser.password, roles: newUpdateUser.roles, selectedFile: newUpdateUser.selectedFile } },
             { new: true }) //Nos lo devuelve actulizado
         res.status(200).json(updatedUser)
 
