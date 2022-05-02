@@ -53,11 +53,30 @@ export const deleteDiscussion = async (req,res,next) => {
 
 export const getDiscussionById = async (req,res,next) => {
     const { id } = req.params;
-    const discussion = await Discussion.findById(id).populate({path: 'messages', 
-                                                                model: "DiscussionMessage", 
-                                                                populate: {path:"user", model: "User"}, 
-                                                                populate: {path: "response", model: "DiscussionMessage"} // https://stackoverflow.com/questions/12821596/multiple-populates-mongoosejs
-                                                            })
+    const discussion = await Discussion.findById(id).populate({
+                                                        path: 'messages',
+                                                        populate: { path: 'user' },
+                                                        populate: { path: 'response' }
+                                                    }).populate({
+                                                        path: 'messages',
+                                                        populate: { 
+                                                            path: 'user', 
+                                                                populate: {
+                                                                    path: 'roles'
+                                                                }
+                                                         }                                                            
+                                                    }).populate({
+                                                        path: 'messages',
+                                                        populate: { 
+                                                            path: 'response', 
+                                                                populate: {
+                                                                    path: 'user',
+                                                                    select: 'username'
+                                                                }
+                                                         }                                                            
+                                                    })
+    console.log(discussion)
+    //https://stackoverflow.com/questions/12821596/multiple-populates-mongoosejs
     if (!discussion) {
         res.json({message: "La discursión no ha sido encontrada"})
         throw new Error("Discussion not found")
@@ -67,8 +86,19 @@ export const getDiscussionById = async (req,res,next) => {
 
 export const getDiscussions = async (req,res,next) => {
     try {
-        const discussions = await Discussion.find().populate('messages')
-        res.status(200).json(discussions)
+        const discussions = await Discussion.find().populate({
+                                                        path: 'messages',
+                                                        populate: { path: 'user' },
+                                                        populate: { path: 'response' }
+                                                    }).populate({
+                                                        path: 'messages',
+                                                        populate: { path: 'user' }                                                            
+                                                    }).populate({
+                                                        path: 'user',
+                                                        populate: { path: 'roles' }                                                            
+                                                    })
+    console.log(discussions)
+    res.status(200).json(discussions)
     }catch(e){
         e.status = 400;
         next(e)
@@ -102,7 +132,7 @@ export const addMessage = async (req,res,next) => {
     
     await Discussion.findByIdAndUpdate(discId, { $push: {messages: newMessage} }).populate('messages')
 
-    await User.findByIdAndUpdate(userId,{ $push: { messages: newMessage._id}})
+    await User.findByIdAndUpdate(userId,{ $push: { forumMessages: newMessage._id}})
     console.log(nMessage)
     res.status(200).json(nMessage)
 }
