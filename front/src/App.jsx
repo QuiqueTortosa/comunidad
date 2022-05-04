@@ -16,6 +16,7 @@ import Posts from './components/Posts/Posts';
 import CreatePost from './components/Posts/CreatePost';
 import Post from './components/Posts/Post';
 import Discussions from './components/Forum/Discussions';
+import CreateDiscussion from './components/Forum/CreateDiscussion';
 import Discussion from './components/Forum/Discussion';
 import userService from './services/users'
 import ErrorMessage from './components/ErrorMessage';
@@ -72,6 +73,7 @@ export default function App() {
           
           <Route exact path="/foro"  element={!isAuth ? <Navigate to="/login"/> : <Discussions/>}/>
           <Route exact path="/foro/:discId"  element={!isAuth ? <Navigate to="/login"/> : <Discussion/>}/>
+          <Route exact path="/foroGestion"  element={!isAuth ? <Navigate to="/login"/> : <CreateDiscussion/>}/>
 
           <Route exact path="/votaciones/crearVotacion" element={!isAuth ? <Navigate to="/login"/> : isAdmin ? <CreatePoll/> : <Navigate to="/prueba"/>} />
           <Route exact path="/users/" element={!isAuth ? <Navigate to="/login"/> : isAdmin ? <Users/> : <Navigate to="/prueba"/>} />

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteDiscussionMessage, getDiscussionMessages } from "../../store/actions";
+import { deleteDiscussionMessage, getDiscussionMessages, getDiscussions } from "../../store/actions";
 import decode from 'jwt-decode';
 import cookie from "js-cookie";
 import * as FaIcons from "react-icons/fa";
 import DiscussionMessage from "./DiscussionMessage";
 import "./forum.css"
+import DiscussionHeader from "./DiscussionHeader";
 
 export default function Discussion() {
   const dispatch = useDispatch()
@@ -17,7 +18,7 @@ export default function Discussion() {
   const messages = useSelector((state) => state.DISCUSSION_MESSAGES);
   const user = useSelector(state => state.auth.user)
   const [updateMessage, setUpdateMessage] = useState({
-    body: "",
+    message: "",
     id: null
   })
   const [reply, setReply] = useState({})
@@ -26,10 +27,12 @@ export default function Discussion() {
   console.log(reply)
   const { discId } = useParams();
   const discussion = useSelector((state) => state.DISCUSSIONS.filter(p => p._id == discId))[0];
+  console.log(discussion)
   useEffect(() => {
     dispatch(getDiscussionMessages(discId))
+    dispatch(getDiscussions())
   },[messages.length,updateMessage.id, updateMessage.id != null ? messages.find(m => m._id==updateMessage.id).user.selectedFile : updateMessage])
-
+//discussion.user.username,discussion.poll.voted.length
   const handleRemove = (id) => {
     setUpdateMessage({...updateMessage, id: null})
     dispatch(deleteDiscussionMessage(discId, id))
@@ -40,17 +43,18 @@ export default function Discussion() {
     <div className="flex flex-col w-auto">
       <div className="flex flex-col w-auto mx-16 mt-8 py-16 bg-white lg:mx-1 lg:px-1 lg:shadow-none">
         <div className="flex justify-between">
-          <h1 className="text-3xl font-bold italic">Mensajes</h1>
+          <h1 className="text-3xl font-bold italic">{discussion.title}</h1>
           <button className="bg-green-800 text-white px-4 py-1 mr-6 rounded shadow-md focus:ring hover:bg-green-600 transition-all  active:transform active:translate-y-1" onClick={() => {dispatch(getDiscussionMessages(discId))}}>
             Refrescar
           </button>
         </div>
+        <DiscussionHeader discussion={discussion} reply={reply} setReply={setReply}/>
         { 
           messages.map(m => ( 
-            <div className="flex my-2 border-2 rounded-xl lg:space-x-2 sm:flex-col sm:items-center sm:gap-3">
+            <div className="flex my-2 border-2  rounded-xl lg:space-x-2 sm:flex-col sm:items-center sm:rounded-t-xl sm:gap-3">
               { m.user ? 
               <>              
-                <div className={`flex flex-col items-center justify-between w-auto min-h-[350px] bg-gray-700 px-2 pt-3 rounded-l-xl sm:pb-2 sm:w-full sm:border-b-2 sm:border-gray-300`}>
+                <div className={`flex flex-col items-center justify-between w-auto min-w-[130px] max-w-[130px] min-h-[350px] bg-gray-700 px-2 pt-3 rounded-l-xl sm:rounded-t-xl sm:rounded-b-none sm:max-w-full sm:pb-2 sm:w-full sm:border-b-2 sm:border-gray-300`}>
                   <div className="text-center">
                     { user.email == m.user.email ?
                       <div>
@@ -109,7 +113,7 @@ export default function Discussion() {
                 </>
                 :
                 <>
-                  <div className={`flex flex-col justify-between items-center w-24 sm:pb-2 sm:w-full sm:border-b-2 sm: border-gray-300`}>
+                  <div className={`flex flex-col justify-between items-center w-24 sm:pb-2 sm:w-full sm:border-b-2 sm:rounded-t-xl sm:rounded-b-none border-gray-300`}>
                     <div className=" flex justify-center justify-items-center w-[93px]">
                      <p className="relative text-xs text-gray-700">{m.createdAt.substring(0,10)+"," +m.createdAt.substring(11,16)}</p>
                     </div>

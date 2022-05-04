@@ -69,6 +69,27 @@ export const updateDiscussion = (id, discussion) => {
     }
 }
 
+export const voteDiscussion = (id, data) => {
+    return async dispatch => {
+        try {
+            const vote = await forumService.updatePoll(id, data); //En data va el answer
+            if (vote.message) {
+                console.log(vote.message)
+                dispatch(addError(1,vote.message))
+            } else {
+                dispatch({
+                    type: UPDATE_DISCUSSSION,
+                    payload: vote
+                })
+                console.log(data)
+                dispatch(addError(0,`Has votado la opcion: `+data.answer))
+            }
+        } catch (err) {
+            dispatch(addError(1,err.response.data.message))
+        }
+    }
+}
+
 export const deleteDiscussion = id => {
     return async dispatch => {
         try {

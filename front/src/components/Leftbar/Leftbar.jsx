@@ -64,19 +64,25 @@ export default function () {
                 <li> 
                     <Link to="/votaciones/crearVotacion" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
                         <IoIcons.IoIosAdd/>
-                        <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>Votacion Gestion</span>
+                        <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>Votación Gestión</span>
                     </Link>
                 </li>
                 <li>
                     <Link to="/noticiasGestion" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
                         <IoIcons.IoIosAdd/>
-                        <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>Noticias Gestion</span>
+                        <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>Noticias Gestión</span>
+                    </Link>
+                </li>
+                <li> 
+                    <Link to="/foroGestion" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
+                        <IoIcons.IoIosAdd/>
+                        <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>Foro Gestión</span>
                     </Link>
                 </li>
                 <li>
                     <Link to="/users" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
                         <IoIcons.IoIosAdd/>
-                        <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>User Gestion</span>
+                        <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>User Gestión</span>
                     </Link>
                 </li>
             </ul>

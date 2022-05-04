@@ -1,6 +1,11 @@
 #texto img {
     max-width: 20vw;
     max-heigth: 10vw;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 @media (max-width: 640px) {

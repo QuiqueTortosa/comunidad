@@ -56,7 +56,18 @@ const deleteDiscussion = async id => {
 const updateDiscussion = async (id, discussion) => {
   console.log(id)
   console.log(discussion)
-  const { data } = await axios.put(`${baseUrl}/${id}`, discussion, {
+  const { data } = await axios.put(`${baseUrl}/disc/${id}`, discussion, {
+    headers: {
+      Authorization: token
+    }
+  })
+  return data
+}
+
+const updatePoll = async (discId, poll) => {
+  console.log(discId)
+  console.log(poll)
+  const { data } = await axios.put(`${baseUrl}/vote/${discId}`, poll, {
     headers: {
       Authorization: token
     }
@@ -129,4 +140,4 @@ const createCategory = async (category) => {
 }
 
 
-export default { createCategory, deleteCategory,getCategories,getDiscussionById, getDiscussions, getDiscussionBySearch, deleteDiscussion, updateDiscussion, createDiscussion, createMessage,deleteMessage, updateMessage, setToken }
+export default { createCategory, updatePoll,deleteCategory,getCategories,getDiscussionById, getDiscussions, getDiscussionBySearch, deleteDiscussion, updateDiscussion, createDiscussion, createMessage,deleteMessage, updateMessage, setToken }

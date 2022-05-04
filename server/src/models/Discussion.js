@@ -1,5 +1,32 @@
 import { Schema, model} from "mongoose"
 
+const optionSchema = new Schema({
+    name: String,
+    votes: {
+      type: Number,
+      default: 0,
+    },
+  });
+
+  const voteSchema = new Schema(
+    {   
+        status: { // 0 si esta en curso, 1 si ha acabado
+            type: Number,
+            default: 0
+        },
+        question: {
+            type: String,
+        },
+        options: [optionSchema],
+        voted: [
+            {
+                type: Schema.Types.ObjectId,
+                ref:'User'
+            }
+        ], 
+    },
+)
+
 const discussionSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
@@ -18,10 +45,22 @@ const discussionSchema = new Schema({
         type: String,
         required: true
     },
-    poll: [{
-        type: Schema.Types.ObjectId,
-        ref: "Vote"
-    }],
+    poll: {
+        status: { // 0 si esta en curso, 1 si ha acabado
+            type: Number,
+            default: 0
+        },
+        question: {
+            type: String,
+        },
+        options: [optionSchema],
+        voted: [
+            {
+                type: Schema.Types.ObjectId,
+                ref:'User'
+            }
+        ], 
+    },
     messages: [{
         type: Schema.Types.ObjectId,
         ref: "DiscussionMessage"

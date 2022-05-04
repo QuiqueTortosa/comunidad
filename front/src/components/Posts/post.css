@@ -2,6 +2,11 @@
     font-size: 1.875rem;/* 30px */;
     line-height: 2.25rem;
     font-weigth: 800;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #body h2 {

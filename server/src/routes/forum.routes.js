@@ -1,11 +1,11 @@
 import { Router } from "express";
 import * as forumCtrl from "../controllers/forum.controller";
 import { authJwt } from "../middlewares";
-
 const router = Router()
 
 router.post('/' ,authJwt.verifyToken2,forumCtrl.createDiscussion)
-router.put('/:id', authJwt.verifyToken2, forumCtrl.updateDiscussion)
+router.put('/disc/:id', authJwt.verifyToken2, forumCtrl.updateDiscussion)
+router.put('/vote/:id', authJwt.verifyToken2, forumCtrl.voteDisc)
 router.delete('/:id', authJwt.verifyToken2,forumCtrl.deleteDiscussion)
 router.get('/find/:id', authJwt.verifyToken2,forumCtrl.getDiscussionById)
 router.get('/',forumCtrl.getDiscussions)

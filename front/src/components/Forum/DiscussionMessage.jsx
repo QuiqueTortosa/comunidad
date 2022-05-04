@@ -36,8 +36,8 @@ export default function DiscussionMessage({reply, setReply, messageUpdate,setUpd
     e.preventDefault()
     setMessageData({...messageData, response: reply._id})
     if(editar) {
-      dispatch(updateDiscussionMessage(messageUpdate.id, messageUpdate.body))
-      setUpdateMessage({...messageUpdate, body: ""})
+      dispatch(updateDiscussionMessage(messageUpdate.id, messageUpdate.message))
+      setUpdateMessage({...messageUpdate, message: ""})
       setEditar(!editar)
     }else {
       dispatch(createDiscussionMessage(discId,messageData))
@@ -60,7 +60,7 @@ export default function DiscussionMessage({reply, setReply, messageUpdate,setUpd
     <form autoComplete="off" onSubmit={handleSubmit}> 
       { reply.message &&
        <div id="texto" className="mb-3">
-          <p><strong>Respuesta a {reply.response.user.username}: </strong></p>
+          <p><strong>Respuesta a {reply.response ? reply.response.user.username : ""}: </strong></p>
           <div dangerouslySetInnerHTML={{__html: reply.message}}></div>
         </div>
       }
@@ -69,21 +69,11 @@ export default function DiscussionMessage({reply, setReply, messageUpdate,setUpd
                         editor={ ClassicEditor }
                         config={ editorConfiguration }
                         data={ editar ? messageUpdate.body : messageData.message }
-                        onReady={ editor => {
-                            // You can store the "editor" and use when it is needed.
-                            console.log( 'Editor is ready to use!', editor );
-                        } }
                         onChange={ ( e, editor ) => {
                             const data = editor.getData();
                             console.log( { e, editor, data } );
                             setMessageData({ ...messageData, message: data})
-                            if(editar) setUpdateMessage({...messageUpdate, body: data})
-                        } }
-                        onBlur={ ( event, editor ) => {
-                            console.log( 'Blur.', editor );
-                        } }
-                        onFocus={ ( event, editor ) => {
-                            console.log( 'Focus.', editor );
+                            if(editar) setUpdateMessage({...messageUpdate, message: data})
                         } }
                     />
       </div>

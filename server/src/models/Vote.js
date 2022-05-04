@@ -29,7 +29,7 @@ const voteSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref:'User'
             }
-        ],
+        ], 
         status: { // 0 si esta en curso, 1 si ha acabado
             type: Number,
             default: 0
