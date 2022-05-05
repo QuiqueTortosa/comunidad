@@ -12,10 +12,12 @@ export const createDiscussion = async (req,res,next) => {
             res.json({ message: "Rellena todos los campos" });
             throw new Error('Rellena todos los campos');
         }        
+
+        console.log(typeof poll.question)
         const user = await User.findById(userId)
         let newDiscussion;
         console.log(poll)
-        if(poll){
+        if(poll.question.length > 1){
             newDiscussion = Discussion({
                 user,
                 title,
@@ -32,7 +34,8 @@ export const createDiscussion = async (req,res,next) => {
                 user,
                 title,
                 body,
-                category
+                category,
+                poll: null
             })
             await User.findByIdAndUpdate(userId, { $push: { discussions: newDiscussion._id}})
         }
@@ -46,18 +49,29 @@ export const createDiscussion = async (req,res,next) => {
 }
 
 export const updateDiscussion = async (req,res,next) => {
-    const { title, body } = req.body
+    const { title, body, category, poll } = req.body
 
     const oldDiscussion = await Discussion.findById(req.params.id)
     const uDiscussion = {}   
+
+    console.log(poll)
 
     if (title == undefined) uDiscussion.title = oldDiscussion.title
     else uDiscussion.title = title
     if (body == undefined) uDiscussion.body = oldDiscussion.body
     else uDiscussion.body = body
-
+    if (category == undefined) uDiscussion.category = oldDiscussion.category
+    else uDiscussion.category = category
+    if (poll.options[0].length == 0) uDiscussion.poll = oldDiscussion.poll
+    else {
+        uDiscussion.poll = {
+            question: (poll.question),
+            options: poll.options.map(option => ({ name: option, votes: 0 }))
+        }
+    }
+    console.log(poll)
     const nDiscussion = await Discussion.findByIdAndUpdate(req.params.id,
-        { $set: { title: uDiscussion.title, body: uDiscussion.body } },
+        { $set: { title: uDiscussion.title, body: uDiscussion.body, category: uDiscussion.category, poll: uDiscussion.poll } },
         { new: true }) //Nos lo devuelve actulizado
     res.status(200).json(nDiscussion)
 }

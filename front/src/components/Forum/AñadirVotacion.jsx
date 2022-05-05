@@ -27,6 +27,8 @@ export default function AñadirVotacion({question, setQuestion, options, setOpti
     setOpenPoll(false)
   }
   const clear = () => {
+      dispatch(addError(1,"La votación no ha sido guardada"))
+      setOpenPoll(false)
       setOptions(["",""])
       setQuestion("")
   }

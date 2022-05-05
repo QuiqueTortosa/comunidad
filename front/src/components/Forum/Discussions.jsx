@@ -76,8 +76,8 @@ export default function Discussions() {
                           {d.messages.length}
                         </td>
                         <td className="flex flex-col items-center py-1 text-center">
-                          <img className="rounded-full w-8 h-8 mx-2" src={d.user.selectedFile.length > 2 ? d.user.selectedFile : "/images/avatar.png"}></img>
-                          <p className="text-sm text-center">{d.user.username.split(" ")[0]}</p>
+                          <img className="rounded-full w-8 h-8 mx-2" src={d.user.selectedFile ? d.user.selectedFile.length > 2 ? d.user.selectedFile : "/images/avatar.png" : "/images/avatar.png"}></img>
+                          <p className="text-sm text-center">{d.user.username ? d.user.username.split(" ")[0] : "Usuario"}</p>
                         </td>
                         <td className="py-4 text-center text-xs">
                           {d.createdAt ? d.createdAt.substring(11,16) : ""}

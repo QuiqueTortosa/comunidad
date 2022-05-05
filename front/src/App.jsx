@@ -20,6 +20,7 @@ import CreateDiscussion from './components/Forum/CreateDiscussion';
 import Discussion from './components/Forum/Discussion';
 import userService from './services/users'
 import ErrorMessage from './components/ErrorMessage';
+import ForoGestion from './components/Forum/ForoGestion';
 
 export default function App() {
   const dispatch = useDispatch()
@@ -73,7 +74,7 @@ export default function App() {
           
           <Route exact path="/foro"  element={!isAuth ? <Navigate to="/login"/> : <Discussions/>}/>
           <Route exact path="/foro/:discId"  element={!isAuth ? <Navigate to="/login"/> : <Discussion/>}/>
-          <Route exact path="/foroGestion"  element={!isAuth ? <Navigate to="/login"/> : <CreateDiscussion/>}/>
+          <Route exact path="/foroGestion"  element={!isAuth ? <Navigate to="/login"/> : <ForoGestion/>}/>
 
           <Route exact path="/votaciones/crearVotacion" element={!isAuth ? <Navigate to="/login"/> : isAdmin ? <CreatePoll/> : <Navigate to="/prueba"/>} />
           <Route exact path="/users/" element={!isAuth ? <Navigate to="/login"/> : isAdmin ? <Users/> : <Navigate to="/prueba"/>} />
