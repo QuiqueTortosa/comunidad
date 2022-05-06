@@ -23,7 +23,7 @@ export default function AñadirVotacion({question, setQuestion, options, setOpti
   };
 
   const save = () => {
-    if(question.length > 1) dispatch(addError(0,"Votación guardada"))
+    if(question.length > 0) dispatch(addError(0,"Votación guardada"))
     setOpenPoll(false)
   }
   const clear = () => {

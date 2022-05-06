@@ -12,8 +12,8 @@ router.get('/',postCtrl.getPosts)
 router.get("/search", authJwt.verifyToken2,postCtrl.getPostBySearch)
 
 router.post('/message/:postId', authJwt.verifyToken2,postCtrl.addMessage)
-router.delete('/:postId/message/:id', authJwt.verifyToken2,postCtrl.deleteMessage)
-router.put('/message/:id', authJwt.verifyToken2,postCtrl.updateMessage)
+router.delete('/:postId/message/:id', [authJwt.verifyToken2, authJwt.isSuperiorRoleOrSameUser],postCtrl.deleteMessage)
+router.put('/message/:id', [authJwt.verifyToken2, authJwt.isSuperiorRoleOrSameUser],postCtrl.updateMessage)
 
 
 

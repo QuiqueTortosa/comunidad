@@ -17,7 +17,8 @@ export default function Discussions() {
 
   useEffect(() => {
     dispatch(getDiscussions())
-  }, [discussions.length])
+    dispatch(getCategories())
+  }, [discussions.length, categories.length])
   console.log(discussions[discussions.length-1])
 
   const [update, setUpdate] = useState(false)

@@ -13,10 +13,8 @@ export const createDiscussion = async (req,res,next) => {
             throw new Error('Rellena todos los campos');
         }        
 
-        console.log(typeof poll.question)
         const user = await User.findById(userId)
         let newDiscussion;
-        console.log(poll)
         if(poll.question.length > 1){
             newDiscussion = Discussion({
                 user,
@@ -49,31 +47,34 @@ export const createDiscussion = async (req,res,next) => {
 }
 
 export const updateDiscussion = async (req,res,next) => {
-    const { title, body, category, poll } = req.body
+    try {
+        const { title, body, category, poll } = req.body
 
-    const oldDiscussion = await Discussion.findById(req.params.id)
-    const uDiscussion = {}   
+        const oldDiscussion = await Discussion.findById(req.params.id)
+        const uDiscussion = {}   
 
-    console.log(poll)
-
-    if (title == undefined) uDiscussion.title = oldDiscussion.title
-    else uDiscussion.title = title
-    if (body == undefined) uDiscussion.body = oldDiscussion.body
-    else uDiscussion.body = body
-    if (category == undefined) uDiscussion.category = oldDiscussion.category
-    else uDiscussion.category = category
-    if (poll.options[0].length == 0) uDiscussion.poll = oldDiscussion.poll
-    else {
-        uDiscussion.poll = {
-            question: (poll.question),
-            options: poll.options.map(option => ({ name: option, votes: 0 }))
+        if (title == undefined) uDiscussion.title = oldDiscussion.title
+        else uDiscussion.title = title
+        if (body == undefined) uDiscussion.body = oldDiscussion.body
+        else uDiscussion.body = body
+        if (category == undefined) uDiscussion.category = oldDiscussion.category
+        else uDiscussion.category = category
+        if (poll.options[0].length == 0) uDiscussion.poll = oldDiscussion.poll
+        else {
+            uDiscussion.poll = {
+                question: (poll.question),
+                options: poll.options.map(option => ({ name: option, votes: 0 }))
+            }
         }
+        console.log(poll)
+        const nDiscussion = await Discussion.findByIdAndUpdate(req.params.id,
+            { $set: { title: uDiscussion.title, body: uDiscussion.body, category: uDiscussion.category, poll: uDiscussion.poll } },
+            { new: true }) //Nos lo devuelve actulizado
+        res.status(200).json(nDiscussion)
+    }catch(err){
+        err.status = 400;
+        next(err)
     }
-    console.log(poll)
-    const nDiscussion = await Discussion.findByIdAndUpdate(req.params.id,
-        { $set: { title: uDiscussion.title, body: uDiscussion.body, category: uDiscussion.category, poll: uDiscussion.poll } },
-        { new: true }) //Nos lo devuelve actulizado
-    res.status(200).json(nDiscussion)
 }
 
 export const voteDisc = async (req,res,next) => {
@@ -134,35 +135,40 @@ export const deleteDiscussion = async (req,res,next) => {
 }
 
 export const getDiscussionById = async (req,res,next) => {
-    const { id } = req.params;
-    const discussion = await Discussion.findById(id).populate({
-                                                        path: 'messages',
-                                                        populate: { path: 'user' },
-                                                        populate: { path: 'response' }
-                                                    }).populate({
-                                                        path: 'messages',
-                                                        populate: { 
-                                                            path: 'user', 
-                                                                populate: {
-                                                                    path: 'roles'
-                                                                }
-                                                         }                                                            
-                                                    }).populate({
-                                                        path: 'messages',
-                                                        populate: { 
-                                                            path: 'response', 
-                                                                populate: {
-                                                                    path: 'user',
-                                                                    select: 'username'
-                                                                }
-                                                         }                                                            
-                                                    })
-    //https://stackoverflow.com/questions/12821596/multiple-populates-mongoosejs
-    if (!discussion) {
-        res.json({message: "La discursión no ha sido encontrada"})
-        throw new Error("Discussion not found")
+    try {
+        const { id } = req.params;
+        const discussion = await Discussion.findById(id).populate({
+                                                            path: 'messages',
+                                                            populate: { path: 'user' },
+                                                            populate: { path: 'response' }
+                                                        }).populate({
+                                                            path: 'messages',
+                                                            populate: { 
+                                                                path: 'user', 
+                                                                    populate: {
+                                                                        path: 'roles'
+                                                                    }
+                                                            }                                                            
+                                                        }).populate({
+                                                            path: 'messages',
+                                                            populate: { 
+                                                                path: 'response', 
+                                                                    populate: {
+                                                                        path: 'user',
+                                                                        select: 'username'
+                                                                    }
+                                                            }                                                            
+                                                        })
+        //https://stackoverflow.com/questions/12821596/multiple-populates-mongoosejs
+        if (!discussion) {
+            res.json({message: "La discursión no ha sido encontrada"})
+            throw new Error("Discussion not found")
+        }
+        res.status(200).json(discussion);
+    }catch(err){
+        err.status = 400;
+        next(err)
     }
-    res.status(200).json(discussion);
 }
 
 export const getDiscussions = async (req,res,next) => {
@@ -186,29 +192,39 @@ export const getDiscussions = async (req,res,next) => {
 }
 
 export const getDiscussionBySearch = async (req,res,next) => {
-    const { searchQuery } = req.query
-    const query = new RegExp(searchQuery, 'i') //Antonio ANTONIO => antonio
-    const discussions = await Discussion.find({title: query})
-    res.status(200).json(discussions)
+    try {
+        const { searchQuery } = req.query
+        const query = new RegExp(searchQuery, 'i') //Antonio ANTONIO => antonio
+        const discussions = await Discussion.find({title: query})
+        res.status(200).json(discussions)
+    }catch(err){
+        err.status = 400;
+        next(err)
+    }
 }
 
 export const addMessage = async (req,res,next) => {
-    const userId = req.userId
-    const discId = req.params.discId
-    const { message, response, user } = req.body
+    try {
+        const userId = req.userId
+        const discId = req.params.discId
+        const { message, response, user } = req.body
 
-    const newMessage = DiscussionMessage({
-        user,
-        message, 
-        response: response == undefined ? null : response
-    })
+        const newMessage = DiscussionMessage({
+            user,
+            message, 
+            response: response == undefined ? null : response
+        })
 
-    const nMessage = await newMessage.save()
-    
-    await Discussion.findByIdAndUpdate(discId, { $push: {messages: newMessage} }).populate('messages')
+        const nMessage = await newMessage.save()
+        
+        await Discussion.findByIdAndUpdate(discId, { $push: {messages: newMessage} }).populate('messages')
 
-    await User.findByIdAndUpdate(userId,{ $push: { forumMessages: newMessage._id}})
-    res.status(200).json(nMessage)
+        await User.findByIdAndUpdate(userId,{ $push: { forumMessages: newMessage._id}})
+        res.status(200).json(nMessage)
+    }catch(err){
+        err.status = 400;
+        next(err)
+    }
 }
 
 export const deleteMessage = async (req,res,next) => {
@@ -225,7 +241,9 @@ export const deleteMessage = async (req,res,next) => {
 export const updateMessage = async (req,res,next) => {
     try {
         const { message } = req.body
-        const oldMessage = await DiscussionMessage.findById(req.params.id)
+        const oldMessage = await DiscussionMessage.findById(req.params.id).populate('user')
+        console.log(oldMessage)
+        console.log(req.userId)
         const uMessage = {} 
         console.log("Hola")  
         console.log(message)
