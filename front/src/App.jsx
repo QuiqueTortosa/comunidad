@@ -16,11 +16,10 @@ import Posts from './components/Posts/Posts';
 import CreatePost from './components/Posts/CreatePost';
 import Post from './components/Posts/Post';
 import Discussions from './components/Forum/Discussions';
-import CreateDiscussion from './components/Forum/CreateDiscussion';
-import Discussion from './components/Forum/Discussion';
+import Discussion from './components/Forum/Discussion/Discussion';
 import userService from './services/users'
 import ErrorMessage from './components/ErrorMessage';
-import ForoGestion from './components/Forum/ForoGestion';
+import ForoGestion from './components/Forum/ForumGestion/ForoGestion';
 
 export default function App() {
   const dispatch = useDispatch()

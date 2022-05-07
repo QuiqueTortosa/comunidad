@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createDiscussionMessage, getDiscussionMessages, updateDiscussionMessage } from "../../store/actions";
+import { createDiscussionMessage, getDiscussionMessages, updateDiscussionMessage } from "../../../store/actions";
 import decode from 'jwt-decode';
 import cookie from "js-cookie";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import "./forum.css"
+import "../forum.css"
 
 const editorConfiguration = {
   toolbar: [ 'heading','bold', 'italic', 'link', 'toggleImageCaption', 'imageTextAlternative', 'uploadImage', 'undo', 'redo' ],

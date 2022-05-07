@@ -1,24 +1,24 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getPosts, deletePost, getPostsBySearch, getMessages } from "../../store/actions";
 import { FaSearch } from 'react-icons/fa';
-import CreatePost from "./CreatePost";
-import Post from "./Post";
 import cookie from "js-cookie";
 import decode from 'jwt-decode';
+import PostBody from "./PostBody";
 
 
 export default function Posts() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const posts = useSelector((state) => state.POSTS);
+  const posts = useSelector((state) => state.POSTS).reverse();
   const [search, setSearch] = useState('')
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const isAdmin = decode(cookie.get("token")).roles.some(r => r.name == "admin" || r.name == "moderator")
   console.log(posts);
 
   const handleRemove = (id) => {
+    setConfirmDelete(false)
     dispatch(deletePost(id));
   };
 
@@ -69,25 +69,8 @@ export default function Posts() {
         </div>
     </div>
     <div className="grid grid-cols-2 justify-items-center sm:grid-cols-1">
-      {posts.reverse().map((p) => (
-       <div className="lg:max-w-[250px] lg:h-[400px] xl:w-[350px] flex flex-col justify-between rounded-lg w-[450px] overflow-hidden shadow-md bg-gray-800 border-gray-700 mb-8">
-         <img className="w-full h-3/6 max-h-[240px] lg:max-h-[170px]" src={p.selectedFile} alt="Mountain"/>
-         <div className="flex flex-col h-3/6 justify-between p-5 lg:pt-0">
-           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{p.title}</h5>
-           <div className="mb-3 font-normal text-gray-700 dark:text-gray-400 break-words lg:hidden" dangerouslySetInnerHTML={{__html:`${txt(p.post).substring(0,200)}...`}} /> 
-           <div className="mb-3 font-normal text-gray-700 dark:text-gray-400 break-words hidden lg:flex" dangerouslySetInnerHTML={{__html:`${txt(p.post).substring(0,50)}...`}} />   
-           <div className="flex justify-between">
-           <button onClick={() => handleSelect(p._id)} className="bg-blue-900 text-white px-4  py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
-               Leer mas...
-             </button>
-             { isAdmin &&
-               <button onClick={() => { handleRemove(p._id) }} className="lg:py-1 bg-red-600 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-red-500 transition-all  active:transform active:translate-y-1">
-               Remove
-             </button>
-               }
-            </div>
-         </div>
-       </div>
+      {posts.map((p) => (
+        <PostBody p={p}/>
        ))}
       </div>
     </div>

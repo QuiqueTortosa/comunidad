@@ -25,8 +25,6 @@ export const isModOrAdminOrSameUser = async (req, res, next) => {
       token = authorization.substring(7)
   }
 
-  console.log("token: ")
-  console.log(authorization)
   const decodedToken = jwt.verify(token, config.SECRET)
   const { id: userId } = decodedToken //En el token tenemos guardado el id
   req.userId = userId //Asignamos al parametro req.userId a userId
@@ -37,14 +35,18 @@ export const isModOrAdminOrSameUser = async (req, res, next) => {
   if (!token || !decodedToken.id || !currentUser) {
       return response.status(401).json({ error: 'token missing or invalid' })
   }
-  console.log(currentUser.roles.find(r => r.name == "admin" || r.name == "moderator"))
-  console.log(currentUser.email == modifyMessage.user.email)
 
-  if(currentUser.email == modifyMessage.user.email && currentUser.roles.find(r => r.name == "admin" || r.name == "moderator")){
-    console.log("hola")
-    next()
-  } else {
-      //return res.status(403).json({ message: "Necesitas un rol mayor" })
-      console.log("Hola2")
+  if(modifyMessage.user){
+    if(currentUser.email == modifyMessage.user.email || currentUser.roles.find(r => r.name == "admin" || r.name == "moderator")){
+      next()
+    }else {
+      return res.status(403).json({ message: "Necesitas un rol mayor" })
+  }
+  }else {
+    if(currentUser.roles.find(r => r.name == "admin" || r.name == "moderator")){
+      next()
+    }else {
+      return res.status(403).json({ message: "Necesitas un rol mayor" })
+    }
   }
 }

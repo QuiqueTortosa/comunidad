@@ -29,7 +29,6 @@ export const setCurrentUser = user => {
 export const authUser = (credentials) => {
     return async dispatch => {
         try {  
-            console.log("hola?")
             const { token } = await auth.login(credentials)
             console.log(token)
             auth.setToken(token)
@@ -37,11 +36,6 @@ export const authUser = (credentials) => {
             postService.setToken(token)
             userService.setToken(token)
             forumService.setToken(token)
-            console.log("ESTE SI")
-           // console.log(token)
-           // const user = await userService.getUserById(decode(token).id)
-            //console.log("usuario: ")
-            //console.log(user)
             cookie.set("token", token)
             dispatch({
                 type: AUTH_USER, payload: {
@@ -61,8 +55,13 @@ export const authUser = (credentials) => {
 
 export const logout = () => {
     return dispatch => {
-        cookie.remove("token2")
+        cookie.remove("token")
         auth.setToken(null)
+        auth.setToken(null)
+        voteService.setToken(null)
+        postService.setToken(null)
+        userService.setToken(null)
+        forumService.setToken(null)
         dispatch(setCurrentUser({}))
         dispatch(removeError())
     }

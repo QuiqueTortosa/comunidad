@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import * as FaIcons from "react-icons/fa";
 
-export default function UserDetails({ open, user }) {
+export default function UserDetails({ open, user, confirmDelete, setConfirmDelete }) {
   const dispatch = useDispatch();
   const isAdmin = useSelector((state) =>
     state.auth.user.roles.find((r) => r.name == "admin") ? true : false
@@ -37,6 +37,7 @@ export default function UserDetails({ open, user }) {
   });
 
   const handleRemove = (id) => {
+    setConfirmDelete(false)
     dispatch(deleteUser(id));
   };
 
@@ -241,18 +242,18 @@ export default function UserDetails({ open, user }) {
             </div>
             </div>
           </div>
-          <div className="flex flex-row space-x-1.5 sm:justify-center">
+          <div className="flex flex-row space-x-1.5 pl-16 sm:justify-center sm:pl-0">
             <button className="bg-blue-900 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
-              Update
+              Actualizar
             </button>
             <button
               type="button"
               className="bg-red-600 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-red-500 transition-all  active:transform active:translate-y-1"
               onClick={() => {
-                handleRemove(user._id);
+                setConfirmDelete(true)
               }}
             >
-              Delete
+              Borrar
             </button>
           </div>
         </form>
@@ -269,6 +270,23 @@ export default function UserDetails({ open, user }) {
                   </div>
               </div>
           </div>
+      }
+      { confirmDelete &&
+        <div className="bg-opacity-70 bg-gray-800 fixed inset-0 z-30">
+          <div className="flex h-screen justify-center items-center ">
+            <div className="flex-col justify-center  bg-white py-12 px-12 border-4 border-sky-900 rounded-xl items-center">
+            <p className="text-black">¿Estas seguro de eliminar a {userData.username}?</p>
+            <div className="flex justify-evenly mt-4">
+              <button onClick={() => handleRemove(user._id)} className="bg-red-600 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-red-500 transition-all  active:transform active:translate-y-1">
+                Eliminar
+              </button>
+              <button onClick={() => setConfirmDelete(false)} className="bg-blue-900 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
+                Cancelar
+              </button>
+            </div>
+            </div>
+          </div>
+        </div>
       }
     </div>
   );

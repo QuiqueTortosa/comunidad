@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as FaIcons from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { addError } from "../../store/actions";
+import { addError } from "../../../store/actions";
 
 export default function AñadirVotacion({question, setQuestion, options, setOptions, setOpenPoll}) { 
   

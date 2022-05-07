@@ -5,6 +5,7 @@ import FileBase from 'react-file-base64'
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FaSearch } from 'react-icons/fa';
+import Post from "./PostGestion/Post";
 
 
 const editorConfiguration = {
@@ -28,10 +29,6 @@ export default function CreatePost() {
     useEffect(() => {
       setPostData({...postData})
     },[postData.selectedFile, postData.post, postData.title])
-
-    const handleRemove = (id) => {
-      dispatch(deletePost(id));
-    };
   
     const searchPosts = (query) => {
       if(search.trim()){
@@ -43,25 +40,9 @@ export default function CreatePost() {
         }
     }
 
-    const txt = (p) => {
-      if(p.substring(0,150).includes("img")){
-        return p.substring(0,p.indexOf("<img")).concat(p.substring(p.indexOf('g">')+3, p.length))
-      }else if(p.substring(0,150).includes("figure")){
-        return p.substring(0,p.indexOf("<figure")).concat(p.substring(p.indexOf('re>')+3, p.length))
-      }
-      else {
-        return p
-      }
-    }
-    const handleUpdate = (p) => {
-      console.log("update")
-      setId(p._id)
-      setPostData({
-        title: p.title,
-        post: p.post,
-        selectedFile: p.selectedFile,
-      })
-      setUpdate(true)
+    const handleCancelar = () => {
+      clear()
+      setUpdate(false)
     }
 
     const handleSubmit = (e) => {
@@ -129,24 +110,23 @@ export default function CreatePost() {
                           }
                          }
                         data={postData.post}
-                        onReady={ editor => {
-                            // You can store the "editor" and use when it is needed.
-                        } }
                         onChange={ ( e, editor ) => {
                             const data = editor.getData();
                             console.log( { e, editor, data } );
                             setPostData({ ...postData, post: data })
                         } }
-                        onBlur={ ( event, editor ) => {
-                        } }
-                        onFocus={ ( event, editor ) => {
-                        } }
+
                     />
           </div>
           <div className="mt-3">
             <button className="bg-blue-900 text-white px-4  py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1" type="submit">
               { update ? "Actualizar" : "Guardar"}
             </button>
+            { update && 
+              <button onClick={handleCancelar} className="bg-blue-900 text-white px-4  py-1 ml-2 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1" type="button">
+                Cancelar
+              </button>
+            }
           </div>
         </form>
       </div>
@@ -183,26 +163,11 @@ export default function CreatePost() {
           </div>
           <div className="pr-4 xl:flex xl:flex-row xl:gap-7">
             {posts.map((p) => (
-            <div key={p._id} className="rounded-lg w-[300px] h-auto overflow-hidden shadow-md bg-gray-800 border-gray-700 mb-8 xl:overflow-visible xl:min-w-[300px] xl:max-w-[300px] xl:flex xl:flex-col xl:justify-between">
-              <div className="w-full h-2/5">
-               <img className="w-full h-full max-h-48 xl:rounded-t-lg" src={p.selectedFile} alt="Mountain"/>
-              </div>
-              <div className="p-5">
-                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{p.title}</h5>
-                <div className="mb-3 font-normal text-gray-700 dark:text-gray-400 break-words" dangerouslySetInnerHTML={{__html:`${txt(p.post).substring(0,100)}...`}} />  
-              </div>
-              <div className="flex justify-between px-5 pb-5">
-                <button onClick={() => handleUpdate(p)} className="bg-blue-900 text-white px-4  py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
-                    Editar
-                </button>
-                <button onClick={() => { handleRemove(p._id) }} className="bg-red-600 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-red-500 transition-all  active:transform active:translate-y-1">
-                  Remove
-                </button>
-              </div>
-            </div>
+              <Post p={p} update={update} setUpdate={setUpdate} setId={setId} setPostData={setPostData}/>
             ))}
           </div>
       </div>
+
     </div>
   )
 }

@@ -1,20 +1,25 @@
 import React, { useState } from 'react'
 import * as IoIcons from "react-icons/io";
 import * as FaIcons from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useSelector } from 'react-redux'
 import Modal from "../Modal";
+import { logout } from '../../store/actions';
 
 
 export default function () {
+    const dispatch = useDispatch()
     const [open, setOpen] = useState(true);
     const [modalOn, setModalOn] = useState(false);
     const user = useSelector(state => state.USERS.find(u => u._id == state.auth.user.id)) ? useSelector(state => state.USERS.find(u => u._id == state.auth.user.id)) : useSelector(state => state.auth.user)
-    //const user = useSelector(state => state.auth.user)
     const isAdmin = useSelector(state=>state.auth.user.roles.find(r => r.name == "admin") ? true : false)
     const isMod = useSelector(state=>state.auth.user.roles.find(r => r.name == "moderator") ? true : false)
 
-    
+    const disconnect = () => {
+        window.location.reload(false);
+        dispatch(logout())
+    }
+ 
     return (
         <>
         <div className={` ${open ? "w-72" : "w-20 "} bg-gray-900 h-screen p-5  pt-8 relative duration-300 md:w-20`}>
@@ -87,7 +92,7 @@ export default function () {
                 </li>
             </ul>
             }
-            <div className='absolute flex rounded bottom-0 p-2 mb-2 text-gray-300 hover:bg-light-white text-sm items-center  gap-x-4'>
+            <div onClick={disconnect} className='absolute flex rounded bottom-0 p-2 mb-2 text-gray-300 hover:bg-light-white text-sm items-center  gap-x-4'>
                 <IoIcons.IoIosExit/>
                 <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>Logout</span>
             </div>

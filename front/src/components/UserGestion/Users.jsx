@@ -11,6 +11,7 @@ export default function Users() {
   const users = useSelector((state) => state.USERS);
   const [openModal, setOpenModal] = useState(false)
   const [search, setSearch] = useState('')
+
   const searchUsers = () => {
     if(search.trim()){
       console.log(search)
@@ -46,7 +47,7 @@ export default function Users() {
         </div>
       </div>
       {users.map((user) => (
-        <User key={user._id} user={user} />
+        <User key={user._id} user={user}/>
       ))}
       {openModal && <AddUser setModalOn={setOpenModal}/>}
     </div>

@@ -8,6 +8,7 @@ export default function User({ user }) {
   const handleClick = () => {
     setOpen(!open);
   };
+  const [confirmDelete, setConfirmDelete] = useState(false)
 
   return (
     <div className="flex flex-col">
@@ -22,7 +23,7 @@ export default function User({ user }) {
           {open ? <IoIcons.IoIosArrowUp /> : <IoIcons.IoIosArrowDown />}
         </button>
       </div>
-      <UserDetails open={open} user={user} />
+      <UserDetails open={open} user={user} setConfirmDelete={setConfirmDelete} confirmDelete={confirmDelete}/>
     </div>
   );
 }

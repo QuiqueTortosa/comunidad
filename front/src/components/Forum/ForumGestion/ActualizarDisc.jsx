@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createDiscussion, deleteDiscussion, getDiscussions, updateDiscussion, getCategories, deleteCategory, createCategory, getDiscussionMessages, addError } from "../../store/actions";
+import { createDiscussion, deleteDiscussion, getDiscussions, updateDiscussion, getCategories, deleteCategory, createCategory, getDiscussionMessages, addError } from "../../../store/actions";
 import * as FaIcons from "react-icons/fa";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import "./forum.css"
+import "../forum.css"
 import AñadirVotacion from "./AñadirVotacion";
 
 const editorConfiguration = {
