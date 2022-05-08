@@ -52,7 +52,7 @@ export default function PollDetails() {
     datasets: [
       {
         label: "Votación en curso",
-        data: [1000000000],
+        data: [1],
         backgroundColor: "rgba(17,24,39,0.6)",
       },
     ],

@@ -4,7 +4,6 @@ import userService from "../../services/users"
 
 export const getUsers = () => {
     return async dispatch => {
-        console.log("a")
         try {
             const data = await userService.getUsers()
             dispatch({

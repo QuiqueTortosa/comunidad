@@ -39,26 +39,26 @@ export default function () {
             {modalOn && <Modal setModalOn={setModalOn} />}    
             <ul className="pt-6">
                 <li>
-                    <Link to="/prueba" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
-                        <IoIcons.IoIosAdd/>
+                    <Link to="/home" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
+                        <FaIcons.FaHome/>
                         <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>Home</span>
                     </Link>
                 </li>
                 <li>
                     <Link to="/votaciones" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
-                        <IoIcons.IoIosAdd/>
+                        <FaIcons.FaRegChartBar/>
                         <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>Votaciones</span>
                     </Link>
                 </li>
                 <li>
                     <Link to="/noticias" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
-                        <IoIcons.IoIosAdd/>
+                        <FaIcons.FaNewspaper/>
                         <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>Noticias</span>
                     </Link>
                 </li>
                 <li>
                     <Link to="/foro" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
-                        <IoIcons.IoIosAdd/>
+                        <FaIcons.FaRegComments/>
                         <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>Foro</span>
                     </Link>
                 </li>
@@ -68,25 +68,25 @@ export default function () {
             <ul className='mt-5'> 
                 <li> 
                     <Link to="/votaciones/crearVotacion" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
-                        <IoIcons.IoIosAdd/>
+                        <FaIcons.FaPoll/>
                         <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>Votación Gestión</span>
                     </Link>
                 </li>
                 <li>
                     <Link to="/noticiasGestion" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
-                        <IoIcons.IoIosAdd/>
+                        <FaIcons.FaRegNewspaper/>
                         <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>Noticias Gestión</span>
                     </Link>
                 </li>
                 <li> 
                     <Link to="/foroGestion" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
-                        <IoIcons.IoIosAdd/>
+                        <FaIcons.FaPodcast/>
                         <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>Foro Gestión</span>
                     </Link>
                 </li>
                 <li>
                     <Link to="/users" className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}>
-                        <IoIcons.IoIosAdd/>
+                        <FaIcons.FaRegUser/>
                         <span className={`${!open && "hidden"} origin-left duration-200 md:hidden`}>User Gestión</span>
                     </Link>
                 </li>

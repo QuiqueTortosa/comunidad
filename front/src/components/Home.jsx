@@ -1,16 +1,15 @@
 import React from 'react'
-import votes from '../../services/votes'
-import {  getMessages, getCurrentPoll } from "../../store/actions";
+import {  getMessages, getCurrentPoll } from "../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 
-export default function Prueba() {
+export default function Home() {
   
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const user0 = useSelector(state => state.USERS.find(u => u._id == state.auth.user.id))
+  const user0 = useSelector(state => state.USERS.find(u => u._id === state.auth.user.id))
   const user1 = useSelector(state => state.auth.user)
   const user = user0 ? user0 : user1
   const poll = useSelector(state => state.VOTACIONES[state.VOTACIONES.length - 1])
@@ -66,7 +65,7 @@ export default function Prueba() {
         <div className='flex flex-col items-center w-full h-full'>
            <div className='flex flex-col shadow-3xl p-16 w-auto h-5/6 m-9 rounded-xl bg-white lg:h-auto lg:w-4/6 lg:p-5'>
               <div className="flex justify-center mb-3">
-                <img className="w-32 h-32 mr-2 rounded-full" src={user.selectedFile != "" ? user.selectedFile : "/images/avatar.png"} alt={"Image not found"}></img>
+                <img className="w-32 h-32 mr-2 rounded-full" src={user.selectedFile !== "" ? user.selectedFile : "/images/avatar.png"} alt={"Image not found"}></img>
               </div>
               <div className='flex flex-col lg:pl-4'>
                 <h1 className='mb-2 italic'><strong>Bienvenido {user.username}</strong></h1>
@@ -98,8 +97,8 @@ export default function Prueba() {
           </div>
           }
           { poll &&
-           <div className='flex flex-row justify-between shadow-3xl w-auto h-2/6 m-9 rounded-xl bg-white lg:flex-col lg:w-4/6 lg:items-center '>
-            <div className="flex mx-4 items-center h-auto w-2/6">
+           <div className='flex flex-row justify-between shadow-3xl min-w-[400px] w-auto h-2/6 m-9 rounded-xl bg-white md:min-w-[100px] lg:flex-col lg:w-4/6 lg:items-center '>
+            <div className="flex mx-4 items-center h-auto w-2/6 min-w-[150px]">
               <Doughnut data={data} />
             </div>
             <div className='flex flex-col justify-center align-middle'>
@@ -109,7 +108,7 @@ export default function Prueba() {
               <div>
                 {
                 poll.options.map((option, index) => (
-                  <h1>{index+1}. {option.name}</h1>
+                  <h1 key={index}>{index+1}. {option.name}</h1>
                 ))
                 }
               </div>
@@ -123,17 +122,3 @@ export default function Prueba() {
     </div>
   )
 }
-
-
-/*
-            <div className='flex flex-col shadow-3xl p-16 w-auto h-5/6 m-10 rounded-xl bg-white'>
-                <div className="flex justify-center mb-3">
-                    <img className="w-32 h-32 mr-2 rounded-full" src={user.selectedFile != "" ? user.selectedFile : "/images/avatar.png"} alt={"Image not found"}></img>
-                  </div>
-                  <h1 className='mb-2 italic'><strong>Bienvenido {user.username}</strong></h1>
-                  <p><strong>Usuario: </strong>{user.username}</p>
-                  <p><strong>Email: </strong>{user.email}</p>
-                  <p><strong>Número de mensajes: </strong>{user0.messages.length}</p>
-                  <p><strong>Rol: </strong>{user.roles[0].name}</p>
-            </div>
-*/

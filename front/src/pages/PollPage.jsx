@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ErrorMessage from "../components/ErrorMessage";
 import { useSelector, useDispatch } from "react-redux";
 import Poll from "../components/voting/Poll";
 import { getPollBySearch, getPolls } from "../store/actions";
@@ -11,18 +10,16 @@ export default function PollPage() {
   const dispatch = useDispatch();
   const [search, setSearch] = useState('')
   let ongoingPolls = useSelector((state) =>
-    state.VOTACIONES.filter((p) => p.status == 0)
+    state.VOTACIONES.filter((p) => p.status === 0)
   );
   let finishedPolls = useSelector((state) =>
-    state.VOTACIONES.filter((p) => p.status == 1)
+    state.VOTACIONES.filter((p) => p.status === 1)
   );
 
   const searchPolls = (query) => {
     if(search.trim()){
-        console.log(search)
         dispatch(getPollBySearch(search))
       }else {
-        console.log("jeje")
         dispatch(getPolls())
       }
   }
@@ -68,28 +65,28 @@ export default function PollPage() {
           </button>
         </div>
       </div>
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left text-gray-400">
-          <thead class="text-xs text-gray-400 uppercase bg-gray-700">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left text-gray-400">
+          <thead className="text-xs text-gray-400 uppercase bg-gray-700">
             <tr>
-              <th scope="col" class="py-3 text-center">
+              <th scope="col" className="py-3 text-center">
                 Nombre
               </th>
-              <th scope="col" class="py-3 text-center sm:hidden">
+              <th scope="col" className="py-3 text-center sm:hidden">
                 Opciones
               </th>
-              <th scope="col" class="py-3 text-center">
+              <th scope="col" className="py-3 text-center">
                 Participantes
               </th>
-              <th scope="col" class="py-3 text-center">
+              <th scope="col" className="py-3 text-center">
                 Estado
               </th>
-              <th scope="col" class="py-3 text-center">
+              <th scope="col" className="py-3 text-center">
           
               </th>
             </tr>
           </thead>
-          {showOngoing == 0 ? (
+          {showOngoing === 0 ? (
           <>
             {ongoingPolls.reverse().map((poll) => (
               <Poll key={poll._id} poll={poll}/>

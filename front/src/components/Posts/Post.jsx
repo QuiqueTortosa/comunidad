@@ -3,8 +3,6 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteMessage, getMessages } from "../../store/actions";
 import PostMessage from "./PostMessage";
-import decode from 'jwt-decode';
-import cookie from "js-cookie";
 import * as FaIcons from "react-icons/fa";
 import "./post.css"
 import Message from "./Message";

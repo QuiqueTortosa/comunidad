@@ -49,9 +49,9 @@ export default function CreateDiscussion() {
   }
 
   return (
-    <div className="w-full">
-        <h1 className="text-3xl font-bold italic font-extrabold mt-5">Crear discusión</h1>
-        <form autoComplete="off" onSubmit={handleSubmit}> 
+    <div className="w-full ">
+        <form  autoComplete="off" onSubmit={handleSubmit}>
+           <h1 className="text-3xl font-bold italic font-extrabold mt-5">Crear discusión</h1> 
           <div className="flex flex-col">
             <div className="relative z-0 mt-3 mb-3 w-full group pr-5">
               <input type="text" value={newDiscussion.title} onChange={(e) => setNewDiscussion({ ...newDiscussion, title: e.target.value })} className="block py-2.5 px-0 w-[400px] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer lg:w-full" placeholder=" " /> 
@@ -59,7 +59,7 @@ export default function CreateDiscussion() {
             </div>
             <div className="flex relative z-0 mt-3 mb-3 w-full group pr-5">
               <select defaultValue="" onChange={(e) => setNewDiscussion({...newDiscussion, category: e.target.value})} className="select select-accent block w-48 px-3 py-1 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition  ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">              
-                <option selected>Elija una categoría</option>
+                <option defaultValue="">Elija una categoría</option>
                 { categories.map(c => (
                     <option>{c.name}</option>
                   ))
@@ -89,8 +89,8 @@ export default function CreateDiscussion() {
             </button>
           </div>
         </form>
-        <h1 className="text-3xl font-bold italic font-extrabold mt-5">Crear categoría</h1>
         <form autoComplete="off" onSubmit={handleCategory}>
+          <h1 className="text-3xl font-bold italic font-extrabold mt-5">Crear categoría</h1>
           <div className="relative z-0 mt-3 mb-3 w-full group pr-5">
             <input type="text" value={newCategory} onChange={(e) => setNewCategory(e.target.value)} className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " /> 
             <label className="absolute left-0 text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre</label>
