@@ -19,10 +19,7 @@ export const getDiscussions = () => {
 export const getDiscussionsBySearch = (query) =>{
     return async dispatch => {
         try {
-            console.log("queyr: " +query)
             const data = await forumService.getDiscussionBySearch(query)
-            console.log("dATOS: ")
-            console.log(data)
             dispatch({
                 type: GET_ALL_DISCUSSSIONS,
                 payload: data
@@ -56,7 +53,6 @@ export const createDiscussion = discussion => {
 export const updateDiscussion = (id, discussion) => {
     return async dispatch => {
         try {
-            console.log(discussion)
             const data = await forumService.updateDiscussion(id, discussion)
             dispatch({
                 type: UPDATE_DISCUSSSION,
@@ -74,14 +70,12 @@ export const voteDiscussion = (id, data) => {
         try {
             const vote = await forumService.updatePoll(id, data); //En data va el answer
             if (vote.message) {
-                console.log(vote.message)
                 dispatch(addError(1,vote.message))
             } else {
                 dispatch({
                     type: UPDATE_DISCUSSSION,
                     payload: vote
                 })
-                console.log(data)
                 dispatch(addError(0,`Has votado la opcion: `+data.answer))
             }
         } catch (err) {
@@ -109,7 +103,6 @@ export const getDiscussionMessages = (discId) => {
     return async dispatch => {
         try {
             const data = await forumService.getDiscussionById(discId)
-            console.log(data)
             dispatch({
                 type: GET_ALL_DISCUSSSION_MESSAGES,
                 payload: data.messages
@@ -124,7 +117,6 @@ export const createDiscussionMessage = (discId, message) => {
     return async dispatch => {
         try {
             const data = await forumService.createMessage(discId, message)
-            console.log(data)
             dispatch({
                 type: CREATE_DISCUSSSION_MESSAGE,
                 payload: data
@@ -139,7 +131,6 @@ export const createDiscussionMessage = (discId, message) => {
 export const updateDiscussionMessage = (id, message) => {
     return async dispatch => {
         try {
-            console.log(message)
             const data = await forumService.updateMessage(id, message)
             dispatch({
                 type: UPDATE_DISCUSSSION_MESSAGE,
@@ -156,7 +147,6 @@ export const deleteDiscussionMessage = (discId, messageId) => {
     return async dispatch => {
         try {
             const data = await forumService.deleteMessage(discId, messageId)
-            console.log(data)
             dispatch({
                 type: DELETE_DISCUSSSION_MESSAGE,
                 payload: messageId

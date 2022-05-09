@@ -73,7 +73,6 @@ export default function CreateDiscussion() {
                 data={ newDiscussion.body }
                 onChange={ ( e, editor ) => {
                         const data = editor.getData();
-                        console.log( { e, editor, data } );
                         setNewDiscussion({ ...newDiscussion, body: data})
                            // if(editar) setNewDiscussion({...newDiscussion, body: data})
                         } }

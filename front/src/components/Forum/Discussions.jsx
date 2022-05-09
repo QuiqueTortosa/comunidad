@@ -13,20 +13,17 @@ export default function Discussions() {
   const isMod = useSelector(state=>state.auth.user.roles.find(r => r.name == "moderator") ? true : false)
   const [search, setSearch] = useState('')
   
-  console.log(discussions)
 
   useEffect(() => {
     if(search.length == 0) dispatch(getDiscussions())
     else dispatch(getDiscussionsBySearch(search))
     dispatch(getCategories())
   }, [discussions.length, categories.length])
-  console.log(discussions[discussions.length-1])
 
   const [update, setUpdate] = useState(false)
 
   const searchDiscs = (query) => {
     if(search.trim()){
-        console.log(search)
         dispatch(getDiscussionsBySearch(search))
       }else {
         dispatch(getDiscussions())

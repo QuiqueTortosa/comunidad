@@ -26,15 +26,12 @@ const Modal = ({ setModalOn }) => {
         roles: user.roles
       });
     const [file, setFile] = useState()
-    console.log(user)
     
     const handleSubmit = async e => {
         e.preventDefault()
         try {
             if(!resetPassword) {
                 setModalOn(false)
-                console.log("Usuario:");
-                console.log(userData);      
                 dispatch(updateUser(user._id, userData));
                 dispatch(setCurrentUser({
                             ...user,
@@ -62,7 +59,6 @@ const Modal = ({ setModalOn }) => {
             username: user.username,
             roles: user.roles
         })
-        console.log(file)
         setModalOn(false)
     }
 

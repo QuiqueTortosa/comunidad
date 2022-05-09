@@ -34,7 +34,6 @@ export default function ActualizarDisc() {
   }, [_updateDiscussion.title])
 
   const handleSelectDiscussion = disc => {
-      console.log(JSON.parse(disc))
      setUpdateDiscussion({
        id: JSON.parse(disc)._id,
        title: JSON.parse(disc).title,
@@ -42,7 +41,6 @@ export default function ActualizarDisc() {
        category: JSON.parse(disc).category
      })
      setQuestion(JSON.parse(disc).poll.question)
-     //console.log(updateDiscussion)
 
    }
 
@@ -59,13 +57,10 @@ export default function ActualizarDisc() {
 
    const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(_updateDiscussion)
     dispatch(updateDiscussion(_updateDiscussion.id,{..._updateDiscussion, poll: {
       question,
       options
      }}))
-     console.log(question)
-     console.log(options)
     dispatch(getDiscussions())
   }
 

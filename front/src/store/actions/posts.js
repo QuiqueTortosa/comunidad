@@ -19,10 +19,7 @@ export const getPosts = () => {
 export const getPostsBySearch = (query) =>{
     return async dispatch => {
         try {
-            console.log("queyr: " +query)
             const data = await postService.getPostsBySearch(query)
-            console.log("dATOS: ")
-            console.log(data)
             dispatch({
                 type: GET_ALL_POSTS,
                 payload: data
@@ -56,7 +53,6 @@ export const createPost = post => {
 export const updatePost = (id, post) => {
     return async dispatch => {
         try {
-            console.log(post)
             const data = await postService.updatePost(id, post)
             dispatch({
                 type: UPDATE_POST,
@@ -88,7 +84,6 @@ export const getMessages = (postId) => {
     return async dispatch => {
         try {
             const data = await postService.getPostById(postId)
-            console.log(data)
             dispatch({
                 type: GET_ALL_MESSAGES,
                 payload: data.messages
@@ -103,7 +98,6 @@ export const createMessage = (postId, message) => {
     return async dispatch => {
         try {
             const data = await postService.createMessage(postId, message)
-            console.log(data)
             dispatch({
                 type: CREATE_MESSAGE,
                 payload: data
@@ -118,7 +112,6 @@ export const createMessage = (postId, message) => {
 export const updateMessage = (id, message) => {
     return async dispatch => {
         try {
-            console.log(message)
             const data = await postService.updateMessage(id, message)
             dispatch({
                 type: UPDATE_MESSAGE,
@@ -135,7 +128,6 @@ export const deleteMessage = (postId, messageId) => {
     return async dispatch => {
         try {
             const data = await postService.deleteMessage(postId, messageId)
-            console.log(data)
             dispatch({
                 type: DELETE_MESSAGE,
                 payload: messageId

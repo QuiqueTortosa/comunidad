@@ -72,7 +72,7 @@ export default function PollDetails() {
   }, [getPoll]);
 
   return (
-    <div>
+    <div className="bg-white p-4  shadow-3xl rounded-3xl  lg:bg-transparent lg:shadow-none lg:rounded-none">
       {poll ? (
         <div className="flex flex-col mx-8 my-4">
           <div className="flex flex-row lg:flex-col  place-items-center">
@@ -105,7 +105,7 @@ export default function PollDetails() {
               </div>
               <div className="mb-2" dangerouslySetInnerHTML={{ __html: poll[0].description }}/>
               <button className="bg-blue-900 text-white px-4  py-1 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1" onClick={() => setPrueba(poll)}>
-                Refresh
+                Refrescar
               </button>
             </div>
             <div className="flex flex-col w-4/12 h-64 ml-6 justify-center lg:w-full">

@@ -13,6 +13,7 @@ export default function UserDetails({ open, user, confirmDelete, setConfirmDelet
   const isAdmin = useSelector((state) =>
     state.auth.user.roles.find((r) => r.name == "admin") ? true : false
   );
+  const users = useSelector((state) => state.USERS);
   const [confirmPassword, setConfirmPassword] = useState("")
 
   const [modSwitch, setModSwitch] = useState(
@@ -41,6 +42,7 @@ export default function UserDetails({ open, user, confirmDelete, setConfirmDelet
     dispatch(deleteUser(id));
   };
 
+
   const adminChange = () => {
     if (adminSwitch) {
       setUserData({
@@ -53,7 +55,6 @@ export default function UserDetails({ open, user, confirmDelete, setConfirmDelet
         ...userData,
         roles: [...userData.roles, {_id: "62530ebeff716236686126d8"}],
       });
-      console.log(userData.roles)
       setAdminSwitch(!adminSwitch);
     }
   };
@@ -66,12 +67,10 @@ export default function UserDetails({ open, user, confirmDelete, setConfirmDelet
       });
       setModSwitch(!modSwitch);
     } else {
-      console.log(userData.roles)
       setUserData({
         ...userData,
         roles: [...userData.roles, {_id: "62530ebeff716236686126d7"}],
       });
-      console.log(userData.roles)
       setModSwitch(!modSwitch);
     }
   };
@@ -84,12 +83,14 @@ export default function UserDetails({ open, user, confirmDelete, setConfirmDelet
   const handleUpdate = async (event) => {
     try {
       event.preventDefault();
-      console.log("Usuario:");
       if(userData.password.length >= 1 && userData.password !== confirmPassword){
         dispatch(addError(1,"Las contraseñas no coinciden"))
+      }else if(userData.roles[0]._id == undefined){
+        setUserData({...userData, roles: user.roles})
+        dispatch(updateUser(user._id, userData));
+        setUserData({...userData, password: ""}) 
+        setConfirmPassword("")
       }else {
-        console.log(confirmPassword)
-        console.log(userData.roles)
         dispatch(updateUser(user._id, userData));
         setUserData({...userData, password: ""}) 
         setConfirmPassword("")

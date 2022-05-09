@@ -24,7 +24,6 @@ const getPolls = async () => {
   return data
 }
 const getPollById = async id => {
-  console.log(token)
   const { data } = await axios.get(`${baseUrl}/find/${id}`,{
     headers: {
       Authorization: token
@@ -41,8 +40,6 @@ const deletePoll = async id => {
   return data
 }
 const updatePoll = async (id, poll) => {
-  console.log(id)
-  console.log(poll)
   const { data } = await axios.put(`${baseUrl}/${id}`, poll, {
     headers: {
       Authorization: token
@@ -51,7 +48,6 @@ const updatePoll = async (id, poll) => {
   return data
 }
 const createPoll = async (poll) => {
-  console.log(poll)
   const { data } = await axios.post(baseUrl + "/", poll, {
     headers: {
       Authorization: token
@@ -61,7 +57,6 @@ const createPoll = async (poll) => {
 }
 
 const changePollStatus = async (id, status) => {
-  console.log("Estado" + status)
   const {data} = await axios.put(`${baseUrl}/changeStatus/${id}`, status, {
     headers: {
       Authorization: token
@@ -71,7 +66,6 @@ const changePollStatus = async (id, status) => {
 }
 
 const getPollsBySearch = async query => {
-  console.log("query: "+query)
   const { data } = await axios.get(`${baseUrl}/search/?searchQuery=${query || 'none'}`, {
     headers: {
       Authorization: token

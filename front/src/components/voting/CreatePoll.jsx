@@ -23,12 +23,10 @@ export default function CreatePoll() {
   const addAnswer = () => {
     setOptions([...options, ""]);//Añadimos un elemento al array
     options.map(o => {
-        console.log(o)
     })
   };
 
   const handleAnswer = (e, i) => {
-      console.log(question[i])
       setOptions(o => {
           return [
               ...o.slice(0,i), //El slice devuelve parte de un array
@@ -75,7 +73,7 @@ export default function CreatePoll() {
   }
 
   return (
-    <form className="form shadow-3xl text-center pt-4 pb-8 px-16 rounded-xl sm:shadow-none sm:rounded-none sm:p-0" autoComplete="off" onSubmit={handleSubmit}> 
+    <form className="form shadow-3xl bg-white text-center pt-4 pb-8 px-16 rounded-xl" autoComplete="off" onSubmit={handleSubmit}> 
       <h1 className="text-3xl font-bold italic font-extrabold mt-5 mb-5">Añadir Votación</h1>
       <div className="flex items-center justify-center gap-8">
         <div>
@@ -103,18 +101,14 @@ export default function CreatePoll() {
                         data={description}
                         onReady={ editor => {
                             // You can store the "editor" and use when it is needed.
-                            console.log( 'Editor is ready to use!', editor );
                         } }
                         onChange={ ( e, editor ) => {
                             const data = editor.getData();
-                            console.log( { e, editor, data } );
                             setDesc(data)
                         } }
                         onBlur={ ( event, editor ) => {
-                            console.log( 'Blur.', editor );
                         } }
                         onFocus={ ( event, editor ) => {
-                            console.log( 'Focus.', editor );
                         } }
                     />
           </div>

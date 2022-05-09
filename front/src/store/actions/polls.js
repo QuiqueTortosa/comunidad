@@ -36,10 +36,7 @@ export const getCurrentPoll = (id) => {
 export const getPollBySearch = (query) =>{
     return async dispatch => {
         try {
-            console.log("queyr: " +query)
             const data = await votes.getPollsBySearch(query)
-            console.log("dATOS: ")
-            console.log(data)
             dispatch({
                 type: GET_ALL_POLLS,
                 payload: data
@@ -90,14 +87,12 @@ export const vote = (id, data) => {
         try {
             const poll = await votes.updatePoll(id, data); //En data va el answer
             if (poll.message) {
-                console.log(poll.message)
                 dispatch(addError(1,poll.message))
             } else {
                 dispatch({
                     type: UPDATE_POLL,
                     payload: poll
                 })
-                console.log(data)
                 dispatch(addError(0,`Has votado la opcion: `+data.answer))
             }
         } catch (err) {

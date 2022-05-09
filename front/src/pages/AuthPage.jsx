@@ -7,7 +7,6 @@ const AuthPage = () => {
   return (
     <div className="bg-white">
       <Auth/>
-      <ErrorMessage/>
     </div>
   );
 };

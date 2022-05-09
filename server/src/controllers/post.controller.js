@@ -64,7 +64,7 @@ export const updatePost = async (req,res,next) => {
 export const getPosts = async (req,res,next) => {
     try {
         const posts = await Post.find().populate('messages')
-        res.status(200).json(posts)
+        res.status(200).json(posts.reverse())
     }catch(e){
         e.status = 400;
         next(e)

@@ -19,7 +19,6 @@ export const getCategories = () => {
 export const createCategory = category => {
     return async dispatch => {
         try {
-            console.log(category)
             const data = await forumService.createCategory(category)
             if(data.message){
                 dispatch(addError(1,data.message))

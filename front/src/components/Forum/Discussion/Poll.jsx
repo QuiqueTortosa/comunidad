@@ -6,7 +6,6 @@ import { PolarArea, Bar, Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 
 export default function Poll({poll}) {
-  console.log(poll)
   const dispatch = useDispatch();
   const { discId } = useParams();
 

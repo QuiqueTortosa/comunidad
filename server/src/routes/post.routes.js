@@ -6,7 +6,7 @@ const router = Router()
 
 router.post('/', [authJwt.verifyToken2, authJwt.isModerator,verifyPost.checkDuplicateTitle],postCtrl.createPost)
 router.put('/:id',[authJwt.verifyToken2, authJwt.isModerator, verifyPost.checkDuplicateTitle], postCtrl.updatePost)
-router.delete('/:id',[authJwt.verifyToken2, authJwt.isModerator], postCtrl.deletePost)
+router.delete('/:id',[authJwt.verifyToken2, authJwt.isAdmin], postCtrl.deletePost)
 router.get('/find/:id',authJwt.verifyToken2,postCtrl.getPostById)
 router.get('/',postCtrl.getPosts)
 router.get("/search", authJwt.verifyToken2,postCtrl.getPostBySearch)

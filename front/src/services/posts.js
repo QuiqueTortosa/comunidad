@@ -24,7 +24,6 @@ const getPosts = async () => {
   return data
 }
 const getPostsBySearch = async query => {
-    console.log("query: "+query)
     const { data } = await axios.get(`${baseUrl}/search/?searchQuery=${query || 'none'}`, {
       headers: {
         Authorization: token
@@ -51,8 +50,6 @@ const deletePost = async id => {
   return data
 }
 const updatePost = async (id, post) => {
-  console.log(id)
-  console.log(post)
   const { data } = await axios.put(`${baseUrl}/${id}`, post, {
     headers: {
       Authorization: token

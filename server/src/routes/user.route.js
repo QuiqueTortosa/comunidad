@@ -10,9 +10,9 @@ router.post(
   usersCtrl.createUser
 );
 
-router.delete("/:id", [authJwt.verifyToken2, authJwt.isModerator], usersCtrl.deleteUser)
+router.delete("/:id", [authJwt.verifyToken2, authJwt.isAdmin], usersCtrl.deleteUser)
 
-router.put("/user/:id", [authJwt.isSuperiorRoleOrSameUser], usersCtrl.updateUser)
+router.put("/user/:id", [authJwt.isSuperiorRoleOrSameUser, verifySignup.checkDuplicateUsernameOrEmail], usersCtrl.updateUser)
 
 router.put("/changePassword/:id", [authJwt.isSuperiorRoleOrSameUser], usersCtrl.changePassword)
 

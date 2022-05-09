@@ -21,7 +21,6 @@ export default function Post({p, update, setUpdate,setPostData,setId}) {
         }
       }
       const handleUpdate = (p) => {
-        console.log("update")
         setId(p._id)
         setPostData({
           title: p.title,

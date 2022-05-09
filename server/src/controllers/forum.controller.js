@@ -13,9 +13,12 @@ export const createDiscussion = async (req,res,next) => {
             throw new Error('Rellena todos los campos');
         }        
 
+
+        console.log(poll)
         const user = await User.findById(userId)
         let newDiscussion;
-        if(poll.question.length > 1){
+        if(poll.options[0].length != 0){
+            console.log("he entrado")
             newDiscussion = Discussion({
                 user,
                 title,
@@ -37,7 +40,6 @@ export const createDiscussion = async (req,res,next) => {
             })
             await User.findByIdAndUpdate(userId, { $push: { discussions: newDiscussion._id}})
         }
-        console.log(newDiscussion)
         newDiscussion.save()
         res.status(201).json(newDiscussion)
     }catch(err){
@@ -159,7 +161,6 @@ export const getDiscussionById = async (req,res,next) => {
                                                                     }
                                                             }                                                            
                                                         })
-        //https://stackoverflow.com/questions/12821596/multiple-populates-mongoosejs
         if (!discussion) {
             res.json({message: "La discursión no ha sido encontrada"})
             throw new Error("Discussion not found")
@@ -173,6 +174,7 @@ export const getDiscussionById = async (req,res,next) => {
 
 export const getDiscussions = async (req,res,next) => {
     try {
+        console.log("hola")
         const discussions = await Discussion.find().populate({
                                                         path: 'messages',
                                                         populate: { path: 'user' },
@@ -184,7 +186,7 @@ export const getDiscussions = async (req,res,next) => {
                                                         path: 'user',
                                                         populate: { path: 'roles' }                                                            
                                                     })
-    res.status(200).json(discussions)
+    res.status(200).json(discussions.reverse())
     }catch(e){
         e.status = 400;
         next(e)

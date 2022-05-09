@@ -26,8 +26,6 @@ export default function AddUser({ setModalOn }) {
       const [adminSwitch, setAdminSwitch] = useState(
         userData.roles.find((r) => r == "admin") ? true : false
       );
-      console.log("userdata")
-      console.log(userData)
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -55,7 +53,6 @@ export default function AddUser({ setModalOn }) {
             password: "",
             roles: ["user"]
         })
-        console.log(userData)
         setModalOn(false)
     }
 

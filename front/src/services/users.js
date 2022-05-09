@@ -33,7 +33,6 @@ const config = {
   }
 
   const getUsersBySearch = async query => {
-    console.log("query: "+query)
     const { data } = await await axios.get(`${baseUrl}/search/?searchQuery=${query || 'none'}`, {
       headers: {
         Authorization: token

@@ -25,10 +25,8 @@ export default function PostMessage({reply, setReply, messageUpdate,setUpdateMes
     dispatch(getMessages(postId))
   },[reply.response,editar])
 
-  console.log(messageUpdate)
 
   const handleSubmit = (e) => {
-    console.log(reply.message)
     e.preventDefault()
     setMessageData({...messageData, response: reply.message})
     if(editar) {
@@ -67,19 +65,15 @@ export default function PostMessage({reply, setReply, messageUpdate,setUpdateMes
                         data={ editar ? messageUpdate.body : messageData.message }
                         onReady={ editor => {
                             // You can store the "editor" and use when it is needed.
-                            console.log( 'Editor is ready to use!', editor );
                         } }
                         onChange={ ( e, editor ) => {
                             const data = editor.getData();
-                            console.log( { e, editor, data } );
                             setMessageData({ ...messageData, message: data})
                             if(editar) setUpdateMessage({...messageUpdate, body: data})
                         } }
                         onBlur={ ( event, editor ) => {
-                            console.log( 'Blur.', editor );
                         } }
                         onFocus={ ( event, editor ) => {
-                            console.log( 'Focus.', editor );
                         } }
                     />
       </div>

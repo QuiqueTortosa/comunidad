@@ -28,6 +28,28 @@ export const verifyToken2 = async (req, res, next) => {
     }
 }
 
+export const checkDuplicatedUser = async (req, res, next) => {
+    try {
+      const user = await User.findOne({ username: req.body.username });
+      if (user) 
+        return res.status(400).json({ message: "El usuario ya existe, prueba con otro usuario" });
+      next();
+    } catch (error) {
+      res.status(500).json({ message: error });
+    }
+  };
+
+export const checkDuplicatedEmail = async (req, res, next) => {
+    try {
+      const user = await User.findOne({ username: req.body.email });
+      if (user) 
+        return res.status(400).json({ message: "El usuario ya existe, prueba con otro email" });
+      next();
+    } catch (error) {
+      res.status(500).json({ message: error });
+    }
+  };
+
 export const isModerator = async (req, res, next) => {
     //Se podria comprobar si existe el usuario primero
     const user = await User.findById(req.userId)
@@ -82,7 +104,7 @@ export const isSuperiorRoleOrSameUser = async (req, res, next) => {
         return response.status(401).json({ error: 'token missing or invalid' })
     }
 
-    if(currentUser.roles.sort()[currentUser.roles.length-1] != 0 && (currentUser.roles.sort()[currentUser.roles.length-1].prio >= modifyUser.roles.sort()[modifyUser.roles.length-1].prio || currentUser.email == modifyUser.email)){
+    if(currentUser.roles.sort()[currentUser.roles.length-1] != 0 && (currentUser.roles.sort()[currentUser.roles.length-1].prio > modifyUser.roles.sort()[modifyUser.roles.length-1].prio || currentUser.email == modifyUser.email)){
         next()
     }else if(currentUser.roles.sort()[currentUser.roles.length-1] == 0 && currentUser.email == modifyUser.email) {
         next()

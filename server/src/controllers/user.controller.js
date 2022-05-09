@@ -53,7 +53,7 @@ export const updateUser = async (req, res, next) => {
     const { username, email, direccion, telefono, password, roles, selectedFile } = req.body;
     const user = await User.findById(req.params.id)
     const newUpdateUser = {};
-
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS")
     if (username == undefined) newUpdateUser.username = user.username
     else newUpdateUser.username = username
     if (email == undefined) newUpdateUser.email = user.email
@@ -62,16 +62,14 @@ export const updateUser = async (req, res, next) => {
     else newUpdateUser.direccion = direccion
     if (telefono == undefined) newUpdateUser.telefono = user.telefono
     else newUpdateUser.telefono = telefono
-    if (roles == undefined) newUpdateUser.roles = user.roles
-    newUpdateUser.roles = roles
+    if (roles == undefined || JSON.stringify(roles).length < 6) newUpdateUser.roles = user.roles
+    else newUpdateUser.roles = roles
     if(selectedFile == undefined) newUpdateUser.selectedFile = user.selectedFile
     else newUpdateUser.selectedFile = selectedFile
     if (JSON.stringify(roles).includes("[[")) {
-        console.log("he entrado")
         newUpdateUser.roles = Object.values(roles)[0]
     } 
-    console.log(newUpdateUser)
-    console.log(email)
+
     if (password == "" || password == undefined) {
         const updatedUser = await User.findByIdAndUpdate(req.params.id,
             { $set: { username: newUpdateUser.username, email: newUpdateUser.email, telefono: newUpdateUser.telefono, direccion: newUpdateUser.direccion, roles: newUpdateUser.roles, selectedFile: newUpdateUser.selectedFile } },

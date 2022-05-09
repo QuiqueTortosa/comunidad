@@ -24,9 +24,6 @@ export default function PollPage() {
       }
   }
 
-  console.log(ongoingPolls);
-  console.log(finishedPolls);
-
   return (
     <div className="mx-7 my-4 sm:mx-2">
       <div className="mb-4">

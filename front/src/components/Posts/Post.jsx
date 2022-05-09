@@ -17,7 +17,6 @@ export default function Post() {
   const [reply, setReply] = useState({})
   const [editar, setEditar] = useState(false)
 
-  console.log(updateMessage)
   const { postId } = useParams();
   const post = useSelector((state) => state.POSTS.filter(p => p._id == postId))[0];
 

@@ -95,7 +95,7 @@ export default function Message({m, setReply,setUpdateMessage, editar, setEditar
       <div className="bg-opacity-70 bg-gray-800 fixed inset-0 z-30">
         <div className="flex h-screen justify-center items-center ">
           <div className="flex-col justify-center  bg-white py-12 px-12 border-4 border-sky-900 rounded-xl items-center">
-          <p className="text-black">¿Estas seguro de eliminar la votación?</p>
+          <p className="text-black">¿Estas seguro de eliminar el mensaje?</p>
           <div className="flex justify-evenly mt-4">
             <button onClick={() =>  handleRemove(m._id)} className="bg-red-600 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-red-500 transition-all  active:transform active:translate-y-1">
               Eliminar

@@ -22,7 +22,7 @@ export default function Message({m, setReply,setUpdateMessage, editar, setEditar
       }
 
   return (
-    <div className="flex my-2 border-2  rounded-xl lg:space-x-2 sm:flex-col sm:items-center sm:rounded-t-xl sm:gap-3">
+    <div className="flex my-2 bg-white rounded-xl lg:space-x-2 sm:flex-col sm:items-center sm:rounded-t-xl sm:gap-3">
         { m.user ? 
         <>              
         <div className={`flex flex-col items-center justify-between w-auto min-w-[130px] max-w-[130px] min-h-[350px] bg-gray-700 px-2 pt-3 rounded-l-xl sm:rounded-t-xl sm:rounded-b-none sm:max-w-full sm:pb-2 sm:w-full sm:border-b-2 sm:border-gray-300`}>
@@ -76,7 +76,7 @@ export default function Message({m, setReply,setUpdateMessage, editar, setEditar
                 <button className="flex bg-blue-900 text-white w-10 h-10 text-center justify-center items-center py-2 rounded-full shadow-md focus:ring hover:bg-blue-500 transit2on-all  active:transform active:translate-y-1" onClick={() => {setUpdateMessage({id: m._id, body: m.message}); setEditar(!editar)}}><FaIcons.FaEdit/></button>
             </div>   
             :
-            <div className="flex flex-col justify-end items-center p-2">
+            <div className="flex flex-col justify-end items-end p-2">
                 <button className="flex bg-blue-900 text-white w-10 h-10 text-center justify-center  items-center py-2 rounded-full shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1" onClick={() => {setReply(m)}}><div><FaIcons.FaReply/></div></button>
             </div>               
             }

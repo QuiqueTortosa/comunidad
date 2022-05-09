@@ -29,10 +29,8 @@ export default function DiscussionMessage({reply, setReply, messageUpdate,setUpd
     dispatch(getDiscussionMessages(discId))
   },[reply._id,editar])
 
-  console.log(reply)
 
   const handleSubmit = (e) => {
-    console.log(reply._id)
     e.preventDefault()
     setMessageData({...messageData, response: reply._id})
     if(editar) {
@@ -56,7 +54,7 @@ export default function DiscussionMessage({reply, setReply, messageUpdate,setUpd
   }
 
   return (
-    <div className="mt-5">
+    <div className="mt-5 bg-white p-3 rounded-2xl">
     <form autoComplete="off" onSubmit={handleSubmit}> 
       { reply.message &&
        <div id="texto" className="mb-3">
@@ -71,7 +69,6 @@ export default function DiscussionMessage({reply, setReply, messageUpdate,setUpd
                         data={ editar ? messageUpdate.body : messageData.message }
                         onChange={ ( e, editor ) => {
                             const data = editor.getData();
-                            console.log( { e, editor, data } );
                             setMessageData({ ...messageData, message: data})
                             if(editar) setUpdateMessage({...messageUpdate, message: data})
                         } }

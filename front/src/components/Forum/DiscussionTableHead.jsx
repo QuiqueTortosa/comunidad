@@ -28,7 +28,7 @@ export default function DiscussionTableHead({c,isAdmin, isMod}) {
         <th scope="col" class="w-[75px] py-3 text-center">
             Fecha
         </th>
-        { (isAdmin || isMod) &&
+        { (isAdmin) &&
             <th scope="col" class="py-3 w-[50px] text-center">
             <button onClick={() => setConfirmDelete(true)} className="font-medium text-red-500 hover:text-red-200 mt-3"><FaIcons.FaTrash/></button>
             </th>

@@ -15,7 +15,6 @@ const editorConfiguration = {
 export default function CreatePost() {
     const dispatch = useDispatch()
     const posts = useSelector((state) => state.POSTS);
-    console.log(posts)
     const [search, setSearch] = useState('')
     const [postData, setPostData] = useState({
         title: "",
@@ -32,10 +31,8 @@ export default function CreatePost() {
   
     const searchPosts = (query) => {
       if(search.trim()){
-          console.log(search)
           dispatch(getPostsBySearch(search))
         }else {
-          console.log("jeje")
           dispatch(getPosts())
         }
     }
@@ -47,10 +44,7 @@ export default function CreatePost() {
 
     const handleSubmit = (e) => {
       e.preventDefault()
-      console.log(postData)
-      console.log(id)
       if(update) {
-        console.log("hola")
         dispatch(updatePost(id, postData))
         clear()
       }else {
@@ -70,7 +64,7 @@ export default function CreatePost() {
   return (
     <div className="flex flex-row pl-5 justify-evenly xl:flex-col">
       <div className="pr-10">
-        <form autoComplete="off" onSubmit={handleSubmit}> 
+        <form className="bg-white p-4  shadow-3xl rounded-3xl" autoComplete="off" onSubmit={handleSubmit}> 
           { postData.selectedFile.length > 2 ?
           <div className="">
           <h1 className="pb-3 text-3xl font-bold italic font-extrabold">Gestión de noticias</h1>
@@ -99,7 +93,7 @@ export default function CreatePost() {
             />
           </div>
           </div>
-          <div className="h-[40vh] max-h-[40vh] w-[600px] overflow-y-auto xl:w-full">
+          <div className="h-[35vh] max-h-[35vh] w-[600px] overflow-y-auto xl:w-full">
           <CKEditor     
                         editor={ ClassicEditor }
                         config={ 
@@ -112,7 +106,6 @@ export default function CreatePost() {
                         data={postData.post}
                         onChange={ ( e, editor ) => {
                             const data = editor.getData();
-                            console.log( { e, editor, data } );
                             setPostData({ ...postData, post: data })
                         } }
 
@@ -130,7 +123,7 @@ export default function CreatePost() {
           </div>
         </form>
       </div>
-      <div className="hidden flex-row justify-end pr-1 w-[300px] pb-2 xl:w-auto xl:right-2 xl:flex">
+      <div className="hidden flex-row justify-end pr-1 pt-3 w-[300px] pb-2 xl:w-auto xl:right-2 xl:flex">
             <div className="">
               <input 
                 onChange={(e) => setSearch(e.target.value)}
@@ -145,7 +138,7 @@ export default function CreatePost() {
               </button>
             </div>
           </div>
-      <div className="h-[90vh] overflow-auto xl:mt-3 xl:h-auto">
+      <div className="h-[90vh] overflow-y-auto overflow-x-hidden xl:mt-3 xl:h-auto xl:overflow-x-auto xl:overflow-y-hidden">
         <div className="flex flex-row justify-end pr-1 w-[300px] pb-2 xl:hidden">
             <div className="">
               <input 

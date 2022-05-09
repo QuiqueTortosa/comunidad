@@ -14,10 +14,8 @@ export default function Users() {
 
   const searchUsers = () => {
     if(search.trim()){
-      console.log(search)
       dispatch(getUsersBySearch(search))
     }else {
-      console.log("jeje")
       dispatch(getUsers())
     }
   }

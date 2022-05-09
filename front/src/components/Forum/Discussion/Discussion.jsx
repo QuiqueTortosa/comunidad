@@ -25,10 +25,8 @@ export default function Discussion() {
   const [reply, setReply] = useState({})
   const [editar, setEditar] = useState(false)
 
-  console.log(reply)
   const { discId } = useParams();
   const discussion = useSelector((state) => state.DISCUSSIONS.filter(p => p._id == discId))[0];
-  console.log(discussion)
   useEffect(() => {
     dispatch(getDiscussionMessages(discId))
     dispatch(getDiscussions())
@@ -36,7 +34,7 @@ export default function Discussion() {
 
   return (
     <div className="flex flex-col w-auto">
-      <div className="flex flex-col w-auto mx-16 mt-8 py-16 bg-white lg:mx-1 lg:px-1 lg:shadow-none">
+      <div className="flex flex-col w-auto mx-16 pt-2 lg:mx-1 lg:px-1 lg:shadow-none">
         <div className="flex justify-between">
           <h1 className="text-3xl font-bold italic">{discussion.title}</h1>
           <button className="bg-green-800 text-white px-4 py-1 mr-6 rounded shadow-md focus:ring hover:bg-green-600 transition-all  active:transform active:translate-y-1" onClick={() => {dispatch(getDiscussionMessages(discId))}}>

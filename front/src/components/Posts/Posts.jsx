@@ -11,11 +11,10 @@ import PostBody from "./PostBody";
 export default function Posts() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const posts = useSelector((state) => state.POSTS).reverse();
+  const posts = useSelector((state) => state.POSTS);
   const [search, setSearch] = useState('')
   const [confirmDelete, setConfirmDelete] = useState(false)
   const isAdmin = decode(cookie.get("token")).roles.some(r => r.name == "admin" || r.name == "moderator")
-  console.log(posts);
 
   const handleRemove = (id) => {
     setConfirmDelete(false)
@@ -24,10 +23,8 @@ export default function Posts() {
 
   const searchPosts = (query) => {
     if(search.trim()){
-        console.log(search)
         dispatch(getPostsBySearch(search))
       }else {
-        console.log("jeje")
         dispatch(getPosts())
       }
   }

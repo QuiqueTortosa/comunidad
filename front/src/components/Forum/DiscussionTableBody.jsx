@@ -49,7 +49,7 @@ export default function DiscussionTableBody({d, isAdmin, isMod}) {
             <br/>
             {d.createdAt ? d.createdAt.substring(0,10) : ""}
         </td>
-        { (isAdmin || isMod) &&
+        { (isAdmin) &&
             <td className="py-1">
             <div className="flex flex-col items-center">
                 <button onClick={() => setConfirmDelete(true)} className="font-medium text-red-500 hover:text-red-200 mt-3"><FaIcons.FaTrash/></button>

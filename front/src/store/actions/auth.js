@@ -21,7 +21,7 @@ export const setCurrentUser = user => {
             //dispatch(removeError())
         } catch (err) {
             const error = err.response.data
-            dispatch(addError(error.message)) //dispatch viene de redux-thunk, addError viene de nuestro fichero error
+            dispatch(addError(0,error.message)) //dispatch viene de redux-thunk, addError viene de nuestro fichero error
         }
     }
 }
@@ -30,7 +30,6 @@ export const authUser = (credentials) => {
     return async dispatch => {
         try {  
             const { token } = await auth.login(credentials)
-            console.log(token)
             auth.setToken(token)
             voteService.setToken(token)
             postService.setToken(token)
@@ -45,10 +44,8 @@ export const authUser = (credentials) => {
             })
             dispatch(removeError())
         } catch (err) {
-            console.log("hola2?")
             const error = err.response.data
-            console.log(error.message)
-            dispatch(addError(error.message)) //dispatch viene de redux-thunk, addError viene de nuestro fichero error
+            dispatch(addError(1,error.message)) //dispatch viene de redux-thunk, addError viene de nuestro fichero error
         }
     }
 }

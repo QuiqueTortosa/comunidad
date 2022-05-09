@@ -59,7 +59,7 @@ export default function App() {
   }
 
   return (
-    <div  id={isAuth ? "" : "login"} className={`flex`}>
+    <div  id={isAuth ? "login" : "login"} className={`flex`}>
       <BrowserRouter>
       {isAuth && <Leftbar/>}
       {error && <ErrorMessage/>}

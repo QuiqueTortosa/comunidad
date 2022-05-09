@@ -77,8 +77,8 @@ export const vote = async (req, res, next) => {
         if(answer) {
             const votation = await Vote.findById(voteId)
             if(!vote) {
-                res.json({message: "No votation found"})
-                throw new Error("No votation found")
+                res.json({message: "No se encontro votación"})
+                throw new Error("No se encontro votación")
             } else {
                 const vote = votation.options.map(
                     option => {
@@ -102,12 +102,12 @@ export const vote = async (req, res, next) => {
                     await votation.save()
                     res.status(200).json(votation)
                 }  else {
-                    res.json({message: "Already voted"})
-                    throw new Error('Already voted');
+                    res.json({message: "Ya has votado"})
+                    throw new Error('Ya has votado');
                 }
             }
         } else {
-            res.json({message: "No answer provided"})
+            res.json({message: "No se encontro respuesta"})
         }
     } catch (err) {
         err.status = 400;

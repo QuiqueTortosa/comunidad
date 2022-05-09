@@ -27,7 +27,6 @@ const getDiscussions = async () => {
   return data
 }
 const getDiscussionBySearch = async query => {
-    console.log("query: "+query)
     const { data } = await axios.get(`${baseUrl}/search/?searchQuery=${query || 'none'}`, {
       headers: {
         Authorization: token
@@ -54,8 +53,6 @@ const deleteDiscussion = async id => {
   return data
 }
 const updateDiscussion = async (id, discussion) => {
-  console.log(id)
-  console.log(discussion)
   const { data } = await axios.put(`${baseUrl}/disc/${id}`, discussion, {
     headers: {
       Authorization: token
@@ -65,8 +62,6 @@ const updateDiscussion = async (id, discussion) => {
 }
 
 const updatePoll = async (discId, poll) => {
-  console.log(discId)
-  console.log(poll)
   const { data } = await axios.put(`${baseUrl}/vote/${discId}`, poll, {
     headers: {
       Authorization: token
@@ -130,7 +125,6 @@ const deleteCategory = async id => {
 }
 
 const createCategory = async (category) => {
-  console.log(category)
   const { data } = await axios.post(categoriesUrl + "/",{name: category}, {
     headers: {
       Authorization: token

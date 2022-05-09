@@ -109,9 +109,11 @@ export default function Poll({ poll }) {
                 <button onClick={() => handleSelect(poll._id)} className="font-medium text-blue-600">
                   <FaIcons.FaForward/>
                 </button>
+               {(isAdmin) &&
                 <button onClick={() => setConfirmDelete(true)} className="font-medium text-red-500 hover:text-red-200 mt-3">
-                  <FaIcons.FaTrash/>
-                </button>
+                    <FaIcons.FaTrash/>
+                  </button>
+                }
               </div>
             </td>
           </tr>

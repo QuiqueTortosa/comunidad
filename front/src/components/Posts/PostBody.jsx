@@ -9,7 +9,7 @@ export default function PostBody({p}) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [confirmDelete, setConfirmDelete] = useState(false)
-    const isAdmin = decode(cookie.get("token")).roles.some(r => r.name == "admin" || r.name == "moderator")
+    const isAdmin = decode(cookie.get("token")).roles.some(r => r.name == "admin")
   
     const handleRemove = (id) => {
       setConfirmDelete(false)
