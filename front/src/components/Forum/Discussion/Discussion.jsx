@@ -37,9 +37,14 @@ export default function Discussion() {
       <div className="flex flex-col w-auto mx-16 pt-2 lg:mx-1 lg:px-1 lg:shadow-none">
         <div className="flex justify-between">
           <h1 className="text-3xl font-bold italic">{discussion.title}</h1>
-          <button className="bg-green-800 text-white px-4 py-1 mr-6 rounded shadow-md focus:ring hover:bg-green-600 transition-all  active:transform active:translate-y-1" onClick={() => {dispatch(getDiscussionMessages(discId))}}>
-            Refrescar
-          </button>
+          <div>
+          <div className="text-right max-h-[1]">
+              <p className={`relative -left-[33px] -bottom-[70px] text-xs text-gray-700 sm:hidden`}>{discussion.createdAt.substring(0,10)+"," +discussion.createdAt.substring(11,16)}</p>
+            </div>
+            <button className="bg-green-800 text-white px-4 py-1 mr-6 rounded shadow-md focus:ring hover:bg-green-600 transition-all  active:transform active:translate-y-1" onClick={() => {dispatch(getDiscussionMessages(discId))}}>
+              Refrescar
+            </button>
+          </div>
         </div>
         <DiscussionHeader discussion={discussion} reply={reply} setReply={setReply}/>
         { 

@@ -9,7 +9,7 @@ export default function DiscussionHeader({discussion, reply, setReply}) {
     const isAdmin = useSelector(state=>state.auth.user.roles.find(r => r.name == "admin") ? true : false)
     const isMod = useSelector(state=>state.auth.user.roles.find(r => r.name == "moderator") ? true : false)
   return (
-        <div className="flex my-2 rounded-xl bg-white lg:space-x-2 sm:flex-col sm:items-center sm:gap-3">
+        <div className="flex flex-row my-2 justify-between rounded-xl bg-white lg:space-x-2 sm:flex-col sm:items-center sm:gap-3">
         { discussion.user ? 
             <div className={`flex flex-col items-center justify-between w-auto min-w-[130px] max-w-[130px]  min-h-[350px] bg-gray-700 px-2 pt-3 rounded-l-xl sm:max-w-full sm:rounded-t-xl sm:rounded-b-none sm:pb-2 sm:w-full sm:border-b-2 sm:border-gray-300`}> 
                 <div className="text-center">
@@ -30,7 +30,7 @@ export default function DiscussionHeader({discussion, reply, setReply}) {
                     }
                     </div>
                     }
-                    <p className="text-gray-200">{discussion.user.username}</p>
+                    <p className="text-gray-200 sm:pb-1">{discussion.user.username}</p>
                     <p className="text-xl font-bold italic font-extrabold text-gray-200">{discussion.user.roles ? discussion.user.roles[discussion.user.roles.length-1].name : "nada"}</p>
                         <div className="flex justify-center">
                             <p className="text-gray-300">Mensajes: &nbsp;</p>
@@ -38,8 +38,9 @@ export default function DiscussionHeader({discussion, reply, setReply}) {
                         </div>
                     </div>
                     <div className="pb-3">
-                     <p className="relative text-xs text-gray-200">{discussion.user.createdAt ? discussion.user.createdAt.substring(0,10)+"," +discussion.user.createdAt.substring(11,16) : ""}</p>
+                     <p className="relative text-xs text-gray-200 sm:top-[55px]">{discussion.user.createdAt ? discussion.user.createdAt.substring(0,10)+"," +discussion.user.createdAt.substring(11,16) : ""}</p>
                     </div>
+                    <p className={`relative hidden max-h-0 text-left top-[18px] text-xs text-gray-700 sm:flex`}>{discussion.createdAt.substring(0,10)+"," +discussion.createdAt.substring(11,16)}</p>
             </div>
             :
             <div className={`flex flex-col items-center justify-between w-auto min-w-[130px] max-w-[130px]  min-h-[350px] bg-gray-700 px-2 pt-3 rounded-l-xl sm:max-w-full sm:rounded-t-xl sm:rounded-b-none sm:pb-2 sm:w-full sm:border-b-2 sm:border-gray-300`}> 
@@ -52,15 +53,13 @@ export default function DiscussionHeader({discussion, reply, setReply}) {
                             <p className="text-gray-200">0</p>
                         </div>
                     </div>
-                    <div className="pb-3">
-                        <p className="relative text-xs text-gray-200">Hace mucho tiempo</p>
+                    <div className="pb-3 sm:pb-1">
+                        <p className="relative text-xs text-gray-200 sm:top-[55px]">Hace mucho tiempo</p>
                     </div>
+                    <p className={`relative hidden max-h-0 text-left top-[18px] text-xs text-gray-700 sm:flex`}>{discussion.createdAt.substring(0,10)+"," +discussion.createdAt.substring(11,16)}</p>
             </div>
         }
-            <div className={`flex flex-col text-center w-full min-h-[350px] h-full ${discussion.poll.question ? "justify-between" : "justify-center"} px-8 sm:pb-2 sm:w-full sm:border-b-2 sm: border-gray-300`}>
-                <div className="text-right pt-2">
-                    <p className={` text-xs text-gray-700 ${discussion.poll.question ? "text-right" : "-top-[150px]"}`}>{discussion.createdAt.substring(0,10)+"," +discussion.createdAt.substring(11,16)}</p>
-                </div>
+            <div className={`flex flex-col text-center w-full my-10 min-h-[350px] h-full ${discussion.poll.question ? "justify-between" : "justify-center"} px-8 sm:pb-2 sm:w-full sm:border-b-2 sm: border-gray-300`}>
                 <div id="texto" className="text-center">
                     <div className="break-all" dangerouslySetInnerHTML={{ __html: discussion.body}}/>
                 </div>
@@ -69,3 +68,5 @@ export default function DiscussionHeader({discussion, reply, setReply}) {
     </div>  
   )
 }
+
+// ${discussion.poll.question ? "text-right" : "-top-[150px]"

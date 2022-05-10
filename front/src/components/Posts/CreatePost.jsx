@@ -156,7 +156,7 @@ export default function CreatePost() {
           </div>
           <div className="pr-4 xl:flex xl:flex-row xl:gap-7">
             {posts.map((p) => (
-              <Post p={p} update={update} setUpdate={setUpdate} setId={setId} setPostData={setPostData}/>
+              <Post key={p._id} p={p} update={update} setUpdate={setUpdate} setId={setId} setPostData={setPostData}/>
             ))}
           </div>
       </div>
