@@ -9,7 +9,7 @@ export const createDiscussion = async (req,res,next) => {
         const { title, body, category, poll } = req.body;
 
         if (!title || !body || !category ) {
-            res.json({ message: "Rellena todos los campos" });
+            res.status(200).json({ message: "Rellena todos los campos" });
             throw new Error('Rellena todos los campos');
         }        
 
@@ -18,7 +18,6 @@ export const createDiscussion = async (req,res,next) => {
         const user = await User.findById(userId)
         let newDiscussion;
         if(poll.options[0].length != 0){
-            console.log("he entrado")
             newDiscussion = Discussion({
                 user,
                 title,
@@ -41,9 +40,9 @@ export const createDiscussion = async (req,res,next) => {
             await User.findByIdAndUpdate(userId, { $push: { discussions: newDiscussion._id}})
         }
         newDiscussion.save()
-        res.status(201).json(newDiscussion)
+        res.status(200).json(newDiscussion)
     }catch(err){
-        err.status = 400;
+        err.status = 500;
         next(err)
     }
 }
@@ -54,7 +53,7 @@ export const updateDiscussion = async (req,res,next) => {
 
         const oldDiscussion = await Discussion.findById(req.params.id)
         const uDiscussion = {}   
-
+        console.log("tamañp"+poll.options[0].length)
         if (title == undefined) uDiscussion.title = oldDiscussion.title
         else uDiscussion.title = title
         if (body == undefined) uDiscussion.body = oldDiscussion.body
@@ -68,13 +67,18 @@ export const updateDiscussion = async (req,res,next) => {
                 options: poll.options.map(option => ({ name: option, votes: 0 }))
             }
         }
-        console.log(poll)
-        const nDiscussion = await Discussion.findByIdAndUpdate(req.params.id,
-            { $set: { title: uDiscussion.title, body: uDiscussion.body, category: uDiscussion.category, poll: uDiscussion.poll } },
-            { new: true }) //Nos lo devuelve actulizado
-        res.status(200).json(nDiscussion)
+        if(oldDiscussion.poll.options.length != 0 && poll.options[0].length != 0) {
+            res.status(400).json({message: "La discusión ya tiene una votación"})
+            throw new Error("La discusión ya tiene una votación")
+        } else {
+            console.log(poll)
+            const nDiscussion = await Discussion.findByIdAndUpdate(req.params.id,
+                { $set: { title: uDiscussion.title, body: uDiscussion.body, category: uDiscussion.category, poll: uDiscussion.poll } },
+                { new: true }) //Nos lo devuelve actulizado
+            res.status(200).json(nDiscussion)
+        }
     }catch(err){
-        err.status = 400;
+        err.status = 500;
         next(err)
     }
 }
@@ -88,9 +92,12 @@ export const voteDisc = async (req,res,next) => {
         if(answer) {
             const disc = await Discussion.findById(id)
             if(!disc) {
-                res.json({message: "No discurssion found"})
-                throw new Error("No discurssion found")
-            } else {
+                res.status(400).json({message: "No se ha encontrado discusión"})
+                throw new Error("No se ha encontrado discusión")
+            } else if(JSON.stringify(disc.poll.options[0]).length < 5){
+                res.status(400).json({message: "La discusión no tiene votación"})
+                throw new Error("La discusión no tiene votación")
+            }else {
                 const vote = disc.poll.options.map(
                     option => {
                         if(option.name.toString() === answer.toString()){
@@ -113,15 +120,15 @@ export const voteDisc = async (req,res,next) => {
                     await disc.save()
                     res.status(200).json(disc)
                 }  else {
-                    res.json({message: "Already voted"})
-                    throw new Error('Already voted');
+                    res.status(400).json({message: "Ya has votado"})
+                    throw new Error('Ya has votado');
                 }
             }
         } else {
-            res.json({message: "No answer provided"})
+            res.status(400).json({message: "No se ha proporcionado una respuesta"})
         }
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }
@@ -129,9 +136,9 @@ export const voteDisc = async (req,res,next) => {
 export const deleteDiscussion = async (req,res,next) => {
     try {
         await Discussion.findOneAndRemove({ _id: req.params.id })
-        res.status(200).json()
+        res.status(200).json({ message: "Discusión eliminada"})
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }
@@ -167,14 +174,13 @@ export const getDiscussionById = async (req,res,next) => {
         }
         res.status(200).json(discussion);
     }catch(err){
-        err.status = 400;
+        err.status = 500;
         next(err)
     }
 }
 
 export const getDiscussions = async (req,res,next) => {
     try {
-        console.log("hola")
         const discussions = await Discussion.find().populate({
                                                         path: 'messages',
                                                         populate: { path: 'user' },
@@ -188,7 +194,7 @@ export const getDiscussions = async (req,res,next) => {
                                                     })
     res.status(200).json(discussions.reverse())
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }
@@ -200,7 +206,7 @@ export const getDiscussionBySearch = async (req,res,next) => {
         const discussions = await Discussion.find({title: query})
         res.status(200).json(discussions)
     }catch(err){
-        err.status = 400;
+        err.status = 500;
         next(err)
     }
 }
@@ -233,9 +239,9 @@ export const deleteMessage = async (req,res,next) => {
     try {
         await Discussion.findOneAndUpdate({_id: req.params.discId}, {$pull: { messages: req.params.id}})
         await DiscussionMessage.findOneAndRemove({ _id: req.params.id })
-        res.status(200).json()
+        res.status(200).json({ message: "Mensaje eliminado"})
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }
@@ -244,11 +250,7 @@ export const updateMessage = async (req,res,next) => {
     try {
         const { message } = req.body
         const oldMessage = await DiscussionMessage.findById(req.params.id).populate('user')
-        console.log(oldMessage)
-        console.log(req.userId)
         const uMessage = {} 
-        console.log("Hola")  
-        console.log(message)
         if (message == undefined) uMessage.message = oldMessage.message
         else uMessage.message = message
         const nMessage = await DiscussionMessage.findByIdAndUpdate(req.params.id,
@@ -256,7 +258,7 @@ export const updateMessage = async (req,res,next) => {
             { new: true }) //Nos lo devuelve actulizado
         res.status(200).json(nMessage)
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }

@@ -33,7 +33,7 @@ export const isModOrAdminOrSameUser = async (req, res, next) => {
   const modifyMessage = await DiscussionMessage.findById(req.params.id).populate('roles').populate('user')
 
   if (!token || !decodedToken.id || !currentUser) {
-      return response.status(401).json({ error: 'token missing or invalid' })
+      return response.status(401).json({ message: 'Token no valido' })
   }
 
   if(modifyMessage.user){

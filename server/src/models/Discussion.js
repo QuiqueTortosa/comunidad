@@ -46,10 +46,6 @@ const discussionSchema = new Schema({
         required: true
     },
     poll: {
-        status: { // 0 si esta en curso, 1 si ha acabado
-            type: Number,
-            default: 0
-        },
         question: {
             type: String,
         },

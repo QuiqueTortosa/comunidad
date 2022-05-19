@@ -15,9 +15,9 @@ export const addCategory = async (req,res,next) => {
         
         newDiscussionCategory.save()
 
-        res.status(201).json(newDiscussionCategory)
+        res.status(200).json(newDiscussionCategory)
     }catch(e) {
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }
@@ -26,13 +26,13 @@ export const deleteCategory = async (req,res,next) => {
     try {
         try {
             await DiscussionCategory.findOneAndRemove({ _id: req.params.id })
-            res.status(200).json()
+            res.status(200).json({ message: "Categoria eliminada"})
         }catch(e){
             e.status = 400;
             next(e)
         }
     }catch(e) {
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }
@@ -42,7 +42,7 @@ export const getCategories = async (req,res,next) => {
         const categories = await DiscussionCategory.find()
         res.status(200).json(categories)
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }

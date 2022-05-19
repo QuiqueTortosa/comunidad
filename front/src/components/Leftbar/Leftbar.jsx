@@ -22,6 +22,10 @@ export default function () {
  
     return (
         <>
+        <div className='md:w-20'>
+
+        </div>
+        
         <div className={` ${open ? "w-72" : "w-20 "} bg-gray-900 h-screen p-5  pt-8 relative duration-300 md:w-20`}>
             <img
                 src="/images/control.png"

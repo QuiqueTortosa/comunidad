@@ -7,7 +7,7 @@ export const createPost = async (req,res,next) => {
         const userId = req.userId
         const { title, selectedFile, post } = req.body;
         if (!title || !selectedFile || !post ) {
-            res.json({ message: "Rellena todos los campos" });
+            res.status(400).json({ message: "Rellena todos los campos" });
             throw new Error('Rellena todos los campos');
         }        
         const user = await User.findById(userId)
@@ -20,9 +20,9 @@ export const createPost = async (req,res,next) => {
         await User.findByIdAndUpdate(userId,
                 { $push: { posts: newPost._id}})
         newPost.save()
-        res.status(201).json(newPost)
+        res.status(200).json(newPost)
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }
@@ -30,9 +30,9 @@ export const createPost = async (req,res,next) => {
 export const deletePost = async (req,res,next) => {
     try {
         await Post.findOneAndRemove({ _id: req.params.id })
-        res.status(200).json()
+        res.status(200).json({ message: "Noticia eliminada"})
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }
@@ -56,7 +56,7 @@ export const updatePost = async (req,res,next) => {
             { new: true }) //Nos lo devuelve actulizado
         res.status(200).json(nPost)
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }
@@ -66,7 +66,7 @@ export const getPosts = async (req,res,next) => {
         const posts = await Post.find().populate('messages')
         res.status(200).json(posts.reverse())
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }
@@ -81,7 +81,7 @@ export const getPostBySearch = async (req,res,next) => {
         console.log(posts)
         res.status(200).json(posts)
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }
@@ -91,12 +91,12 @@ export const getPostById = async (req,res,next) => {
         const { id } = req.params;
         const post = await Post.findById(id).populate({path: 'messages', model: "PostMessage", populate: {path:"user", model: "User"}})
         if (!post) {
-            res.json({message: "No post found"})
+            res.status(400).json({message: "No post found"})
             throw new Error("Post not found")
         }
         res.status(200).json(post);
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }
@@ -124,7 +124,7 @@ export const addMessage = async (req, res,next) => {
         console.log(nMessage)
         res.status(200).json(nMessage)
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }
@@ -133,9 +133,9 @@ export const deleteMessage = async (req,res,next) => {
     try {
         await Post.findOneAndUpdate({_id: req.params.postId}, {$pull: { messages: req.params.id}})
         await PostMessage.findOneAndRemove({ _id: req.params.id })
-        res.status(200).json()
+        res.status(200).json({ message: "Mensaje eliminado"})
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }
@@ -152,7 +152,7 @@ export const updateMessage = async (req,res,next) => {
             { new: true }) //Nos lo devuelve actulizado
         res.status(200).json(nMessage)
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }

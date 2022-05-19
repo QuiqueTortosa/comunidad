@@ -6,7 +6,7 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
     console.log(req.body.username)
     const user = await User.findOne({ username: req.body.username });
     if (user && user._id != req.params.id)
-      return res.status(400).json({ message: "El usuario ya existe" });
+      return res.status(400).json({ message: "El nombre de  usuario ya existe" });
     const email = await User.findOne({ email: req.body.email });
     if (email && email._id != req.params.id)
       return res.status(400).json({ message: "El email ya existe" });

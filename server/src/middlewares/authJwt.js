@@ -16,7 +16,7 @@ export const verifyToken2 = async (req, res, next) => {
         const user = await User.findById(decodedToken.id, { password: 0 }) //Pssword 0 para no utilizar la contraseña
 
         if (!token || !decodedToken.id || !user) {
-            return response.status(401).json({ error: 'token missing or invalid' })
+            return response.status(401).json({ message: 'Token no valido' })
         }
 
         const { id: userId } = decodedToken //En el token tenemos guardado el id
@@ -24,7 +24,7 @@ export const verifyToken2 = async (req, res, next) => {
         console.log("usuario2 " + req.userId)
         next()
     } catch (err) {
-        return res.status(401).json({ message: "Unauthorized" })
+        return res.status(403).json({ message: "No autorizado" })
     }
 }
 
@@ -101,7 +101,7 @@ export const isSuperiorRoleOrSameUser = async (req, res, next) => {
     console.log(array)
     console.log(modifyUser.roles.sort())
     if (!token || !decodedToken.id || !currentUser) {
-        return response.status(401).json({ error: 'token missing or invalid' })
+        return response.status(401).json({ error: 'Token no valido' })
     }
 
     if(currentUser.roles.sort()[currentUser.roles.length-1] != 0 && (currentUser.roles.sort()[currentUser.roles.length-1].prio > modifyUser.roles.sort()[modifyUser.roles.length-1].prio || currentUser.email == modifyUser.email)){

@@ -7,7 +7,8 @@ export const createUser = async (req, res, next) => {
         console.log("body:")
         console.log(req.body)
         if (!username || !email || !password || !roles || !direccion || !telefono) {
-            res.json({ message: "Rellena todos los campos" });
+            //res.json({ message: "Rellena todos los campos" });
+            res.status(400).json({ message: "Rellena todos los campos" });
             throw new Error('Rellena todos los campos');
         }
         const newUser = new User({
@@ -32,7 +33,7 @@ export const createUser = async (req, res, next) => {
 
         res.status(201).json(savedUser)
     }catch(e){
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 
@@ -41,7 +42,7 @@ export const createUser = async (req, res, next) => {
 export const deleteUser = async (req, res, next) => {
     try {
         await User.findOneAndRemove({ _id: req.params.id })
-        res.status(200).json()
+        res.status(200).json({ message: "Usuario eliminado"})
     } catch (err) {
         res.status(500).json({ message: err });
         next(err)
@@ -49,39 +50,42 @@ export const deleteUser = async (req, res, next) => {
 }
 
 export const updateUser = async (req, res, next) => {
+    try {
+        const { username, email, direccion, telefono, password, roles, selectedFile } = req.body;
+        const user = await User.findById(req.params.id)
+        const newUpdateUser = {};
+        if (username == undefined) newUpdateUser.username = user.username
+        else newUpdateUser.username = username
+        if (email == undefined) newUpdateUser.email = user.email
+        else newUpdateUser.email = email
+        if (direccion == undefined) newUpdateUser.direccion = user.direccion
+        else newUpdateUser.direccion = direccion
+        if (telefono == undefined) newUpdateUser.telefono = user.telefono
+        else newUpdateUser.telefono = telefono
+        if (roles == undefined || JSON.stringify(roles).length < 6) newUpdateUser.roles = user.roles
+        else newUpdateUser.roles = roles
+        if(selectedFile == undefined) newUpdateUser.selectedFile = user.selectedFile
+        else newUpdateUser.selectedFile = selectedFile
+        if (JSON.stringify(roles).includes("[[")) {
+            newUpdateUser.roles = Object.values(roles)[0]
+        } 
 
-    const { username, email, direccion, telefono, password, roles, selectedFile } = req.body;
-    const user = await User.findById(req.params.id)
-    const newUpdateUser = {};
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS")
-    if (username == undefined) newUpdateUser.username = user.username
-    else newUpdateUser.username = username
-    if (email == undefined) newUpdateUser.email = user.email
-    else newUpdateUser.email = email
-    if (direccion == undefined) newUpdateUser.direccion = user.direccion
-    else newUpdateUser.direccion = direccion
-    if (telefono == undefined) newUpdateUser.telefono = user.telefono
-    else newUpdateUser.telefono = telefono
-    if (roles == undefined || JSON.stringify(roles).length < 6) newUpdateUser.roles = user.roles
-    else newUpdateUser.roles = roles
-    if(selectedFile == undefined) newUpdateUser.selectedFile = user.selectedFile
-    else newUpdateUser.selectedFile = selectedFile
-    if (JSON.stringify(roles).includes("[[")) {
-        newUpdateUser.roles = Object.values(roles)[0]
-    } 
+        if (password == "" || password == undefined) {
+            const updatedUser = await User.findByIdAndUpdate(req.params.id,
+                { $set: { username: newUpdateUser.username, email: newUpdateUser.email, telefono: newUpdateUser.telefono, direccion: newUpdateUser.direccion, roles: newUpdateUser.roles, selectedFile: newUpdateUser.selectedFile } },
+                { new: true }) //Nos lo devuelve actulizado
+            res.status(200).json(updatedUser)
+        } else {
+            newUpdateUser.password = await User.encryptPassword(password)
+            const updatedUser = await User.findByIdAndUpdate(req.params.id,
+                { $set: { username: newUpdateUser.username, email: newUpdateUser.email, telefono: newUpdateUser.telefono, direccion: newUpdateUser.direccion, password: newUpdateUser.password, roles: newUpdateUser.roles, selectedFile: newUpdateUser.selectedFile } },
+                { new: true }) //Nos lo devuelve actulizado
+            res.status(200).json(updatedUser)
 
-    if (password == "" || password == undefined) {
-        const updatedUser = await User.findByIdAndUpdate(req.params.id,
-            { $set: { username: newUpdateUser.username, email: newUpdateUser.email, telefono: newUpdateUser.telefono, direccion: newUpdateUser.direccion, roles: newUpdateUser.roles, selectedFile: newUpdateUser.selectedFile } },
-            { new: true }) //Nos lo devuelve actulizado
-        res.status(200).json(updatedUser)
-    } else {
-        newUpdateUser.password = await User.encryptPassword(password)
-        const updatedUser = await User.findByIdAndUpdate(req.params.id,
-            { $set: { username: newUpdateUser.username, email: newUpdateUser.email, telefono: newUpdateUser.telefono, direccion: newUpdateUser.direccion, password: newUpdateUser.password, roles: newUpdateUser.roles, selectedFile: newUpdateUser.selectedFile } },
-            { new: true }) //Nos lo devuelve actulizado
-        res.status(200).json(updatedUser)
-
+        }
+    }catch(err){
+        res.status(500).json({ message: err });
+        next(err)
     }
 
 }
@@ -89,7 +93,6 @@ export const updateUser = async (req, res, next) => {
 export const changePassword = async (req, res ,next) => {
     try {
         const userFound = await User.findById(req.params.id)
-        //console.log(userFound)
         console.log(req.body.newPassword)
         //Si ha encontrado usuario compara las contraseñas si no devuelve false
         const passwordCorrect = userFound === null ? false : await User.comparePassword(req.body.password, userFound.password)
@@ -99,11 +102,11 @@ export const changePassword = async (req, res ,next) => {
             const updatedUser = await User.findByIdAndUpdate(req.params.id, { $set: {password: updatePassword}})
             res.status(200).json(updatedUser)
         }else {
-            res.json({message: "Las contraseñas no coinciden"})
+            res.status(400).json({message: "Las contraseñas no coinciden"})
             throw new Error("Las contraseñas no coinciden")
         }
     }catch(e) {
-        e.status = 400;
+        e.status = 500;
         next(e)
     }
 }
@@ -124,8 +127,8 @@ export const getUserById = async (req, res, next) => {
 
 
         if (!user) {
-            res.json({ message: "User not found" })
-            throw new Error("User not found")
+            res.status(400).json({ message: "Usuario no encontrado" })
+            throw new Error("Usuario no encontrado")
         }
         res.status(200).json(user)
     } catch (err) {

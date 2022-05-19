@@ -6,7 +6,7 @@ export const getVotes = async (req, res, next) => {
         const votes = await Vote.find().populate('user', ['id', 'email'])
         res.status(200).json(votes);
     } catch (err) {
-        err.status = 400;
+        err.status = 500;
         next(err)
     }
 }
@@ -16,7 +16,7 @@ export const createVote = async (req, res, next) => {
         const userId = req.userId
         const { question, options, description } = req.body
         if (!question || !options || !description ) {
-            res.json({ message: "Rellena todos los campos" });
+            res.status(400).json({ message: "Rellena todos los campos" });
             throw new Error('Rellena todos los campos');
         } 
         console.log(description)
@@ -34,9 +34,9 @@ export const createVote = async (req, res, next) => {
         user.polls.push(voteSaved._id)
         await user.save()
 
-        res.status(201).json(voteSaved)
+        res.status(200).json(voteSaved)
     } catch (err) {
-        err.status = 400;
+        err.status = 500;
         next(err)
     }
 }
@@ -46,14 +46,14 @@ export const getVoteById = async (req, res, next) => {
         const { voteId } = req.params;
         const vote = await Vote.findById(voteId).populate('user', ['id', 'email'])
         if (!vote) {
-            res.json({message: "No votation found"})
-            throw new Error("Votation not found")
+            res.status(400).json({message: "Votación no encontrada"})
+            throw new Error("Votación no encontrada")
         }
 
         res.status(200).json(vote);
 
     } catch (err) {
-        err.status = 400;
+        err.status = 500;
         next(err)
     }
 }
@@ -61,9 +61,9 @@ export const getVoteById = async (req, res, next) => {
 export const deleteVote = async (req, res, next) => {
     try {
         await Vote.findOneAndRemove({ _id: req.params.voteId })
-        res.status(200).json()
+        res.status(200).json({ message: "Votación eliminada"})
     } catch (err) {
-        err.status = 400;
+        err.status = 500;
         next(err)
     }
 }
@@ -77,7 +77,7 @@ export const vote = async (req, res, next) => {
         if(answer) {
             const votation = await Vote.findById(voteId)
             if(!vote) {
-                res.json({message: "No se encontro votación"})
+                res.status(400).json({message: "No se encontro votación"})
                 throw new Error("No se encontro votación")
             } else {
                 const vote = votation.options.map(
@@ -102,7 +102,7 @@ export const vote = async (req, res, next) => {
                     await votation.save()
                     res.status(200).json(votation)
                 }  else {
-                    res.json({message: "Ya has votado"})
+                    res.status(400).json({message: "Ya has votado"})
                     throw new Error('Ya has votado');
                 }
             }
@@ -110,7 +110,7 @@ export const vote = async (req, res, next) => {
             res.json({message: "No se encontro respuesta"})
         }
     } catch (err) {
-        err.status = 400;
+        err.status = 500;
         next(err)
     }
 }
@@ -123,8 +123,8 @@ export const changeStatus = async (req,res,next) => {
         console.log(req.body)
         console.log("tipo: "+(typeof status))
         if (!votation) {
-            res.json({message: "No votation found"})
-            throw new Error("Votation not found")
+            res.status(400).json({message: "No se encontro la votación"})
+            throw new Error("No se encontro la votación")
         }else {
             console.log(votation.status)
             if(Number(status) == 0){
@@ -135,23 +135,30 @@ export const changeStatus = async (req,res,next) => {
                 votation.status = 1
                 await votation.save()
                 res.status(200).json(votation)
-            }else
-                throw new Error("Wrong status")
+            }else{
+                res.status(400).json({message: "Estado incorrecto"})
+                throw new Error("Estado incorrecto")
+            }
         }
     }catch(err) {
-        err.status = 400;
+        err.status = 500;
         next(err)
     }
 }
 
 export const getVoteBySearch = async (req,res,next) => {
-    const { searchQuery } = req.query
-    console.log(searchQuery)
-    const query = new RegExp(searchQuery, 'i')
-    console.log("query"+query)
-    const votes = await Vote.find({question: query})
-    console.log(votes)
-    res.status(200).json(votes)
+    try {
+        const { searchQuery } = req.query
+        console.log(searchQuery)
+        const query = new RegExp(searchQuery, 'i')
+        console.log("query"+query)
+        const votes = await Vote.find({question: query})
+        console.log(votes)
+        res.status(200).json(votes)
+    }catch(err) {
+        err.status = 500;
+        next(err)
+    }
 }
 
 
