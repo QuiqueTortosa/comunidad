@@ -26,14 +26,16 @@ export default function Post() {
 
   return (
     <div className="flex flex-col w-auto">
-      <div className="mx-32 mt-4 lg:mx-1 lg:px-1">
+      <div className="mx-16 mt-4 lg:mx-1 lg:px-1">
         <div>
           <h1 className="text-3xl font-bold italic font-extrabold">{post.title}</h1>
         </div>
         <div className="my-5">
-          <img className="w-4/6 max-w-[726px] max-h-[300px] h-2/6 rounded-lg lg:w-full" src={post.selectedFile} alt="Mountain"/>
+          <img className="w-7/12 max-w-[726px] max-h-[300px] h-2/6 rounded-lg lg:w-full" src={post.selectedFile} alt="Mountain"/>
         </div>
-        <div id="body" className="w-full lg:w-full" dangerouslySetInnerHTML={{__html:`${post.post}`}} />  
+      </div>
+      <div className="bg-white shadow-3xl rounded-xl px-16  mx-16 pt-4 lg:mx-1 lg:px-8">
+        <div id="body" className="w-full" dangerouslySetInnerHTML={{__html:`${post.post}`}} />  
       </div>
       <div className="flex flex-col w-auto shadow-3xl mx-16 mt-8 p-16 rounded-xl bg-white lg:mx-1 lg:px-1 lg:shadow-none">
         <div className="flex justify-between">

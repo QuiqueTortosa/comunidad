@@ -63,7 +63,7 @@ export default function App() {
       <BrowserRouter>
       {isAuth && <Leftbar/>}
       {error && <ErrorMessage/>}
-      <div className="h-screen flex-1 p-7 overflow-auto">
+      <div className="h-screen flex-1 p-7 overflow-auto sm:mt-[56px]">
         <Routes>
           <Route exact path="/"element={!isAuth ? <Navigate to="/login"/> : <Home />} />
           <Route exact path="/votaciones" element={!isAuth ? <Navigate to="/login"/> : <PollPage/>} />

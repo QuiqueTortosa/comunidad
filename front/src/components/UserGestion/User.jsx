@@ -13,11 +13,11 @@ export default function User({ user }) {
   return (
     <div className="flex flex-col">
       <div className="flex flex-row justify-between">
-        <div className="flex flex-row items-center text-center justify-center">
+        <div className="flex flex-row items-center text-left justify-center">
         <div className={`flex gap-x-4 items-center`}>
               <img className={`rounded-full w-10 h-10`} src={user.selectedFile != "" ? user.selectedFile : "/images/avatar.png"} alt={"Image not found"}></img>
           </div>    
-          <h5 class="font-medium leading-tight text-xl ml-2 w-16">{user.username}</h5>
+          <h5 class="font-medium leading-tight text-xl ml-4 w-52">{user.username}</h5>
         </div>
         <button class="max-w-32 right-2" onClick={handleClick}>
           {open ? <IoIcons.IoIosArrowUp /> : <IoIcons.IoIosArrowDown />}

@@ -80,7 +80,7 @@ export default function CreatePost() {
             </div>
           </div>
           }
-          <div className="flex flex-row">
+          <div className="flex flex-row sm:flex-col">
             <div className="relative z-0 mt-3 mb-3 w-full group pr-5">
               <input type="text" value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} name="floating_title" id="floating_title" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " /> 
               <label className="absolute left-0 text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Título</label>
@@ -98,6 +98,7 @@ export default function CreatePost() {
                         editor={ ClassicEditor }
                         config={ 
                           {
+                            toolbar: [ 'heading','bold', 'italic','underline','fontColor','link','insertTable','uploadImage','undo', 'redo' ],
                             ckfinder: {
                               uploadUrl: 'http://localhost:4000/uploads'
                             }

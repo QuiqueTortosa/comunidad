@@ -51,7 +51,7 @@ export default function Posts() {
         <div className="sm:text-center">
           <h1 className="text-3xl font-bold italic font-extrabold">Noticias</h1>
         </div>
-        <div className="mr-2 sm:text-right sm:mt-3">
+        <div className="mr-2 sm:text-center sm:mt-3 ">
           <input  
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Buscar..."

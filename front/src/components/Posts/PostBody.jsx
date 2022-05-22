@@ -45,7 +45,7 @@ export default function PostBody({p}) {
                 </button>
                 { isAdmin &&
                 <button onClick={() => { setConfirmDelete(true) }} className="lg:py-1 bg-red-600 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-red-500 transition-all  active:transform active:translate-y-1">
-                Remove
+                Eliminar
                 </button>
                 }
             </div>

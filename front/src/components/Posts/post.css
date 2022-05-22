@@ -20,3 +20,13 @@
     line-height: 2.25rem;
     font-weigth: 800;
 }
+
+#body img {
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  border-radius: 16px;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}

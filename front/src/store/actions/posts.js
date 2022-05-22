@@ -42,6 +42,7 @@ export const createPost = post => {
                     type: CREATE_POST,
                     payload: data
                 })
+                dispatch(getPosts())
                 dispatch(addError(0,"Noticia creada con exito"))
             }
         } catch (err) {

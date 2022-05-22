@@ -90,7 +90,7 @@ export default function CreatePoll() {
             ))}
           </div>
         </div>
-        <div className="flex h-32 w-32 text-center">
+        <div className="flex h-32 w-32 text-center sm:hidden">
           <Doughnut data={dataPoll} options={optionsPoll}/>
         </div>
       </div>

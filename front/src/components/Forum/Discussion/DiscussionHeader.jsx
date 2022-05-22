@@ -11,7 +11,7 @@ export default function DiscussionHeader({discussion, reply, setReply}) {
   return (
         <div className="flex flex-row my-2 justify-between rounded-xl bg-white lg:space-x-2 sm:flex-col sm:items-center sm:gap-3">
         { discussion.user ? 
-            <div className={`flex flex-col items-center justify-between w-auto min-w-[130px] max-w-[130px]  min-h-[350px] bg-gray-700 px-2 pt-3 rounded-l-xl sm:max-w-full sm:rounded-t-xl sm:rounded-b-none sm:pb-2 sm:w-full sm:border-b-2 sm:border-gray-300`}> 
+            <div className={`flex flex-col items-center justify-between w-auto min-w-[130px] max-w-[130px]  min-h-[350px] bg-gray-700 px-2 pt-3 rounded-l-xl sm:max-w-full sm:rounded-t-xl sm:rounded-b-none sm:pb-2 sm:w-full`}> 
                 <div className="text-center">
                 { user.email == discussion.user.email ?
                     <div>
@@ -43,7 +43,7 @@ export default function DiscussionHeader({discussion, reply, setReply}) {
                     <p className={`relative hidden max-h-0 text-left top-[18px] text-xs text-gray-700 sm:flex`}>{discussion.createdAt.substring(0,10)+"," +discussion.createdAt.substring(11,16)}</p>
             </div>
             :
-            <div className={`flex flex-col items-center justify-between w-auto min-w-[130px] max-w-[130px]  min-h-[350px] bg-gray-700 px-2 pt-3 rounded-l-xl sm:max-w-full sm:rounded-t-xl sm:rounded-b-none sm:pb-2 sm:w-full sm:border-b-2 sm:border-gray-300`}> 
+            <div className={`flex flex-col items-center justify-between w-auto min-w-[130px] max-w-[130px]  min-h-[350px] bg-gray-700 px-2 pt-3 rounded-l-xl sm:max-w-full sm:rounded-t-xl sm:rounded-b-none sm:pb-2 sm:w-full `}> 
                 <div className="text-center">
                 <img className={`rounded-full w-28 h-28 my-2`} src="/images/avatar.png" alt={"Image not found"}></img>
                     <p className="text-gray-200 text-xs">Usuario eliminado</p>
@@ -59,7 +59,7 @@ export default function DiscussionHeader({discussion, reply, setReply}) {
                     <p className={`relative hidden max-h-0 text-left top-[18px] text-xs text-gray-700 sm:flex`}>{discussion.createdAt.substring(0,10)+"," +discussion.createdAt.substring(11,16)}</p>
             </div>
         }
-            <div className={`flex flex-col text-center w-full my-10 min-h-[350px] h-full ${discussion.poll.question ? "justify-between" : "justify-center"} px-8 sm:pb-2 sm:w-full sm:border-b-2 sm: border-gray-300`}>
+            <div className={`flex flex-col text-center w-full my-10 min-h-[350px] h-full ${discussion.poll.question ? "justify-between" : "justify-center"} px-8 sm:pb-2 sm:w-full `}>
                 <div id="texto" className="text-center">
                     <div className="break-all" dangerouslySetInnerHTML={{ __html: discussion.body}}/>
                 </div>

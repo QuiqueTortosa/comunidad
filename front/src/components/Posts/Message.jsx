@@ -19,6 +19,7 @@ export default function Message({m, setReply,setUpdateMessage, editar, setEditar
         dispatch(deleteMessage(postId, id))
       }
   return (
+    <>
     <div className="flex justify-between my-2 space-x-14 border-2 rounded-xl p-5 lg:space-x-2 sm:flex-col sm:items-center sm:gap-3">
     { m.user ? 
     <>              
@@ -44,7 +45,7 @@ export default function Message({m, setReply,setUpdateMessage, editar, setEditar
             </div>
 
         }
-        <p>{m.user.username}</p>
+        <p className="w-full text-xs text-center">{m.user.username}</p>
       </div> 
     <div className={`flex flex-col text-center ${m.response.length == 0 ? "justify-center" : "justify-between"} sm:pb-2 sm:w-full sm:border-b-2 sm: border-gray-300`}>
       { m.response.length != 0 &&
@@ -91,23 +92,26 @@ export default function Message({m, setReply,setUpdateMessage, editar, setEditar
         }                
     </>
     }
-    { confirmDelete &&
-      <div className="bg-opacity-70 bg-gray-800 fixed inset-0 z-30">
-        <div className="flex h-screen justify-center items-center ">
-          <div className="flex-col justify-center  bg-white py-12 px-12 border-4 border-sky-900 rounded-xl items-center">
-          <p className="text-black">¿Estas seguro de eliminar el mensaje?</p>
-          <div className="flex justify-evenly mt-4">
-            <button onClick={() =>  handleRemove(m._id)} className="bg-red-600 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-red-500 transition-all  active:transform active:translate-y-1">
-              Eliminar
-            </button>
-            <button onClick={() => setConfirmDelete(false)} className="bg-blue-900 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
-              Cancelar
-            </button>
-          </div>
-          </div>
-        </div>
-      </div>
-}
   </div>
+    <>
+        { confirmDelete &&
+          <div className="bg-opacity-70 bg-gray-800 fixed inset-0 z-30">
+            <div className="flex h-screen justify-center items-center ">
+              <div className="flex-col justify-center  bg-white py-12 px-12 border-4 border-sky-900 rounded-xl items-center">
+              <p className="text-black">¿Estas seguro de eliminar el mensaje?</p>
+              <div className="flex justify-evenly mt-4">
+                <button onClick={() =>  handleRemove(m._id)} className="bg-red-600 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-red-500 transition-all  active:transform active:translate-y-1">
+                  Eliminar
+                </button>
+                <button onClick={() => setConfirmDelete(false)} className="bg-blue-900 text-white px-4  py-2 rounded shadow-md focus:ring hover:bg-blue-500 transition-all  active:transform active:translate-y-1">
+                  Cancelar
+                </button>
+              </div>
+              </div>
+            </div>
+          </div>
+    }
+    </>
+  </>
   )
 }

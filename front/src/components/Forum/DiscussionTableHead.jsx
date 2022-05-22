@@ -19,7 +19,7 @@ export default function DiscussionTableHead({c,isAdmin, isMod}) {
         <th scope="col" class="w-6/12 py-3 px-6 text-start">
             {c.name}
         </th>
-        <th scope="col" class="w-1/6 py-3 text-center">
+        <th scope="col" class="w-1/6 py-3 text-center sm:hidden">
             Respuestas
         </th>
         <th scope="col" class="w-[100px] py-3 text-center">

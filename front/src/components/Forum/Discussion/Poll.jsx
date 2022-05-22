@@ -64,7 +64,7 @@ export default function Poll({poll}) {
   }, [poll]);
   return (
         <div className="flex flex-col">
-          <div className="flex flex-row place-items-center justify-center">
+          <div className="flex flex-row place-items-center justify-center sm:flex-col">
             <div className="flex flex-col w-3/12 min-w-[200px] max-w-[2500px] h-auto mb-2 ml-6 justify-center">
               <Doughnut data={data} options={options}/>
             </div>

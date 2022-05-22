@@ -27,7 +27,7 @@ export default function DiscussionTableBody({d, isAdmin, isMod}) {
             {d.title}
             </div>
         </td>
-        <td className="py-4 text-center">
+        <td className="py-4 text-center sm:hidden">
             {d.messages.length}
         </td>
         <td className="flex flex-col items-center py-1 text-center">

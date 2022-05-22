@@ -8,7 +8,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const editorConfiguration = {
-  toolbar: [ 'heading','bold', 'italic', 'blockQuote', 'undo', 'redo' ]
+  toolbar: [ 'heading','bold', 'italic','underline','fontColor','link','insertTable','undo', 'redo' ],
 };
 
 

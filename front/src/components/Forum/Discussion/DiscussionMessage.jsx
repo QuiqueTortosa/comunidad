@@ -9,7 +9,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import "../forum.css"
 
 const editorConfiguration = {
-  toolbar: [ 'heading','bold', 'italic', 'link', 'toggleImageCaption', 'imageTextAlternative', 'uploadImage', 'undo', 'redo' ],
+  toolbar: [ 'heading','bold', 'italic','underline','fontColor','link','insertTable','uploadImage','undo', 'redo' ],
   ckfinder: {
     uploadUrl: 'http://localhost:4000/uploads'
   }

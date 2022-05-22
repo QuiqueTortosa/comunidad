@@ -53,7 +53,6 @@ export const updateDiscussion = async (req,res,next) => {
 
         const oldDiscussion = await Discussion.findById(req.params.id)
         const uDiscussion = {}   
-        console.log("tamañp"+poll.options[0].length)
         if (title == undefined) uDiscussion.title = oldDiscussion.title
         else uDiscussion.title = title
         if (body == undefined) uDiscussion.body = oldDiscussion.body
